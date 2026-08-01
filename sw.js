@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shayan-pos-v1';
+const CACHE_NAME = 'shayan-pos-v2';
 
 // Files ko offline support ke liye cache me add karna
 const FILES_TO_CACHE = [
