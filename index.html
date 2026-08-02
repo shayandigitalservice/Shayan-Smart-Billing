@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shayan Smart Billing - Professional POS & Stock</title>
 <link rel="manifest" href="manifest.json">
+<!-- Roboto Font Import -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<!-- Web App & PWA Icons -->
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="theme-color" content="#4f46e5">
+<meta name="theme-color" content="#2563eb">
 
 <script>
   if ('serviceWorker' in navigator) {
@@ -23,188 +25,215 @@
 </script>
 
 <style>
+/* --- PROFESSIONAL UI (MODERN DESIGN) --- */
 :root {
-    --primary: #4f46e5;
-    --primary-hover: #4338ca;
+    --accent: #6366f1;
     --bg: #f8fafc;
-    --card: #ffffff;
+    --glass: rgba(255, 255, 255, 0.95);
     --text: #0f172a;
-    --muted: #64748b;
-    --border: #e2e8f0;
+    --blue-btn: #2563eb;
     --danger: #ef4444;
     --warning: #f59e0b;
     --success: #10b981;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', Arial, sans-serif; }
-
 body { 
+    font-family: 'Roboto', Arial, sans-serif; 
     background: var(--bg); 
+    margin: 0; 
     color: var(--text); 
-    padding: 12px; 
+    padding: 10px; 
 }
 
 h1 { 
     text-align: center; 
-    font-weight: 800;
-    color: var(--primary);
-    margin: 10px 0 15px 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    color: #0f172a;
+    margin-top: 10px;
+    margin-bottom: 15px;
     letter-spacing: -0.5px;
-    font-size: 24px;
 }
 
-/* PWA Banner */
+/* --- PWA INSTALL BANNER --- */
 #pwaInstallBanner {
     display: none;
-    background: linear-gradient(135deg, #4f46e5, #3730a3);
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
     color: white;
     padding: 12px 16px;
     border-radius: 12px;
     margin-bottom: 15px;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
     align-items: center;
     justify-content: space-between;
 }
 
-#pwaInstallBanner span { font-weight: 700; font-size: 13px; }
+#pwaInstallBanner span {
+    font-weight: 700;
+    font-size: 14px;
+}
 
 #pwaInstallBtn {
     background: #ffffff;
-    color: var(--primary);
+    color: #2563eb;
     border: none;
     padding: 8px 14px;
-    border-radius: 8px;
-    font-weight: 700;
+    border-radius: 6px;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 input, select { 
     width: 100%; 
-    padding: 10px 12px; 
-    margin: 4px 0; 
+    padding: 10px; 
+    margin: 5px 0; 
     border-radius: 8px; 
-    border: 1px solid var(--border); 
-    font-size: 13px; 
+    border: 1px solid #ccc; 
+    font-size: 14px; 
+    box-sizing: border-box; 
     outline: none; 
-    background: #ffffff;
-    transition: all 0.2s;
-}
-
-input:focus, select:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    font-family: 'Roboto', sans-serif;
 }
 
 .btn-blue { 
     width: 100%; 
     padding: 10px; 
-    border-radius: 8px; 
+    border-radius: 6px; 
     border: none; 
-    background: var(--primary); 
+    background: var(--blue-btn); 
     color: white; 
-    font-size: 13px; 
-    font-weight: 600; 
+    font-size: 14px; 
+    font-weight: 500; 
     cursor: pointer; 
     margin: 4px 0; 
     transition: 0.2s; 
+    font-family: 'Roboto', sans-serif;
 }
 
-.btn-blue:hover { background: var(--primary-hover); }
+.btn-blue:hover { opacity: 0.9; }
 
-/* Billing Container Card */
+/* --- BILLING UI CONTAINER --- */
 .billing-ui-container { 
-    max-width: 850px; 
+    max-width: 800px; 
     margin: auto; 
-    background: var(--card); 
-    padding: 18px; 
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
-}
-
-.billing-ui-container h2 { text-align: center; margin-bottom: 12px; font-size: 18px; font-weight: 700; }
-
-.table-wrapper { overflow-x: auto; width: 100%; margin: 10px 0; }
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th, td { border-bottom: 1px solid var(--border); padding: 8px; text-align: center; }
-th { background: #f1f5f9; font-weight: 700; color: var(--muted); }
-.totalRow td { font-weight: bold; }
-
-.bill { 
-    margin-top: 20px; 
-    border: 1px dashed #cbd5e1; 
+    background: #ffffff; 
     padding: 15px; 
-    border-radius: 10px;
-    background: #fafafa;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
-.qr-container { text-align: center; margin-top: 15px; padding: 10px; border: 1px dashed #cbd5e1; border-radius: 8px; }
-.qr-container img { width: 130px; height: 130px; }
+.billing-ui-container h2 { text-align: center; margin-bottom: 10px; font-size: 20px; font-weight: 700; }
+table { width: 100%; margin-top: 10px; border-collapse: collapse; }
+th, td { border: 1px solid #ddd; padding: 8px; font-size: 13px; text-align: center; }
+th { background: #f1f5f9; font-weight: 700; }
+.totalRow td { font-weight: bold; }
+.bill { margin-top: 20px; overflow-wrap: break-word; word-wrap: break-word; border: 1px dashed #ccc; padding: 10px; }
+.invoice { float: right; }
+.clear { clear: both; }
+.qr-container { text-align: center; margin-top: 15px; padding: 10px; border: 1px dashed #ccc; }
+.qr-container img { width: 140px; height: 140px; }
+.table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 10px; }
 
-/* Collapsible Box */
+/* Collapsible Shop Details Box */
 .shop-toggle-btn {
     background: #f1f5f9;
-    color: #334155;
-    border: 1px solid var(--border);
-    font-weight: 700;
-    padding: 10px 14px;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    font-weight: bold;
+    padding: 8px 12px;
     border-radius: 8px;
     cursor: pointer;
     width: 100%;
+    text-align: left;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
 }
 .shop-details-box {
     display: none;
     background: #f8fafc;
     padding: 12px;
     border-radius: 8px;
-    border: 1px solid var(--border);
+    border: 1px solid #e2e8f0;
     margin-bottom: 10px;
 }
 
-/* Grand Total Display Box */
+/* Grand Total Prominent Box Style */
 .current-total-box {
-    background: linear-gradient(135deg, #0f172a, #1e293b);
+    background: #1e293b;
+    border: 2px solid #0f172a;
     border-radius: 12px;
-    padding: 14px;
+    padding: 15px;
     margin: 12px 0;
     text-align: center;
     color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.current-total-box .sub-info { font-size: 13px; color: #94a3b8; margin-bottom: 4px; }
-.current-total-box .grand-total-title { font-size: 22px; font-weight: 800; color: #38bdf8; }
+.current-total-box .sub-info {
+    font-size: 14px;
+    color: #94a3b8;
+    margin-bottom: 4px;
+}
 
-.tax-discount-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.current-total-box .grand-total-title {
+    font-size: 22px;
+    font-weight: 900;
+    color: #38bdf8;
+    letter-spacing: 0.5px;
+}
 
-.btn-action { border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 12px; color: white; }
+/* Discount & GST Inputs Grid */
+.tax-discount-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+}
+
+/* Action Buttons inside Table */
+.btn-action {
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    color: white;
+}
 .btn-del { background: var(--danger); }
 .btn-edit { background: var(--warning); }
 
 /* Sale Summary Cards */
-.sale-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 15px 0; }
-.sale-card { background: #f8fafc; padding: 12px; border-radius: 10px; text-align: center; border: 1px solid var(--border); }
-.sale-card span { display: block; font-size: 11px; color: var(--muted); font-weight: 700; }
-.sale-card b { font-size: 15px; color: var(--text); }
+.sale-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; margin-bottom: 15px; }
+.sale-card { background: #f1f5f9; padding: 10px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0; }
+.sale-card span { display: block; font-size: 11px; color: #64748b; font-weight: bold; }
+.sale-card b { font-size: 13px; color: #0f172a; }
 
-/* Backup & Reprint Boxes */
-.backup-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 14px; border-radius: 10px; margin-top: 20px; }
-.reprint-box { background: #fffbebfb; border: 1px solid #fde68a; padding: 14px; border-radius: 10px; margin-top: 20px; }
-
-@media screen and (max-width:600px){
-  table th, table td { padding: 6px; font-size: 11px; }
-  .tax-discount-grid { grid-template-columns: 1fr; }
-  .current-total-box .grand-total-title { font-size: 18px; }
+/* Backup Section Box */
+.backup-box {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 20px;
 }
 
-@media print {
-  body * { visibility: hidden; }
-  #bill, #bill * { visibility: visible; }
-  #bill { position: absolute; left: 0; top: 0; width: 80mm; font-size: 12px; border: none; }
+/* Reprint Section Style */
+.reprint-box {
+    background: #fffbebfb;
+    border: 1px solid #fde68a;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+@media screen and (max-width:600px){
+  table th, table td { padding: 5px; font-size: 11px; }
+  .invoice { float: none; text-align: right; }
+  .tax-discount-grid { grid-template-columns: 1fr; }
+  .current-total-box .grand-total-title { font-size: 18px; }
 }
 </style>
 </head>
@@ -238,14 +267,14 @@ th { background: #f1f5f9; font-weight: 700; color: var(--muted); }
 
     <!-- Main Billing Form -->
     <input id="customer" placeholder="Customer Name">
-    <input id="productSearch" placeholder="🔍 Search Product or Scan Barcode..." onkeypress="handleBarcode(event)">
-    <select id="productDropdown" onchange="autoFillPrice()"></select>
+    <input id="productSearch" placeholder="Search Product">
+    <select id="productDropdown"></select>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-        <input id="qty" type="number" placeholder="Qty" value="1">
-        <input id="price" type="number" placeholder="Price (₹)">
+        <input id="qty" type="number" placeholder="Qty">
+        <input id="price" type="number" placeholder="Price">
     </div>
-    <button id="addItemBtn" class="btn-blue">+ Add Item</button>
+    <button id="addItemBtn" class="btn-blue">Add Item</button>
 
     <div class="table-wrapper">
         <table id="table">
@@ -276,7 +305,7 @@ th { background: #f1f5f9; font-weight: 700; color: var(--muted); }
         </select>
     </div>
 
-    <!-- Dark Bold Grand Total Display -->
+    <!-- Dark Bold Prominent Grand Total Display -->
     <div class="current-total-box">
         <div class="sub-info">Subtotal: ₹<span id="liveSubTotal">0.00</span> | GST: ₹<span id="liveGstTotal">0.00</span></div>
         <div class="grand-total-title">GRAND TOTAL: ₹<span id="liveCurrentTotal">0.00</span></div>
@@ -292,16 +321,16 @@ th { background: #f1f5f9; font-weight: 700; color: var(--muted); }
     <button id="generateBillBtn" class="btn-blue" style="background:#2563eb;">Generate Bill</button>
     <select id="printMode">
         <option value="A4">Print A4</option>
-        <option value="Receipt" selected>Print Receipt (Thermal 80mm)</option>
+        <option value="Receipt" selected>Print Receipt</option>
     </select>
     <button id="printBillBtn" class="btn-blue">Print Bill</button>
-    <button id="sendWhatsAppBtn" class="btn-blue" style="background:#10b981;">Send WhatsApp</button>
+    <button id="sendWhatsAppBtn" class="btn-blue">Send WhatsApp</button>
 
     <div id="bill" class="bill"></div>
     
     <!-- REPRINT & OLD BILL SEARCH SECTION -->
     <div class="reprint-box">
-        <h3 style="margin-top:0; margin-bottom:8px; font-size:15px; color:#d97706;">🔍 Search & Reprint Old Bill</h3>
+        <h3 style="margin-top:0; margin-bottom:8px; font-size:16px; color:#d97706;">🔍 Search & Reprint Old Bill</h3>
         <input id="searchInvoiceInput" placeholder="Enter Customer Name or Invoice No..." oninput="filterHistoryBills()">
         <div class="table-wrapper">
             <table>
@@ -326,22 +355,18 @@ th { background: #f1f5f9; font-weight: 700; color: var(--muted); }
         <div class="sale-card"><span>Monthly</span><b id="saleMonthly">₹0</b></div>
     </div>
 
-    <hr style="margin:25px 0; border:0; border-top:1px solid var(--border);">
-    <h2 style="display:flex; align-items:center; justify-content:center; gap:8px;">📦 Stock Management</h2>
+    <hr style="margin:30px 0;">
+    <h2 style="display:flex; align-items:center; justify-content:center; gap:10px;">📦 Stock Management</h2>
 
-    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px;">
-        <input id="stockProduct" placeholder="Product Name">
-        <input id="stockQty" type="number" placeholder="Qty">
-        <input id="stockPrice" type="number" placeholder="Selling Price (₹)">
-    </div>
-    <button id="addStockBtn" class="btn-blue">Add Stock Item</button>
+    <input id="stockProduct" placeholder="Product Name">
+    <input id="stockQty" type="number" placeholder="Quantity to Add">
+    <button id="addStockBtn" class="btn-blue">Add Stock</button>
 
     <div class="table-wrapper">
         <table id="stockTable">
             <thead>
                 <tr>
                     <th>Product</th>
-                    <th>Price</th>
                     <th>Available Qty</th>
                     <th>Last Updated</th>
                     <th>Action</th>
@@ -355,8 +380,8 @@ th { background: #f1f5f9; font-weight: 700; color: var(--muted); }
 
     <!-- Cloud Data Loss Protection / Backup Restore UI -->
     <div class="backup-box">
-        <h3 style="margin-top:0; margin-bottom:8px; font-size:15px; color:#15803d;">💾 Data Backup & Restore</h3>
-        <p style="font-size:12px; color:#166534; margin-bottom:10px;">Mobile kharab hone ya badalney se bachne ke liye regular backup download karein.</p>
+        <h3 style="margin-top:0; margin-bottom:8px; font-size:16px; color:#15803d;">💾 Data Backup & Restore</h3>
+        <p style="font-size:12px; color:#166534; margin-bottom:10px;">Mobile ghum hone ya kharab hone se bachne ke liye regular backup download karke rakhein.</p>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
             <button id="exportBackupBtn" class="btn-blue" style="background:#16a34a;">Export Backup</button>
             <button id="importBackupBtn" class="btn-blue" style="background:#0d9488;" onclick="document.getElementById('importFileInput').click()">Import Backup</button>
@@ -383,7 +408,7 @@ document.getElementById("pwaInstallBtn")?.addEventListener("click", () => {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
             if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted PWA prompt');
+                console.log('User accepted the install prompt');
             }
             deferredPrompt = null;
             document.getElementById("pwaInstallBanner").style.display = "none";
@@ -411,7 +436,6 @@ document.addEventListener("DOMContentLoaded", function(){
 function initBillingSystem() {
     let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter")) || 1;
     let stock = JSON.parse(localStorage.getItem("stock")) || {};
-    let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
     let stockHistory = JSON.parse(localStorage.getItem("stockHistory")) || [];
 
     const shopInput = document.getElementById("shop");
@@ -440,7 +464,6 @@ function initBillingSystem() {
 
     const stockProductInput = document.getElementById("stockProduct");
     const stockQtyInput = document.getElementById("stockQty");
-    const stockPriceInput = document.getElementById("stockPrice");
     const addStockBtn = document.getElementById("addStockBtn");
 
     window.renderStock = function(){
@@ -452,10 +475,9 @@ function initBillingSystem() {
             let color = stock[p] <= 5 ? "red" : "green";
             let row = tbody.insertRow();
             row.insertCell(0).innerHTML = p + (stock[p] <= 5 ? " <span style='color:red;font-weight:bold;'>⚠ Low</span>" : "");
-            row.insertCell(1).innerText = stockPrices[p] ? "₹" + stockPrices[p] : "-";
-            row.insertCell(2).innerHTML = `<b style="color:${color}">${stock[p]}</b>`;
-            row.insertCell(3).innerText = lastUpdate ? new Date(lastUpdate).toLocaleString() : "-";
-            row.insertCell(4).innerHTML = `
+            row.insertCell(1).innerHTML = `<b style="color:${color}">${stock[p]}</b>`;
+            row.insertCell(2).innerText = lastUpdate ? new Date(lastUpdate).toLocaleString() : "-";
+            row.insertCell(3).innerHTML = `
                 <button class="btn-action btn-edit" onclick="editStockItem('${p}')">✏️</button>
                 <button class="btn-action btn-del" onclick="deleteStockItem('${p}')">🗑</button>
             `;
@@ -466,19 +488,13 @@ function initBillingSystem() {
     addStockBtn.addEventListener("click", function(){
         let p = stockProductInput.value.trim();
         let q = +stockQtyInput.value;
-        let pr = +stockPriceInput.value || 0;
         if(!p || isNaN(q)){ alert("Fill valid product name & quantity"); return; }
         stock[p] = (stock[p] || 0) + q;
-        if(pr > 0) stockPrices[p] = pr;
-        
-        stockHistory.push({product:p, qtyAdded:q, price:pr, type:"Added", date:new Date().toISOString()});
+        stockHistory.push({product:p, qtyAdded:q, type:"Added", date:new Date().toISOString()});
         localStorage.setItem("stock", JSON.stringify(stock));
-        localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
         localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
-        
         stockProductInput.value = ""; 
         stockQtyInput.value = "";
-        stockPriceInput.value = "";
         renderStock();
         renderProductDropdown();
     });
@@ -487,12 +503,12 @@ function initBillingSystem() {
     const productSearch = document.getElementById("productSearch");
 
     function renderProductDropdown(){
-        productDropdown.innerHTML = `<option value="">-- Select Product --</option>`;
+        productDropdown.innerHTML = "";
         let productList = [...new Set(Object.keys(stock))];
         productList.forEach(p => {
             let option = document.createElement("option");
             option.value = p; 
-            option.text = `${p} (Available: ${stock[p]})`;
+            option.text = p;
             productDropdown.appendChild(option);
         });
     }
@@ -502,31 +518,15 @@ function initBillingSystem() {
         let val = this.value.toLowerCase();
         let options = Array.from(productDropdown.options);
         let match = options.find(o => o.value.toLowerCase().includes(val));
-        if(match) {
-            productDropdown.value = match.value;
-            autoFillPrice();
-        }
+        if(match) productDropdown.value = match.value;
     });
 
-    window.autoFillPrice = function() {
-        let selectedProduct = productDropdown.value;
-        if(selectedProduct && stockPrices[selectedProduct]) {
-            document.getElementById("price").value = stockPrices[selectedProduct];
-        }
-    };
-
-    window.handleBarcode = function(e) {
-        if (e.key === 'Enter') {
-            document.getElementById("addItemBtn").click();
-        }
-    };
-
     document.getElementById("downloadStockBtn").addEventListener("click", function(){
-        let html = `<table border="1"><tr><th>Product</th><th>Price</th><th>Available Qty</th><th>Last Updated</th></tr>`;
+        let html = `<table border="1"><tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
         for(let p in stock){
             let updates = stockHistory.filter(h => h.product === p);
             let lastUpdate = updates[updates.length - 1]?.date || "";
-            html += `<tr><td>${p}</td><td>${stockPrices[p] || '-'}</td><td>${stock[p]}</td><td>${lastUpdate ? new Date(lastUpdate).toLocaleString() : '-'}</td></tr>`;
+            html += `<tr><td>${p}</td><td>${stock[p]}</td><td>${lastUpdate ? new Date(lastUpdate).toLocaleString() : '-'}</td></tr>`;
         }
         html += `</table>`;
         let blob = new Blob([html], {type: "application/vnd.ms-excel"});
@@ -544,7 +544,7 @@ function initBillingSystem() {
         let p = productDropdown.value.trim();
         let q = +qtyInput.value;
         let pr = +priceInput.value;
-        if(!p || !q || !pr){ alert("Fill all item fields"); return; }
+        if(!p || !q || !pr){ alert("Fill all fields"); return; }
         if(stock[p] === undefined){ alert("Product not in stock"); return; }
 
         if(editingIndex > -1) {
@@ -563,22 +563,21 @@ function initBillingSystem() {
         localStorage.setItem("stock", JSON.stringify(stock));
         localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
         renderStock();
-        renderProductDropdown();
 
         let t = q * pr;
 
         if(editingIndex > -1) {
             items[editingIndex] = {p, q, pr, t};
             editingIndex = -1;
-            addItemBtn.innerText = "+ Add Item";
-            addItemBtn.style.background = "var(--primary)";
+            addItemBtn.innerText = "Add Item";
+            addItemBtn.style.background = "var(--blue-btn)";
         } else {
             items.push({p, q, pr, t});
         }
 
         renderCartTable();
         productSearch.value = ""; 
-        qtyInput.value = "1"; 
+        qtyInput.value = ""; 
         priceInput.value = "";
     });
 
@@ -656,7 +655,15 @@ function initBillingSystem() {
     document.getElementById("printBillBtn").addEventListener("click", function(){
         let content = document.getElementById("bill").innerHTML;
         if(!content) return alert("Generate bill first");
-        window.print();
+        let mode = document.getElementById("printMode").value;
+        let width = 400, height = 700;
+        if(mode == "A4"){ width = 800; height = 1100; }
+        let win = window.open('', '', `width=${width},height=${height}`);
+        win.document.write(`<html><head><title>Print Bill</title><style>
+        body{font-family:'Roboto',sans-serif;padding:10px;text-align:center;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;text-align:center;} .totalRow td{font-weight:bold;} .invoice{float:right;} .clear{clear:both;} .qr-container{margin-top:10px;} .qr-container img{width:120px;}
+        </style></head><body>${content}</body></html>`);
+        win.document.close(); 
+        win.print();
     });
 
     document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
@@ -697,7 +704,7 @@ function initBillingSystem() {
     }
     updateSaleSummary();
 
-    // Export Backup JSON
+    // Export JSON Data Backup
     document.getElementById("exportBackupBtn").addEventListener("click", function(){
         let backupData = {
             shop: localStorage.getItem("shop") || "",
@@ -707,7 +714,6 @@ function initBillingSystem() {
             upiId: localStorage.getItem("upiId") || "",
             invoiceCounter: localStorage.getItem("invoiceCounter") || "1",
             stock: JSON.parse(localStorage.getItem("stock")) || {},
-            stockPrices: JSON.parse(localStorage.getItem("stockPrices")) || {},
             stockHistory: JSON.parse(localStorage.getItem("stockHistory")) || [],
             saleHistory: JSON.parse(localStorage.getItem("saleHistory")) || []
         };
@@ -721,18 +727,15 @@ function initBillingSystem() {
     });
 }
 
+// Render Bill Output HTML Function
 function renderInvoiceBillHTML(data) {
-    let html = `<div style="text-align:center;">
-    <h3 style="margin:0;">${data.shopName || localStorage.getItem("shop")}</h3>
-    <div style="font-size:12px;">${data.address || localStorage.getItem("address")}<br>Phone: ${data.phone || localStorage.getItem("phone")}</div>`;
-    if(data.gstin) html += `<div style="font-size:12px;">GSTIN: ${data.gstin}</div>`;
-    html += `<hr style="margin:8px 0; border:0; border-top:1px dashed #ccc;">
-    <div style="font-size:12px; text-align:left;">
-    Invoice #: ${data.invoiceNo}<br>
-    Date: ${new Date(data.date).toLocaleString()}<br>
+    let html = `<div class="invoice">Invoice No: ${data.invoiceNo}</div><div class="clear"></div>
+    <b>${data.shopName || localStorage.getItem("shop")}</b><br>${data.address || localStorage.getItem("address")}<br>Phone: ${data.phone || localStorage.getItem("phone")}<br>`;
+    if(data.gstin) html += `GSTIN: ${data.gstin}<br>`;
+    html += `Date: ${new Date(data.date).toLocaleString()}<br>
     Customer: ${data.customer}<br>
-    Payment Mode: ${data.paymentMode}</div>
-    <table style="margin-top:8px;">
+    Payment Mode: ${data.paymentMode}<hr>
+    <div style="overflow-x:auto;"><table>
     <tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
     
     data.items.forEach((i, index) => {
@@ -752,13 +755,14 @@ function renderInvoiceBillHTML(data) {
     html += `<tr class="totalRow" style="color:red;"><td colspan="4">Unpaid Balance</td><td>₹${Number(data.unpaid).toFixed(2)}</td></tr></table></div>`;
     
     if(data.upiId && data.paid > 0){
-        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${encodeURIComponent('upi://pay?pa='+data.upiId+'&pn='+(data.shopName||'')+'&am='+data.paid+'&cu=INR')}`;
-        html += `<div class="qr-container"><p style="margin:0 0 5px 0; font-size:12px;">Scan to Pay: ₹${Number(data.paid).toFixed(2)}</p><img src="${qrUrl}" alt="UPI QR"></div>`;
+        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent('upi://pay?pa='+data.upiId+'&pn='+(data.shopName||'')+'&am='+data.paid+'&cu=INR')}`;
+        html += `<div class="qr-container"><p>Scan to Pay: ₹${Number(data.paid).toFixed(2)}</p><img src="${qrUrl}" alt="UPI QR Code"></div>`;
     }
 
     document.getElementById("bill").innerHTML = html;
 }
 
+// Search and Reprint Old Bills Function
 function filterHistoryBills() {
     let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
     let query = (document.getElementById("searchInvoiceInput")?.value || "").toLowerCase();
@@ -791,6 +795,7 @@ function reprintBill(invoiceNo) {
     }
 }
 
+// Render Cart Table with Edit & Delete Action
 function renderCartTable() {
     const tableBody = document.getElementById("tableBody");
     tableBody.innerHTML = "";
@@ -809,6 +814,7 @@ function renderCartTable() {
     calculateGrandTotal();
 }
 
+// Delete item from cart & restore stock
 function deleteItem(index) {
     let stock = JSON.parse(localStorage.getItem("stock")) || {};
     let item = items[index];
@@ -820,6 +826,7 @@ function deleteItem(index) {
     window.renderStock();
 }
 
+// Edit item in cart
 function editItem(index) {
     let item = items[index];
     document.getElementById("productDropdown").value = item.p;
@@ -832,20 +839,14 @@ function editItem(index) {
     btn.style.background = "var(--warning)";
 }
 
+// Stock Actions: Edit & Delete
 function editStockItem(productName) {
     let stock = JSON.parse(localStorage.getItem("stock")) || {};
-    let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
-    
     let currentQty = stock[productName] || 0;
     let newQty = prompt(`Enter new quantity for "${productName}":`, currentQty);
     if(newQty !== null && !isNaN(newQty)) {
         stock[productName] = parseInt(newQty);
-        let newPrice = prompt(`Enter selling price for "${productName}":`, stockPrices[productName] || 0);
-        if(newPrice !== null && !isNaN(newPrice)) {
-            stockPrices[productName] = parseFloat(newPrice);
-        }
         localStorage.setItem("stock", JSON.stringify(stock));
-        localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
         window.renderStock();
         alert("Stock updated!");
     }
@@ -854,16 +855,14 @@ function editStockItem(productName) {
 function deleteStockItem(productName) {
     if(confirm(`Are you sure you want to delete "${productName}" from stock?`)){
         let stock = JSON.parse(localStorage.getItem("stock")) || {};
-        let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
         delete stock[productName];
-        delete stockPrices[productName];
         localStorage.setItem("stock", JSON.stringify(stock));
-        localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
         window.renderStock();
         alert("Product deleted from stock.");
     }
 }
 
+// Calculate Live Discount, GST, and Grand Total
 function calculateGrandTotal() {
     let subtotal = 0;
     items.forEach(i => subtotal += i.t);
@@ -885,6 +884,7 @@ function calculateGrandTotal() {
     return grandTotal;
 }
 
+// Import JSON Data Backup
 function importDataBackup(event) {
     const fileReader = new FileReader();
     fileReader.onload = function(e) {
@@ -898,7 +898,6 @@ function importDataBackup(event) {
                 if(data.upiId) localStorage.setItem("upiId", data.upiId);
                 if(data.invoiceCounter) localStorage.setItem("invoiceCounter", data.invoiceCounter);
                 if(data.stock) localStorage.setItem("stock", JSON.stringify(data.stock));
-                if(data.stockPrices) localStorage.setItem("stockPrices", JSON.stringify(data.stockPrices));
                 if(data.stockHistory) localStorage.setItem("stockHistory", JSON.stringify(data.stockHistory));
                 if(data.saleHistory) localStorage.setItem("saleHistory", JSON.stringify(data.saleHistory));
                 
