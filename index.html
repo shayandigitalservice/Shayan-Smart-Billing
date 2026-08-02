@@ -25,7 +25,7 @@
 </script>
 
 <style>
-/* --- PROFESSIONAL UI & DESKTOP ENHANCEMENTS --- */
+/* --- UI & DESKTOP ENHANCEMENTS --- */
 :root {
     --accent: #6366f1;
     --bg: #f1f5f9;
@@ -140,6 +140,7 @@ th, td { border: 1px solid #e2e8f0; padding: 10px; font-size: 13px; text-align: 
 th { background: #f8fafc; font-weight: 700; color: #475569; }
 .totalRow td { font-weight: bold; }
 
+/* --- PURANA ORIGINAL BILL DISPLAY STYLE --- */
 .bill { margin-top: 20px; overflow-wrap: break-word; word-wrap: break-word; border: 1px dashed #cbd5e1; padding: 15px; border-radius: 8px; background: #fafafa; }
 .invoice { float: right; }
 .clear { clear: both; }
@@ -147,7 +148,7 @@ th { background: #f8fafc; font-weight: 700; color: #475569; }
 .qr-container img { width: 130px; height: 130px; }
 .table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 12px; }
 
-/* Fixed Scrollable Wrapper for History Table */
+/* Scrollable Wrapper for History Table */
 .scroll-history-wrapper {
     max-height: 250px;
     overflow-y: auto;
@@ -251,7 +252,7 @@ th { background: #f8fafc; font-weight: 700; color: #475569; }
     margin-top: 20px;
 }
 
-/* --- MODERN STYLISH CUSTOM MODAL SYSTEM --- */
+/* --- ANIMATED CUSTOM MODAL SYSTEM --- */
 .modal-overlay {
     display: none;
     position: fixed;
@@ -299,7 +300,7 @@ th { background: #f8fafc; font-weight: 700; color: #475569; }
     justify-content: flex-end;
 }
 
-/* --- RESPONSIVE DESKTOP LAYOUT ENHANCEMENTS --- */
+/* --- RESPONSIVE DESKTOP LAYOUT --- */
 @media screen and (min-width: 768px) {
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
@@ -314,7 +315,7 @@ th { background: #f8fafc; font-weight: 700; color: #475569; }
   .sale-summary { grid-template-columns: 1fr; }
 }
 
-/* --- UNIVERSAL PRINTER ADJUSTMENT (THERMAL + REGULAR A4) --- */
+/* --- PURANA ORIGINAL PRINT ENGINE (BILKUL PEHLE JAISA) --- */
 @media print {
     body * { visibility: hidden; }
     #bill, #bill * { visibility: visible; }
@@ -322,13 +323,12 @@ th { background: #f8fafc; font-weight: 700; color: #475569; }
         position: absolute; 
         left: 0; 
         top: 0; 
-        width: 100% !important; 
-        margin: 0 !important; 
-        padding: 0 !important; 
-        border: none !important; 
-        background: transparent !important;
+        width: 100%;
+        margin: 0;
+        padding: 10px;
+        border: none;
+        background: #fff;
     }
-    .qr-container img { width: 100px; height: 100px; }
 }
 </style>
 </head>
@@ -491,7 +491,7 @@ th { background: #f8fafc; font-weight: 700; color: #475569; }
 
     <button id="downloadStockBtn" class="btn-blue" style="background:#475569;">📥 Download Stock Excel</button>
 
-    <!-- Cloud Data Loss Protection / Backup Restore UI -->
+    <!-- Data Loss Protection / Backup Restore UI -->
     <div class="backup-box">
         <h3 style="margin-top:0; margin-bottom:8px; font-size:16px; color:#15803d;">💾 Data Backup & Restore</h3>
         <p style="font-size:12px; color:#166534; margin-bottom:12px;">Mobile/PC kharab hone se data surakshit rakhne ke liye backup file download karein.</p>
@@ -870,6 +870,7 @@ function initBillingSystem() {
         showAppAlert("Bill Generated", `Invoice #${invoiceNo} created successfully!`);
     });
 
+    /* --- PURANA ORIGINAL PRINT FUNCTION --- */
     document.getElementById("printBillBtn").addEventListener("click", function(){
         let content = document.getElementById("bill").innerHTML;
         if(!content) return showAppAlert("No Bill", "Please generate a bill first.");
@@ -879,12 +880,11 @@ function initBillingSystem() {
         
         let win = window.open('', '', `width=${width},height=${height}`);
         win.document.write(`<html><head><title>Print Bill - Invoice</title><style>
-        body{font-family:'Roboto',sans-serif;padding:10px;text-align:center;margin:0;} 
+        body{font-family:Arial,sans-serif;padding:10px;text-align:center;} 
         table{width:100%;border-collapse:collapse;margin-top:10px;} 
-        td,th{border:1px solid #000;padding:5px;text-align:center;font-size:12px;} 
+        td,th{border:1px solid #000;padding:5px;text-align:center;} 
         .totalRow td{font-weight:bold;} .invoice{float:right;} .clear{clear:both;} 
-        .qr-container{margin-top:10px;} .qr-container img{width:110px;}
-        @page { margin: 5mm; }
+        .qr-container{margin-top:10px;} .qr-container img{width:120px;}
         </style></head><body>${content}</body></html>`);
         win.document.close(); 
         win.focus();
@@ -968,7 +968,7 @@ function initBillingSystem() {
     });
 }
 
-// Render Bill Output HTML Function
+/* --- PURANA ORIGINAL BILL HTML LAYOUT --- */
 function renderInvoiceBillHTML(data) {
     let html = `<div class="invoice">Invoice No: ${data.invoiceNo}</div><div class="clear"></div>
     <b>${data.shopName || localStorage.getItem("shop")}</b><br>${data.address || localStorage.getItem("address")}<br>Phone: ${data.phone || localStorage.getItem("phone")}<br>`;
