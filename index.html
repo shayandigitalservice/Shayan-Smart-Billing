@@ -3,333 +3,915 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shayan Smart Billing - Ultra POS</title>
+<title>Shayan Smart Billing - Professional POS & Stock</title>
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <meta name="theme-color" content="#4f46e5">
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log("Service Worker Registered"))
+        .catch(err => console.log("SW Register Failed", err));
+    });
+  }
+</script>
 
 <style>
 :root {
     --primary: #4f46e5;
     --primary-hover: #4338ca;
     --bg: #f8fafc;
-    --card-bg: #ffffff;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
+    --card: #ffffff;
+    --text: #0f172a;
+    --muted: #64748b;
     --border: #e2e8f0;
     --danger: #ef4444;
     --warning: #f59e0b;
     --success: #10b981;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', Arial, sans-serif; }
 
 body { 
     background: var(--bg); 
-    color: var(--text-main); 
-    padding: 12px;
+    color: var(--text); 
+    padding: 12px; 
 }
 
-.header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-.header h1 {
-    font-size: 24px;
+h1 { 
+    text-align: center; 
     font-weight: 800;
     color: var(--primary);
+    margin: 10px 0 15px 0;
     letter-spacing: -0.5px;
+    font-size: 24px;
 }
 
-.app-container {
-    max-width: 900px;
-    margin: auto;
-    display: grid;
-    gap: 16px;
-}
-
-.card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 18px;
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-}
-
-.card-title {
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    display: flex;
+/* PWA Banner */
+#pwaInstallBanner {
+    display: none;
+    background: linear-gradient(135deg, #4f46e5, #3730a3);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
     align-items: center;
-    gap: 8px;
+    justify-content: space-between;
 }
 
-/* Grid Form Layouts */
-.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+#pwaInstallBanner span { font-weight: 700; font-size: 13px; }
 
-input, select {
-    width: 100%;
-    padding: 10px 12px;
+#pwaInstallBtn {
+    background: #ffffff;
+    color: var(--primary);
+    border: none;
+    padding: 8px 14px;
     border-radius: 8px;
-    border: 1px solid var(--border);
-    font-size: 13px;
-    outline: none;
-    background: #f8fafc;
-    transition: 0.2s;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+input, select { 
+    width: 100%; 
+    padding: 10px 12px; 
+    margin: 4px 0; 
+    border-radius: 8px; 
+    border: 1px solid var(--border); 
+    font-size: 13px; 
+    outline: none; 
+    background: #ffffff;
+    transition: all 0.2s;
 }
 
 input:focus, select:focus {
     border-color: var(--primary);
-    background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
 
-.btn {
-    width: 100%;
-    padding: 11px;
-    border-radius: 8px;
-    border: none;
-    background: var(--primary);
-    color: white;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
+.btn-blue { 
+    width: 100%; 
+    padding: 10px; 
+    border-radius: 8px; 
+    border: none; 
+    background: var(--primary); 
+    color: white; 
+    font-size: 13px; 
+    font-weight: 600; 
+    cursor: pointer; 
+    margin: 4px 0; 
+    transition: 0.2s; 
 }
-.btn:hover { background: var(--primary-hover); }
-.btn-success { background: var(--success); }
-.btn-warning { background: var(--warning); }
-.btn-danger { background: var(--danger); }
 
-/* Table Styling */
-.table-responsive { overflow-x: auto; margin: 12px 0; }
+.btn-blue:hover { background: var(--primary-hover); }
+
+/* Billing Container Card */
+.billing-ui-container { 
+    max-width: 850px; 
+    margin: auto; 
+    background: var(--card); 
+    padding: 18px; 
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+}
+
+.billing-ui-container h2 { text-align: center; margin-bottom: 12px; font-size: 18px; font-weight: 700; }
+
+.table-wrapper { overflow-x: auto; width: 100%; margin: 10px 0; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th { background: #f1f5f9; text-align: left; padding: 10px; font-weight: 600; color: var(--text-muted); }
-td { padding: 10px; border-bottom: 1px solid var(--border); }
+th, td { border-bottom: 1px solid var(--border); padding: 8px; text-align: center; }
+th { background: #f1f5f9; font-weight: 700; color: var(--muted); }
+.totalRow td { font-weight: bold; }
 
-/* Badge */
-.badge {
-    padding: 3px 8px;
-    border-radius: 12px;
-    font-size: 11px;
+.bill { 
+    margin-top: 20px; 
+    border: 1px dashed #cbd5e1; 
+    padding: 15px; 
+    border-radius: 10px;
+    background: #fafafa;
+}
+
+.qr-container { text-align: center; margin-top: 15px; padding: 10px; border: 1px dashed #cbd5e1; border-radius: 8px; }
+.qr-container img { width: 130px; height: 130px; }
+
+/* Collapsible Box */
+.shop-toggle-btn {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid var(--border);
     font-weight: 700;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
 }
-.badge-danger { background: #fee2e2; color: #dc2626; }
-.badge-success { background: #dcfce7; color: #16a34a; }
+.shop-details-box {
+    display: none;
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    margin-bottom: 10px;
+}
 
-/* Grand Total Banner */
-.total-banner {
+/* Grand Total Display Box */
+.current-total-box {
     background: linear-gradient(135deg, #0f172a, #1e293b);
-    color: #ffffff;
-    padding: 16px;
     border-radius: 12px;
-    text-align: center;
+    padding: 14px;
     margin: 12px 0;
-}
-.total-banner .amount {
-    font-size: 26px;
-    font-weight: 800;
-    color: #38bdf8;
+    text-align: center;
+    color: #ffffff;
 }
 
-/* Printable Bill Area Optimization */
+.current-total-box .sub-info { font-size: 13px; color: #94a3b8; margin-bottom: 4px; }
+.current-total-box .grand-total-title { font-size: 22px; font-weight: 800; color: #38bdf8; }
+
+.tax-discount-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+.btn-action { border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 12px; color: white; }
+.btn-del { background: var(--danger); }
+.btn-edit { background: var(--warning); }
+
+/* Sale Summary Cards */
+.sale-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 15px 0; }
+.sale-card { background: #f8fafc; padding: 12px; border-radius: 10px; text-align: center; border: 1px solid var(--border); }
+.sale-card span { display: block; font-size: 11px; color: var(--muted); font-weight: 700; }
+.sale-card b { font-size: 15px; color: var(--text); }
+
+/* Backup & Reprint Boxes */
+.backup-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 14px; border-radius: 10px; margin-top: 20px; }
+.reprint-box { background: #fffbebfb; border: 1px solid #fde68a; padding: 14px; border-radius: 10px; margin-top: 20px; }
+
+@media screen and (max-width:600px){
+  table th, table td { padding: 6px; font-size: 11px; }
+  .tax-discount-grid { grid-template-columns: 1fr; }
+  .current-total-box .grand-total-title { font-size: 18px; }
+}
+
 @media print {
-    body * { visibility: hidden; }
-    #printable-bill, #printable-bill * { visibility: visible; }
-    #printable-bill { position: absolute; left: 0; top: 0; width: 80mm; font-size: 12px; }
-}
-
-@media (max-width: 600px) {
-    .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
+  body * { visibility: hidden; }
+  #bill, #bill * { visibility: visible; }
+  #bill { position: absolute; left: 0; top: 0; width: 80mm; font-size: 12px; border: none; }
 }
 </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>⚡ Shayan Smart Billing POS</h1>
-</div>
+<h1>Shayan Smart Billing</h1>
 
-<div class="app-container">
-
-    <!-- POS Section -->
-    <div class="card">
-        <div class="card-title">🧾 New Invoice Generator</div>
-        
-        <div class="form-grid-2" style="margin-bottom: 10px;">
-            <input id="customer" placeholder="Customer Name / Mobile">
-            <input id="barcodeInput" placeholder="🔍 Scan Barcode or Quick Search..." onkeypress="handleBarcode(event)">
-        </div>
-
-        <div class="form-grid-3" style="margin-bottom: 10px;">
-            <select id="productSelect" onchange="autoFillPrice()"></select>
-            <input id="qty" type="number" placeholder="Qty" value="1">
-            <input id="price" type="number" placeholder="Price (₹)">
-        </div>
-
-        <button onclick="addItemToCart()" class="btn">+ Add Item to Bill</button>
-
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th><th>Action</th></tr>
-                </thead>
-                <tbody id="cartBody"></tbody>
-            </table>
-        </div>
-
-        <!-- Tax & Discounts -->
-        <div class="form-grid-3">
-            <input id="discFlat" type="number" placeholder="Discount (₹)" oninput="updateLiveTotal()">
-            <input id="discPercent" type="number" placeholder="Discount (%)" oninput="updateLiveTotal()">
-            <select id="gstRate" onchange="updateLiveTotal()">
-                <option value="0">GST 0%</option>
-                <option value="5">GST 5%</option>
-                <option value="12">GST 12%</option>
-                <option value="18">GST 18%</option>
-            </select>
-        </div>
-
-        <div class="total-banner">
-            <div style="font-size: 12px; opacity: 0.8;">Subtotal: ₹<span id="subTotalText">0.00</span> | GST: ₹<span id="gstText">0.00</span></div>
-            <div class="amount">GRAND TOTAL: ₹<span id="grandTotalText">0.00</span></div>
-        </div>
-
-        <div class="form-grid-2" style="margin-bottom: 10px;">
-            <input id="amtPaid" type="number" placeholder="Amount Paid">
-            <select id="paymentMode">
-                <option value="Cash">Cash</option>
-                <option value="UPI">UPI</option>
-                <option value="Card">Card</option>
-            </select>
-        </div>
-
-        <button onclick="generateInvoice()" class="btn btn-success">Generate & Print Bill</button>
+<div id="main-billing" class="billing-ui-container">
+    
+    <!-- PWA Installation Banner -->
+    <div id="pwaInstallBanner">
+        <span>📲 Install Shayan Smart Billing App</span>
+        <button id="pwaInstallBtn">Install Now</button>
     </div>
 
-    <!-- Live Bill Receipt -->
-    <div id="printable-bill" class="card" style="display:none;"></div>
+    <h2>🧾 Bill Generator</h2>
 
+    <!-- Collapsible Shop Details -->
+    <button type="button" class="shop-toggle-btn" onclick="toggleShopDetails()">
+        <span>⚙️ Shop Details, GSTIN & UPI Setup</span>
+        <span id="shopToggleIcon">▼</span>
+    </button>
+    <div id="shopDetailsBox" class="shop-details-box">
+        <input id="shop" placeholder="Shop Name">
+        <input id="address" placeholder="Address">
+        <input id="phone" placeholder="Phone">
+        <input id="gstin" placeholder="GSTIN Number (Optional)">
+        <input id="upiId" placeholder="Enter Your UPI ID (e.g. name@upi)">
+        <button id="saveShopBtn" class="btn-blue" style="margin-top: 5px;">Save Shop Details</button>
+    </div>
+
+    <!-- Main Billing Form -->
+    <input id="customer" placeholder="Customer Name">
+    <input id="productSearch" placeholder="🔍 Search Product or Scan Barcode..." onkeypress="handleBarcode(event)">
+    <select id="productDropdown" onchange="autoFillPrice()"></select>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+        <input id="qty" type="number" placeholder="Qty" value="1">
+        <input id="price" type="number" placeholder="Price (₹)">
+    </div>
+    <button id="addItemBtn" class="btn-blue">+ Add Item</button>
+
+    <div class="table-wrapper">
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <!-- Discount & GST Section -->
+    <div class="tax-discount-grid">
+        <input id="discFlat" type="number" placeholder="Discount (₹)" oninput="calculateGrandTotal()">
+        <input id="discPercent" type="number" placeholder="Discount (%)" oninput="calculateGrandTotal()">
+        <select id="gstRate" onchange="calculateGrandTotal()">
+            <option value="0">GST 0%</option>
+            <option value="5">GST 5% (CGST 2.5% + SGST 2.5%)</option>
+            <option value="12">GST 12% (CGST 6% + SGST 6%)</option>
+            <option value="18">GST 18% (CGST 9% + SGST 9%)</option>
+            <option value="28">GST 28% (CGST 14% + SGST 14%)</option>
+        </select>
+    </div>
+
+    <!-- Dark Bold Grand Total Display -->
+    <div class="current-total-box">
+        <div class="sub-info">Subtotal: ₹<span id="liveSubTotal">0.00</span> | GST: ₹<span id="liveGstTotal">0.00</span></div>
+        <div class="grand-total-title">GRAND TOTAL: ₹<span id="liveCurrentTotal">0.00</span></div>
+    </div>
+
+    <input id="amtPaid" type="number" placeholder="Enter Amount Paid by Customer">
+    <select id="payment">
+      <option value="Cash">Cash</option>
+      <option value="UPI">UPI</option>
+      <option value="Card">Card</option>
+    </select>
+
+    <button id="generateBillBtn" class="btn-blue" style="background:#2563eb;">Generate Bill</button>
+    <select id="printMode">
+        <option value="A4">Print A4</option>
+        <option value="Receipt" selected>Print Receipt (Thermal 80mm)</option>
+    </select>
+    <button id="printBillBtn" class="btn-blue">Print Bill</button>
+    <button id="sendWhatsAppBtn" class="btn-blue" style="background:#10b981;">Send WhatsApp</button>
+
+    <div id="bill" class="bill"></div>
+    
+    <!-- REPRINT & OLD BILL SEARCH SECTION -->
+    <div class="reprint-box">
+        <h3 style="margin-top:0; margin-bottom:8px; font-size:15px; color:#d97706;">🔍 Search & Reprint Old Bill</h3>
+        <input id="searchInvoiceInput" placeholder="Enter Customer Name or Invoice No..." oninput="filterHistoryBills()">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Inv #</th>
+                        <th>Customer</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <button id="downloadHistoryBtn" class="btn-blue" style="margin-top: 15px;">Download Sales History (Excel)</button>
+    
+    <div class="sale-summary">
+        <div class="sale-card"><span>Today</span><b id="saleToday">₹0</b></div>
+        <div class="sale-card"><span>Weekly</span><b id="saleWeekly">₹0</b></div>
+        <div class="sale-card"><span>Monthly</span><b id="saleMonthly">₹0</b></div>
+    </div>
+
+    <hr style="margin:25px 0; border:0; border-top:1px solid var(--border);">
+    <h2 style="display:flex; align-items:center; justify-content:center; gap:8px;">📦 Stock Management</h2>
+
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px;">
+        <input id="stockProduct" placeholder="Product Name">
+        <input id="stockQty" type="number" placeholder="Qty">
+        <input id="stockPrice" type="number" placeholder="Selling Price (₹)">
+    </div>
+    <button id="addStockBtn" class="btn-blue">Add Stock Item</button>
+
+    <div class="table-wrapper">
+        <table id="stockTable">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Available Qty</th>
+                    <th>Last Updated</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="stockTableBody"></tbody>
+        </table>
+    </div>
+
+    <button id="downloadStockBtn" class="btn-blue">Download Stock Excel</button>
+
+    <!-- Cloud Data Loss Protection / Backup Restore UI -->
+    <div class="backup-box">
+        <h3 style="margin-top:0; margin-bottom:8px; font-size:15px; color:#15803d;">💾 Data Backup & Restore</h3>
+        <p style="font-size:12px; color:#166534; margin-bottom:10px;">Mobile kharab hone ya badalney se bachne ke liye regular backup download karein.</p>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+            <button id="exportBackupBtn" class="btn-blue" style="background:#16a34a;">Export Backup</button>
+            <button id="importBackupBtn" class="btn-blue" style="background:#0d9488;" onclick="document.getElementById('importFileInput').click()">Import Backup</button>
+        </div>
+        <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importDataBackup(event)">
+    </div>
 </div>
 
 <script>
-let stock = JSON.parse(localStorage.getItem("stockDetails")) || {
-    "Sample Item": { price: 100, qty: 20 }
-};
-let cart = [];
+let items = [];
+let editingIndex = -1;
+let deferredPrompt = null;
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadProductDropdown();
+// PWA Install Prompt Listener
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const banner = document.getElementById("pwaInstallBanner");
+    if(banner) banner.style.display = "flex";
 });
 
-function loadProductDropdown() {
-    let select = document.getElementById("productSelect");
-    select.innerHTML = `<option value="">Select Product...</option>`;
-    for (let p in stock) {
-        select.innerHTML += `<option value="${p}">${p} (Stock: ${stock[p].qty})</option>`;
+document.getElementById("pwaInstallBtn")?.addEventListener("click", () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted PWA prompt');
+            }
+            deferredPrompt = null;
+            document.getElementById("pwaInstallBanner").style.display = "none";
+        });
+    }
+});
+
+function toggleShopDetails() {
+    const box = document.getElementById("shopDetailsBox");
+    const icon = document.getElementById("shopToggleIcon");
+    if (box.style.display === "block") {
+        box.style.display = "none";
+        icon.innerText = "▼";
+    } else {
+        box.style.display = "block";
+        icon.innerText = "▲";
     }
 }
 
-function autoFillPrice() {
-    let p = document.getElementById("productSelect").value;
-    if (stock[p]) {
-        document.getElementById("price").value = stock[p].price;
-    }
-}
+document.addEventListener("DOMContentLoaded", function(){
+    initBillingSystem();
+    filterHistoryBills();
+});
 
-function handleBarcode(e) {
-    if (e.key === 'Enter') {
-        addItemToCart();
-    }
-}
+function initBillingSystem() {
+    let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter")) || 1;
+    let stock = JSON.parse(localStorage.getItem("stock")) || {};
+    let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
+    let stockHistory = JSON.parse(localStorage.getItem("stockHistory")) || [];
 
-function addItemToCart() {
-    let p = document.getElementById("productSelect").value;
-    let q = parseInt(document.getElementById("qty").value) || 0;
-    let pr = parseFloat(document.getElementById("price").value) || 0;
+    const shopInput = document.getElementById("shop");
+    const addressInput = document.getElementById("address");
+    const phoneInput = document.getElementById("phone");
+    const gstinInput = document.getElementById("gstin");
+    const upiInput = document.getElementById("upiId");
+    const saveShopBtn = document.getElementById("saveShopBtn");
 
-    if (!p || q <= 0 || pr <= 0) return alert("Valid product, quantity aur price enter karein!");
-    if (stock[p].qty < q) return alert("Stock me itni quantity nahi hai!");
+    // Load saved shop details
+    shopInput.value = localStorage.getItem("shop") || "";
+    addressInput.value = localStorage.getItem("address") || "";
+    phoneInput.value = localStorage.getItem("phone") || "";
+    gstinInput.value = localStorage.getItem("gstin") || "";
+    upiInput.value = localStorage.getItem("upiId") || "";
 
-    cart.push({ p, q, pr, total: q * pr });
-    stock[p].qty -= q; // Deduct temporarily
-    renderCart();
-    document.getElementById("qty").value = 1;
-}
-
-function renderCart() {
-    let tbody = document.getElementById("cartBody");
-    tbody.innerHTML = "";
-    cart.forEach((item, index) => {
-        tbody.innerHTML += `
-            <tr>
-                <td><b>${item.p}</b></td>
-                <td>${item.q}</td>
-                <td>₹${item.pr}</td>
-                <td>₹${item.total.toFixed(2)}</td>
-                <td><button onclick="removeItem(${index})" class="btn btn-danger" style="padding:2px 6px; font-size:11px;">🗑</button></td>
-            </tr>`;
+    saveShopBtn.addEventListener("click", function(){
+        localStorage.setItem("shop", shopInput.value);
+        localStorage.setItem("address", addressInput.value);
+        localStorage.setItem("phone", phoneInput.value);
+        localStorage.setItem("gstin", gstinInput.value);
+        localStorage.setItem("upiId", upiInput.value);
+        alert("Shop details saved!");
+        toggleShopDetails();
     });
-    updateLiveTotal();
+
+    const stockProductInput = document.getElementById("stockProduct");
+    const stockQtyInput = document.getElementById("stockQty");
+    const stockPriceInput = document.getElementById("stockPrice");
+    const addStockBtn = document.getElementById("addStockBtn");
+
+    window.renderStock = function(){
+        const tbody = document.getElementById("stockTableBody");
+        tbody.innerHTML = "";
+        for(let p in stock){
+            let updates = stockHistory.filter(h => h.product === p);
+            let lastUpdate = updates[updates.length - 1]?.date || "";
+            let color = stock[p] <= 5 ? "red" : "green";
+            let row = tbody.insertRow();
+            row.insertCell(0).innerHTML = p + (stock[p] <= 5 ? " <span style='color:red;font-weight:bold;'>⚠ Low</span>" : "");
+            row.insertCell(1).innerText = stockPrices[p] ? "₹" + stockPrices[p] : "-";
+            row.insertCell(2).innerHTML = `<b style="color:${color}">${stock[p]}</b>`;
+            row.insertCell(3).innerText = lastUpdate ? new Date(lastUpdate).toLocaleString() : "-";
+            row.insertCell(4).innerHTML = `
+                <button class="btn-action btn-edit" onclick="editStockItem('${p}')">✏️</button>
+                <button class="btn-action btn-del" onclick="deleteStockItem('${p}')">🗑</button>
+            `;
+        }
+    };
+    renderStock();
+
+    addStockBtn.addEventListener("click", function(){
+        let p = stockProductInput.value.trim();
+        let q = +stockQtyInput.value;
+        let pr = +stockPriceInput.value || 0;
+        if(!p || isNaN(q)){ alert("Fill valid product name & quantity"); return; }
+        stock[p] = (stock[p] || 0) + q;
+        if(pr > 0) stockPrices[p] = pr;
+        
+        stockHistory.push({product:p, qtyAdded:q, price:pr, type:"Added", date:new Date().toISOString()});
+        localStorage.setItem("stock", JSON.stringify(stock));
+        localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
+        localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
+        
+        stockProductInput.value = ""; 
+        stockQtyInput.value = "";
+        stockPriceInput.value = "";
+        renderStock();
+        renderProductDropdown();
+    });
+
+    const productDropdown = document.getElementById("productDropdown");
+    const productSearch = document.getElementById("productSearch");
+
+    function renderProductDropdown(){
+        productDropdown.innerHTML = `<option value="">-- Select Product --</option>`;
+        let productList = [...new Set(Object.keys(stock))];
+        productList.forEach(p => {
+            let option = document.createElement("option");
+            option.value = p; 
+            option.text = `${p} (Available: ${stock[p]})`;
+            productDropdown.appendChild(option);
+        });
+    }
+    renderProductDropdown();
+
+    productSearch.addEventListener("input", function(){
+        let val = this.value.toLowerCase();
+        let options = Array.from(productDropdown.options);
+        let match = options.find(o => o.value.toLowerCase().includes(val));
+        if(match) {
+            productDropdown.value = match.value;
+            autoFillPrice();
+        }
+    });
+
+    window.autoFillPrice = function() {
+        let selectedProduct = productDropdown.value;
+        if(selectedProduct && stockPrices[selectedProduct]) {
+            document.getElementById("price").value = stockPrices[selectedProduct];
+        }
+    };
+
+    window.handleBarcode = function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById("addItemBtn").click();
+        }
+    };
+
+    document.getElementById("downloadStockBtn").addEventListener("click", function(){
+        let html = `<table border="1"><tr><th>Product</th><th>Price</th><th>Available Qty</th><th>Last Updated</th></tr>`;
+        for(let p in stock){
+            let updates = stockHistory.filter(h => h.product === p);
+            let lastUpdate = updates[updates.length - 1]?.date || "";
+            html += `<tr><td>${p}</td><td>${stockPrices[p] || '-'}</td><td>${stock[p]}</td><td>${lastUpdate ? new Date(lastUpdate).toLocaleString() : '-'}</td></tr>`;
+        }
+        html += `</table>`;
+        let blob = new Blob([html], {type: "application/vnd.ms-excel"});
+        let a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "stock.xlsx";
+        a.click();
+    });
+
+    const qtyInput = document.getElementById("qty");
+    const priceInput = document.getElementById("price");
+    const addItemBtn = document.getElementById("addItemBtn");
+
+    addItemBtn.addEventListener("click", function(){
+        let p = productDropdown.value.trim();
+        let q = +qtyInput.value;
+        let pr = +priceInput.value;
+        if(!p || !q || !pr){ alert("Fill all item fields"); return; }
+        if(stock[p] === undefined){ alert("Product not in stock"); return; }
+
+        if(editingIndex > -1) {
+            let oldItem = items[editingIndex];
+            stock[oldItem.p] += oldItem.q;
+        }
+
+        if(q > stock[p]){ 
+            alert(`Stock not sufficient for ${p}. Available: ${stock[p]}`); 
+            if(editingIndex > -1) stock[items[editingIndex].p] -= items[editingIndex].q;
+            return; 
+        }
+
+        stock[p] -= q;
+        stockHistory.push({product:p, qtyAdded:-q, type:"Sold", date:new Date().toISOString()});
+        localStorage.setItem("stock", JSON.stringify(stock));
+        localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
+        renderStock();
+        renderProductDropdown();
+
+        let t = q * pr;
+
+        if(editingIndex > -1) {
+            items[editingIndex] = {p, q, pr, t};
+            editingIndex = -1;
+            addItemBtn.innerText = "+ Add Item";
+            addItemBtn.style.background = "var(--primary)";
+        } else {
+            items.push({p, q, pr, t});
+        }
+
+        renderCartTable();
+        productSearch.value = ""; 
+        qtyInput.value = "1"; 
+        priceInput.value = "";
+    });
+
+    function getInvoiceNumber(){ 
+        let num = invoiceCounter; 
+        invoiceCounter++; 
+        localStorage.setItem("invoiceCounter", invoiceCounter); 
+        return num; 
+    }
+
+    document.getElementById("generateBillBtn").addEventListener("click", function(){
+        if(items.length === 0){ alert("Add items first"); return; }
+        
+        let subtotal = 0;
+        items.forEach(i => subtotal += i.t);
+        
+        let flatDisc = parseFloat(document.getElementById("discFlat").value) || 0;
+        let percentDisc = parseFloat(document.getElementById("discPercent").value) || 0;
+        let discountVal = flatDisc + (subtotal * (percentDisc / 100));
+        let taxableAmount = subtotal - discountVal;
+        if(taxableAmount < 0) taxableAmount = 0;
+
+        let gstRate = parseFloat(document.getElementById("gstRate").value) || 0;
+        let totalGst = taxableAmount * (gstRate / 100);
+        let cgst = totalGst / 2;
+        let sgst = totalGst / 2;
+        let grandTotal = taxableAmount + totalGst;
+
+        let paid = parseFloat(document.getElementById("amtPaid").value);
+        if(isNaN(paid)) paid = grandTotal;
+
+        let unpaid = grandTotal - paid;
+        if(unpaid < 0) unpaid = 0;
+
+        let invoiceNo = getInvoiceNumber();
+        let dateISO = new Date().toISOString();
+        let paymentMode = document.getElementById("payment").value;
+
+        let invoiceData = {
+            invoiceNo,
+            shopName: shopInput.value,
+            address: addressInput.value,
+            phone: phoneInput.value,
+            gstin: gstinInput.value.trim(),
+            upiId: upiInput.value.trim(),
+            customer: document.getElementById("customer").value || 'Walk-in Customer',
+            paymentMode,
+            date: dateISO,
+            items: [...items],
+            subtotal,
+            discountVal,
+            gstRate,
+            cgst,
+            sgst,
+            grandTotal,
+            paid,
+            unpaid
+        };
+
+        renderInvoiceBillHTML(invoiceData);
+
+        let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
+        saleHistory.push(invoiceData);
+        localStorage.setItem("saleHistory", JSON.stringify(saleHistory));
+
+        updateSaleSummary();
+        filterHistoryBills();
+        items = [];
+        renderCartTable();
+        document.getElementById("amtPaid").value = "";
+        document.getElementById("discFlat").value = "";
+        document.getElementById("discPercent").value = "";
+    });
+
+    document.getElementById("printBillBtn").addEventListener("click", function(){
+        let content = document.getElementById("bill").innerHTML;
+        if(!content) return alert("Generate bill first");
+        window.print();
+    });
+
+    document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
+        let text = "🧾 BILL RECEIPT\n\n" + document.getElementById("bill").innerText;
+        window.open("https://wa.me/?text=" + encodeURIComponent(text));
+    });
+
+    document.getElementById("downloadHistoryBtn").addEventListener("click", function(){
+        let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
+        if(saleHistory.length === 0) return alert("No history found");
+        let html = `<table border="1"><tr><th>Date</th><th>Invoice</th><th>Customer</th><th>Total</th><th>Paid</th><th>Unpaid</th></tr>`;
+        saleHistory.forEach(s => {
+            html += `<tr><td>${new Date(s.date).toLocaleDateString()}</td><td>${s.invoiceNo}</td><td>${s.customer}</td><td>${s.grandTotal || s.total}</td><td>${s.paid}</td><td>${s.unpaid}</td></tr>`;
+        });
+        html += `</table>`;
+        let blob = new Blob([html], {type: "application/vnd.ms-excel"});
+        let a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "Sale_History.xlsx"; 
+        a.click();
+    });
+
+    function updateSaleSummary(){
+        let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
+        let today = new Date();
+        let tTotal = 0, wTotal = 0, mTotal = 0;
+        history.forEach(s => {
+            let sDate = new Date(s.date);
+            let tot = s.grandTotal || s.total || 0;
+            if(sDate.toDateString() === today.toDateString()) tTotal += tot;
+            let diffDays = Math.ceil(Math.abs(today - sDate) / (1000 * 60 * 60 * 24));
+            if(diffDays <= 7) wTotal += tot;
+            if(sDate.getMonth() === today.getMonth() && sDate.getFullYear() === today.getFullYear()) mTotal += tot;
+        });
+        document.getElementById("saleToday").innerText = "₹" + tTotal.toFixed(2);
+        document.getElementById("saleWeekly").innerText = "₹" + wTotal.toFixed(2);
+        document.getElementById("saleMonthly").innerText = "₹" + mTotal.toFixed(2);
+    }
+    updateSaleSummary();
+
+    // Export Backup JSON
+    document.getElementById("exportBackupBtn").addEventListener("click", function(){
+        let backupData = {
+            shop: localStorage.getItem("shop") || "",
+            address: localStorage.getItem("address") || "",
+            phone: localStorage.getItem("phone") || "",
+            gstin: localStorage.getItem("gstin") || "",
+            upiId: localStorage.getItem("upiId") || "",
+            invoiceCounter: localStorage.getItem("invoiceCounter") || "1",
+            stock: JSON.parse(localStorage.getItem("stock")) || {},
+            stockPrices: JSON.parse(localStorage.getItem("stockPrices")) || {},
+            stockHistory: JSON.parse(localStorage.getItem("stockHistory")) || [],
+            saleHistory: JSON.parse(localStorage.getItem("saleHistory")) || []
+        };
+        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+        let downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", `Shayan_Smart_Billing_Backup_${new Date().toISOString().slice(0,10)}.json`);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    });
 }
 
-function removeItem(index) {
-    let item = cart[index];
-    stock[item.p].qty += item.q; // Restore stock
-    cart.splice(index, 1);
-    renderCart();
-    loadProductDropdown();
+function renderInvoiceBillHTML(data) {
+    let html = `<div style="text-align:center;">
+    <h3 style="margin:0;">${data.shopName || localStorage.getItem("shop")}</h3>
+    <div style="font-size:12px;">${data.address || localStorage.getItem("address")}<br>Phone: ${data.phone || localStorage.getItem("phone")}</div>`;
+    if(data.gstin) html += `<div style="font-size:12px;">GSTIN: ${data.gstin}</div>`;
+    html += `<hr style="margin:8px 0; border:0; border-top:1px dashed #ccc;">
+    <div style="font-size:12px; text-align:left;">
+    Invoice #: ${data.invoiceNo}<br>
+    Date: ${new Date(data.date).toLocaleString()}<br>
+    Customer: ${data.customer}<br>
+    Payment Mode: ${data.paymentMode}</div>
+    <table style="margin-top:8px;">
+    <tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
+    
+    data.items.forEach((i, index) => {
+        html += `<tr><td>${index + 1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`;
+    });
+    
+    html += `<tr class="totalRow"><td colspan="4">Subtotal</td><td>₹${Number(data.subtotal).toFixed(2)}</td></tr>`;
+    if(data.discountVal > 0) {
+        html += `<tr class="totalRow" style="color:red;"><td colspan="4">Discount</td><td>-₹${Number(data.discountVal).toFixed(2)}</td></tr>`;
+    }
+    if(data.gstRate > 0) {
+        html += `<tr class="totalRow"><td colspan="4">CGST (${(data.gstRate/2)}%)</td><td>₹${Number(data.cgst).toFixed(2)}</td></tr>`;
+        html += `<tr class="totalRow"><td colspan="4">SGST (${(data.gstRate/2)}%)</td><td>₹${Number(data.sgst).toFixed(2)}</td></tr>`;
+    }
+    html += `<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${Number(data.grandTotal || data.total).toFixed(2)}</td></tr>`;
+    html += `<tr class="totalRow" style="color:green;"><td colspan="4">Paid Amount</td><td>₹${Number(data.paid).toFixed(2)}</td></tr>`;
+    html += `<tr class="totalRow" style="color:red;"><td colspan="4">Unpaid Balance</td><td>₹${Number(data.unpaid).toFixed(2)}</td></tr></table></div>`;
+    
+    if(data.upiId && data.paid > 0){
+        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${encodeURIComponent('upi://pay?pa='+data.upiId+'&pn='+(data.shopName||'')+'&am='+data.paid+'&cu=INR')}`;
+        html += `<div class="qr-container"><p style="margin:0 0 5px 0; font-size:12px;">Scan to Pay: ₹${Number(data.paid).toFixed(2)}</p><img src="${qrUrl}" alt="UPI QR"></div>`;
+    }
+
+    document.getElementById("bill").innerHTML = html;
 }
 
-function updateLiveTotal() {
-    let subtotal = cart.reduce((acc, curr) => acc + curr.total, 0);
+function filterHistoryBills() {
+    let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
+    let query = (document.getElementById("searchInvoiceInput")?.value || "").toLowerCase();
+    let tbody = document.getElementById("historyTableBody");
+    if(!tbody) return;
+    tbody.innerHTML = "";
+
+    let filtered = history.filter(h => 
+        (h.invoiceNo && h.invoiceNo.toString().includes(query)) ||
+        (h.customer && h.customer.toLowerCase().includes(query))
+    );
+
+    filtered.reverse().slice(0, 10).forEach(h => {
+        let row = tbody.insertRow();
+        row.insertCell(0).innerText = "#" + h.invoiceNo;
+        row.insertCell(1).innerText = h.customer || 'Walk-in';
+        row.insertCell(2).innerText = "₹" + (h.grandTotal || h.total || 0).toFixed(2);
+        row.insertCell(3).innerHTML = `<button class="btn-action btn-blue" style="padding:2px 8px;" onclick="reprintBill(${h.invoiceNo})">🖨️ View/Print</button>`;
+    });
+}
+
+function reprintBill(invoiceNo) {
+    let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
+    let found = history.find(h => h.invoiceNo == invoiceNo);
+    if(found) {
+        renderInvoiceBillHTML(found);
+        window.scrollTo({ top: document.getElementById("bill").offsetTop - 50, behavior: 'smooth' });
+    } else {
+        alert("Invoice not found!");
+    }
+}
+
+function renderCartTable() {
+    const tableBody = document.getElementById("tableBody");
+    tableBody.innerHTML = "";
+    items.forEach((item, index) => {
+        let row = tableBody.insertRow();
+        row.insertCell(0).innerText = index + 1;
+        row.insertCell(1).innerText = item.p;
+        row.insertCell(2).innerText = item.q;
+        row.insertCell(3).innerText = item.pr;
+        row.insertCell(4).innerText = item.t;
+        row.insertCell(5).innerHTML = `
+            <button class="btn-action btn-edit" onclick="editItem(${index})">✏️</button>
+            <button class="btn-action btn-del" onclick="deleteItem(${index})">🗑</button>
+        `;
+    });
+    calculateGrandTotal();
+}
+
+function deleteItem(index) {
+    let stock = JSON.parse(localStorage.getItem("stock")) || {};
+    let item = items[index];
+    stock[item.p] = (stock[item.p] || 0) + item.q;
+    localStorage.setItem("stock", JSON.stringify(stock));
+    
+    items.splice(index, 1);
+    renderCartTable();
+    window.renderStock();
+}
+
+function editItem(index) {
+    let item = items[index];
+    document.getElementById("productDropdown").value = item.p;
+    document.getElementById("qty").value = item.q;
+    document.getElementById("price").value = item.pr;
+    editingIndex = index;
+    
+    let btn = document.getElementById("addItemBtn");
+    btn.innerText = "Update Item";
+    btn.style.background = "var(--warning)";
+}
+
+function editStockItem(productName) {
+    let stock = JSON.parse(localStorage.getItem("stock")) || {};
+    let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
+    
+    let currentQty = stock[productName] || 0;
+    let newQty = prompt(`Enter new quantity for "${productName}":`, currentQty);
+    if(newQty !== null && !isNaN(newQty)) {
+        stock[productName] = parseInt(newQty);
+        let newPrice = prompt(`Enter selling price for "${productName}":`, stockPrices[productName] || 0);
+        if(newPrice !== null && !isNaN(newPrice)) {
+            stockPrices[productName] = parseFloat(newPrice);
+        }
+        localStorage.setItem("stock", JSON.stringify(stock));
+        localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
+        window.renderStock();
+        alert("Stock updated!");
+    }
+}
+
+function deleteStockItem(productName) {
+    if(confirm(`Are you sure you want to delete "${productName}" from stock?`)){
+        let stock = JSON.parse(localStorage.getItem("stock")) || {};
+        let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
+        delete stock[productName];
+        delete stockPrices[productName];
+        localStorage.setItem("stock", JSON.stringify(stock));
+        localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
+        window.renderStock();
+        alert("Product deleted from stock.");
+    }
+}
+
+function calculateGrandTotal() {
+    let subtotal = 0;
+    items.forEach(i => subtotal += i.t);
+    
     let flatDisc = parseFloat(document.getElementById("discFlat").value) || 0;
     let percentDisc = parseFloat(document.getElementById("discPercent").value) || 0;
-    let discount = flatDisc + (subtotal * (percentDisc / 100));
+    let totalDiscount = flatDisc + (subtotal * (percentDisc / 100));
     
-    let taxable = Math.max(0, subtotal - discount);
-    let gstRate = parseFloat(document.getElementById("gstRate").value) || 0;
-    let gstAmount = taxable * (gstRate / 100);
-    let grandTotal = taxable + gstAmount;
+    let taxableAmount = subtotal - totalDiscount;
+    if(taxableAmount < 0) taxableAmount = 0;
 
-    document.getElementById("subTotalText").innerText = subtotal.toFixed(2);
-    document.getElementById("gstText").innerText = gstAmount.toFixed(2);
-    document.getElementById("grandTotalText").innerText = grandTotal.toFixed(2);
+    let gstRate = parseFloat(document.getElementById("gstRate").value) || 0;
+    let totalGst = taxableAmount * (gstRate / 100);
+    let grandTotal = taxableAmount + totalGst;
+
+    document.getElementById("liveSubTotal").innerText = subtotal.toFixed(2);
+    document.getElementById("liveGstTotal").innerText = totalGst.toFixed(2);
+    document.getElementById("liveCurrentTotal").innerText = grandTotal.toFixed(2);
+    return grandTotal;
 }
 
-function generateInvoice() {
-    if (cart.length === 0) return alert("Pehle cart me items add karein!");
-    
-    let billCard = document.getElementById("printable-bill");
-    let grandTotal = document.getElementById("grandTotalText").innerText;
-    let customer = document.getElementById("customer").value || "Walk-in";
-
-    let billHTML = `
-        <h3 style="text-align:center;">Shayan Store</h3>
-        <p style="font-size:11px; text-align:center;">Customer: ${customer} | Date: ${new Date().toLocaleDateString()}</p>
-        <hr style="margin:8px 0;">
-        <table style="width:100%;">
-            ${cart.map(i => `<tr><td>${i.p} x ${i.q}</td><td style="text-align:right;">₹${i.total}</td></tr>`).join('')}
-        </table>
-        <hr style="margin:8px 0;">
-        <h4>Grand Total: ₹${grandTotal}</h4>
-    `;
-
-    billCard.innerHTML = billHTML;
-    billCard.style.display = "block";
-    
-    // Save updated stock
-    localStorage.setItem("stockDetails", JSON.stringify(stock));
-    
-    window.print();
+function importDataBackup(event) {
+    const fileReader = new FileReader();
+    fileReader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            if(confirm("Yeh backup import karne par purana data replace ho jayega. Continue karein?")) {
+                if(data.shop) localStorage.setItem("shop", data.shop);
+                if(data.address) localStorage.setItem("address", data.address);
+                if(data.phone) localStorage.setItem("phone", data.phone);
+                if(data.gstin) localStorage.setItem("gstin", data.gstin);
+                if(data.upiId) localStorage.setItem("upiId", data.upiId);
+                if(data.invoiceCounter) localStorage.setItem("invoiceCounter", data.invoiceCounter);
+                if(data.stock) localStorage.setItem("stock", JSON.stringify(data.stock));
+                if(data.stockPrices) localStorage.setItem("stockPrices", JSON.stringify(data.stockPrices));
+                if(data.stockHistory) localStorage.setItem("stockHistory", JSON.stringify(data.stockHistory));
+                if(data.saleHistory) localStorage.setItem("saleHistory", JSON.stringify(data.saleHistory));
+                
+                alert("Backup Successfully Restored!");
+                location.reload();
+            }
+        } catch(err) {
+            alert("Invalid Backup File!");
+        }
+    };
+    if(event.target.files[0]) {
+        fileReader.readAsText(event.target.files[0]);
+    }
 }
 </script>
 </body>
