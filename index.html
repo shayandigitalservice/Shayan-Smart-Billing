@@ -135,14 +135,6 @@ th { background: #f1f5f9; font-weight: 700; }
 .qr-container img { width: 140px; height: 140px; }
 .table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 10px; }
 
-/* Fixed Scrollable Wrapper for History Table */
-.scroll-history-wrapper {
-    max-height: 220px;
-    overflow-y: auto;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-}
-
 /* Collapsible Shop Details Box */
 .shop-toggle-btn {
     background: #f1f5f9;
@@ -340,7 +332,7 @@ th { background: #f1f5f9; font-weight: 700; }
     <div class="reprint-box">
         <h3 style="margin-top:0; margin-bottom:8px; font-size:16px; color:#d97706;">🔍 Search & Reprint Old Bill</h3>
         <input id="searchInvoiceInput" placeholder="Enter Customer Name or Invoice No..." oninput="filterHistoryBills()">
-        <div class="scroll-history-wrapper">
+        <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
@@ -368,17 +360,14 @@ th { background: #f1f5f9; font-weight: 700; }
 
     <input id="stockProduct" placeholder="Product Name">
     <input id="stockQty" type="number" placeholder="Quantity to Add">
-    <input id="stockPrice" type="number" placeholder="Selling Price (₹)">
     <button id="addStockBtn" class="btn-blue">Add Stock</button>
 
     <div class="table-wrapper">
         <table id="stockTable">
             <thead>
                 <tr>
-                    <th>S.No</th>
                     <th>Product</th>
                     <th>Available Qty</th>
-                    <th>Selling Price</th>
                     <th>Last Updated</th>
                     <th>Action</th>
                 </tr>
@@ -447,7 +436,6 @@ document.addEventListener("DOMContentLoaded", function(){
 function initBillingSystem() {
     let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter")) || 1;
     let stock = JSON.parse(localStorage.getItem("stock")) || {};
-    let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
     let stockHistory = JSON.parse(localStorage.getItem("stockHistory")) || [];
 
     const shopInput = document.getElementById("shop");
@@ -476,24 +464,20 @@ function initBillingSystem() {
 
     const stockProductInput = document.getElementById("stockProduct");
     const stockQtyInput = document.getElementById("stockQty");
-    const stockPriceInput = document.getElementById("stockPrice");
     const addStockBtn = document.getElementById("addStockBtn");
 
     window.renderStock = function(){
         const tbody = document.getElementById("stockTableBody");
         tbody.innerHTML = "";
-        let sno = 1;
         for(let p in stock){
             let updates = stockHistory.filter(h => h.product === p);
             let lastUpdate = updates[updates.length - 1]?.date || "";
             let color = stock[p] <= 5 ? "red" : "green";
             let row = tbody.insertRow();
-            row.insertCell(0).innerText = sno++;
-            row.insertCell(1).innerHTML = p + (stock[p] <= 5 ? " <span style='color:red;font-weight:bold;'>⚠ Low</span>" : "");
-            row.insertCell(2).innerHTML = `<b style="color:${color}">${stock[p]}</b>`;
-            row.insertCell(3).innerText = "₹" + (stockPrices[p] || 0);
-            row.insertCell(4).innerText = lastUpdate ? new Date(lastUpdate).toLocaleString() : "-";
-            row.insertCell(5).innerHTML = `
+            row.insertCell(0).innerHTML = p + (stock[p] <= 5 ? " <span style='color:red;font-weight:bold;'>⚠ Low</span>" : "");
+            row.insertCell(1).innerHTML = `<b style="color:${color}">${stock[p]}</b>`;
+            row.insertCell(2).innerText = lastUpdate ? new Date(lastUpdate).toLocaleString() : "-";
+            row.insertCell(3).innerHTML = `
                 <button class="btn-action btn-edit" onclick="editStockItem('${p}')">✏️</button>
                 <button class="btn-action btn-del" onclick="deleteStockItem('${p}')">🗑</button>
             `;
@@ -504,29 +488,22 @@ function initBillingSystem() {
     addStockBtn.addEventListener("click", function(){
         let p = stockProductInput.value.trim();
         let q = +stockQtyInput.value;
-        let pr = +stockPriceInput.value || 0;
         if(!p || isNaN(q)){ alert("Fill valid product name & quantity"); return; }
         stock[p] = (stock[p] || 0) + q;
-        if(pr > 0) stockPrices[p] = pr;
-        
         stockHistory.push({product:p, qtyAdded:q, type:"Added", date:new Date().toISOString()});
         localStorage.setItem("stock", JSON.stringify(stock));
-        localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
         localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
-        
         stockProductInput.value = ""; 
         stockQtyInput.value = "";
-        stockPriceInput.value = "";
         renderStock();
         renderProductDropdown();
     });
 
     const productDropdown = document.getElementById("productDropdown");
     const productSearch = document.getElementById("productSearch");
-    const priceInput = document.getElementById("price");
 
     function renderProductDropdown(){
-        productDropdown.innerHTML = "<option value=''>-- Select Product --</option>";
+        productDropdown.innerHTML = "";
         let productList = [...new Set(Object.keys(stock))];
         productList.forEach(p => {
             let option = document.createElement("option");
@@ -537,32 +514,19 @@ function initBillingSystem() {
     }
     renderProductDropdown();
 
-    productDropdown.addEventListener("change", function(){
-        let selectedProduct = this.value;
-        if(selectedProduct && stockPrices[selectedProduct]){
-            priceInput.value = stockPrices[selectedProduct];
-        }
-    });
-
     productSearch.addEventListener("input", function(){
         let val = this.value.toLowerCase();
         let options = Array.from(productDropdown.options);
-        let match = options.find(o => o.value.toLowerCase().includes(val) && o.value !== "");
-        if(match) {
-            productDropdown.value = match.value;
-            if(stockPrices[match.value]) {
-                priceInput.value = stockPrices[match.value];
-            }
-        }
+        let match = options.find(o => o.value.toLowerCase().includes(val));
+        if(match) productDropdown.value = match.value;
     });
 
     document.getElementById("downloadStockBtn").addEventListener("click", function(){
-        let html = `<table border="1"><tr><th>S.No</th><th>Product</th><th>Available Qty</th><th>Selling Price</th><th>Last Updated</th></tr>`;
-        let sno = 1;
+        let html = `<table border="1"><tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
         for(let p in stock){
             let updates = stockHistory.filter(h => h.product === p);
             let lastUpdate = updates[updates.length - 1]?.date || "";
-            html += `<tr><td>${sno++}</td><td>${p}</td><td>${stock[p]}</td><td>₹${stockPrices[p] || 0}</td><td>${lastUpdate ? new Date(lastUpdate).toLocaleString() : '-'}</td></tr>`;
+            html += `<tr><td>${p}</td><td>${stock[p]}</td><td>${lastUpdate ? new Date(lastUpdate).toLocaleString() : '-'}</td></tr>`;
         }
         html += `</table>`;
         let blob = new Blob([html], {type: "application/vnd.ms-excel"});
@@ -573,6 +537,7 @@ function initBillingSystem() {
     });
 
     const qtyInput = document.getElementById("qty");
+    const priceInput = document.getElementById("price");
     const addItemBtn = document.getElementById("addItemBtn");
 
     addItemBtn.addEventListener("click", function(){
@@ -612,7 +577,6 @@ function initBillingSystem() {
 
         renderCartTable();
         productSearch.value = ""; 
-        productDropdown.value = "";
         qtyInput.value = ""; 
         priceInput.value = "";
     });
@@ -750,7 +714,6 @@ function initBillingSystem() {
             upiId: localStorage.getItem("upiId") || "",
             invoiceCounter: localStorage.getItem("invoiceCounter") || "1",
             stock: JSON.parse(localStorage.getItem("stock")) || {},
-            stockPrices: JSON.parse(localStorage.getItem("stockPrices")) || {},
             stockHistory: JSON.parse(localStorage.getItem("stockHistory")) || [],
             saleHistory: JSON.parse(localStorage.getItem("saleHistory")) || []
         };
@@ -812,8 +775,7 @@ function filterHistoryBills() {
         (h.customer && h.customer.toLowerCase().includes(query))
     );
 
-    // Filtered result scrollable rahega
-    filtered.reverse().forEach(h => {
+    filtered.reverse().slice(0, 10).forEach(h => {
         let row = tbody.insertRow();
         row.insertCell(0).innerText = "#" + h.invoiceNo;
         row.insertCell(1).innerText = h.customer || 'Walk-in';
@@ -880,19 +842,11 @@ function editItem(index) {
 // Stock Actions: Edit & Delete
 function editStockItem(productName) {
     let stock = JSON.parse(localStorage.getItem("stock")) || {};
-    let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
     let currentQty = stock[productName] || 0;
-    let currentPrice = stockPrices[productName] || 0;
-    
     let newQty = prompt(`Enter new quantity for "${productName}":`, currentQty);
     if(newQty !== null && !isNaN(newQty)) {
-        let newPrice = prompt(`Enter new price for "${productName}":`, currentPrice);
         stock[productName] = parseInt(newQty);
-        if(newPrice !== null && !isNaN(newPrice)) {
-            stockPrices[productName] = parseFloat(newPrice);
-        }
         localStorage.setItem("stock", JSON.stringify(stock));
-        localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
         window.renderStock();
         alert("Stock updated!");
     }
@@ -901,11 +855,8 @@ function editStockItem(productName) {
 function deleteStockItem(productName) {
     if(confirm(`Are you sure you want to delete "${productName}" from stock?`)){
         let stock = JSON.parse(localStorage.getItem("stock")) || {};
-        let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
         delete stock[productName];
-        delete stockPrices[productName];
         localStorage.setItem("stock", JSON.stringify(stock));
-        localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
         window.renderStock();
         alert("Product deleted from stock.");
     }
@@ -933,11 +884,8 @@ function calculateGrandTotal() {
     return grandTotal;
 }
 
-// Fixed Import JSON Data Backup Function
+// Import JSON Data Backup
 function importDataBackup(event) {
-    const file = event.target.files[0];
-    if(!file) return;
-
     const fileReader = new FileReader();
     fileReader.onload = function(e) {
         try {
@@ -950,7 +898,6 @@ function importDataBackup(event) {
                 if(data.upiId) localStorage.setItem("upiId", data.upiId);
                 if(data.invoiceCounter) localStorage.setItem("invoiceCounter", data.invoiceCounter);
                 if(data.stock) localStorage.setItem("stock", JSON.stringify(data.stock));
-                if(data.stockPrices) localStorage.setItem("stockPrices", JSON.stringify(data.stockPrices));
                 if(data.stockHistory) localStorage.setItem("stockHistory", JSON.stringify(data.stockHistory));
                 if(data.saleHistory) localStorage.setItem("saleHistory", JSON.stringify(data.saleHistory));
                 
@@ -958,12 +905,13 @@ function importDataBackup(event) {
                 location.reload();
             }
         } catch(err) {
-            alert("Invalid Backup File format!");
-            console.error(err);
+            alert("Invalid Backup File!");
         }
     };
-    fileReader.readAsText(file);
+    if(event.target.files[0]) {
+        fileReader.readAsText(event.target.files[0]);
+    }
 }
 </script>
 </body>
-</html>
+  </html>
