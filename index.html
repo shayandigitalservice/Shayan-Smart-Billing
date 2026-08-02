@@ -140,7 +140,20 @@ th, td { border: 1px solid #e2e8f0; padding: 10px; font-size: 13px; text-align: 
 th { background: #f8fafc; font-weight: 700; color: #475569; }
 .totalRow td { font-weight: bold; }
 
-/* --- PURANA ORIGINAL BILL DISPLAY STYLE --- */
+/* Stock table product name dark bold styling */
+.stock-pname {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 14px;
+}
+
+/* Bill dark product styling */
+.bill-pname {
+    font-weight: 700;
+    color: #000000;
+}
+
+/* --- BILL DISPLAY STYLE --- */
 .bill { margin-top: 20px; overflow-wrap: break-word; word-wrap: break-word; border: 1px dashed #cbd5e1; padding: 15px; border-radius: 8px; background: #fafafa; }
 .invoice { float: right; }
 .clear { clear: both; }
@@ -315,19 +328,23 @@ th { background: #f8fafc; font-weight: 700; color: #475569; }
   .sale-summary { grid-template-columns: 1fr; }
 }
 
-/* --- PURANA ORIGINAL PRINT ENGINE (BILKUL PEHLE JAISA) --- */
+/* --- ACCURATE PRINT ENGINE ENGINE --- */
 @media print {
-    body * { visibility: hidden; }
-    #bill, #bill * { visibility: visible; }
+    body * { visibility: hidden !important; }
+    #bill, #bill * { visibility: visible !important; }
     #bill { 
-        position: absolute; 
-        left: 0; 
-        top: 0; 
-        width: 100%;
-        margin: 0;
-        padding: 10px;
-        border: none;
-        background: #fff;
+        position: absolute !important; 
+        left: 0 !important; 
+        top: 0 !important; 
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 10px !important;
+        border: none !important;
+        background: #fff !important;
+    }
+    .bill-pname {
+        font-weight: 900 !important;
+        color: #000000 !important;
     }
 }
 </style>
@@ -515,12 +532,12 @@ th { background: #f8fafc; font-weight: 700; color: #475569; }
     </div>
 </div>
 
-<!-- STYLISH STOCK EDIT MODAL -->
+<!-- STYLISH STOCK EDIT MODAL WITH EDITABLE NAME -->
 <div id="stockModal" class="modal-overlay">
     <div class="modal-card">
         <div class="modal-header">✏️ Update Stock Item</div>
         <label style="font-size:12px; font-weight:bold; color:#475569;">Product Name</label>
-        <input id="modalProductName" disabled style="background:#f1f5f9; color:#64748b; margin-bottom:10px;">
+        <input id="modalProductName" style="margin-bottom:10px; font-weight:bold;">
         
         <label style="font-size:12px; font-weight:bold; color:#475569;">Available Quantity</label>
         <input id="modalStockQty" type="number" style="margin-bottom:10px;">
@@ -667,7 +684,7 @@ function initBillingSystem() {
             let color = stock[p] <= 5 ? "red" : "green";
             let row = tbody.insertRow();
             row.insertCell(0).innerText = sno++;
-            row.insertCell(1).innerHTML = p + (stock[p] <= 5 ? " <span style='color:red;font-weight:bold;'>⚠ Low</span>" : "");
+            row.insertCell(1).innerHTML = `<span class="stock-pname">${p}</span>` + (stock[p] <= 5 ? " <span style='color:red;font-weight:bold;'>⚠ Low</span>" : "");
             row.insertCell(2).innerHTML = `<b style="color:${color}">${stock[p]}</b>`;
             row.insertCell(3).innerText = "₹" + (stockPrices[p] || 0);
             row.insertCell(4).innerText = lastUpdate ? new Date(lastUpdate).toLocaleString() : "-";
@@ -715,6 +732,7 @@ function initBillingSystem() {
         });
     }
     renderProductDropdown();
+    window.renderProductDropdown = renderProductDropdown;
 
     productDropdown.addEventListener("change", function(){
         let selectedProduct = this.value;
@@ -870,25 +888,54 @@ function initBillingSystem() {
         showAppAlert("Bill Generated", `Invoice #${invoiceNo} created successfully!`);
     });
 
-    /* --- PURANA ORIGINAL PRINT FUNCTION --- */
+    /* --- GUARANTEED CROSS-BROWSER PRINT SYSTEM --- */
     document.getElementById("printBillBtn").addEventListener("click", function(){
         let content = document.getElementById("bill").innerHTML;
-        if(!content) return showAppAlert("No Bill", "Please generate a bill first.");
-        let mode = document.getElementById("printMode").value;
-        let width = 400, height = 700;
-        if(mode == "A4"){ width = 800; height = 1100; }
+        if(!content || content.trim() === "") return showAppAlert("No Bill", "Please generate a bill first.");
         
-        let win = window.open('', '', `width=${width},height=${height}`);
-        win.document.write(`<html><head><title>Print Bill - Invoice</title><style>
-        body{font-family:Arial,sans-serif;padding:10px;text-align:center;} 
-        table{width:100%;border-collapse:collapse;margin-top:10px;} 
-        td,th{border:1px solid #000;padding:5px;text-align:center;} 
-        .totalRow td{font-weight:bold;} .invoice{float:right;} .clear{clear:both;} 
-        .qr-container{margin-top:10px;} .qr-container img{width:120px;}
-        </style></head><body>${content}</body></html>`);
-        win.document.close(); 
-        win.focus();
-        setTimeout(() => { win.print(); win.close(); }, 250);
+        let printFrame = document.getElementById("printFrame");
+        if (!printFrame) {
+            printFrame = document.createElement('iframe');
+            printFrame.id = 'printFrame';
+            printFrame.style.position = 'fixed';
+            printFrame.style.right = '0';
+            printFrame.style.bottom = '0';
+            printFrame.style.width = '0';
+            printFrame.style.height = '0';
+            printFrame.style.border = '0';
+            document.body.appendChild(printFrame);
+        }
+        
+        let frameDoc = printFrame.contentWindow || printFrame.contentDocument.document || printFrame.contentDocument;
+        frameDoc.document.open();
+        frameDoc.document.write(`
+            <html>
+            <head>
+                <title>Print Invoice</title>
+                <style>
+                    body { font-family: Arial, sans-serif; padding: 10px; margin: 0; color: #000; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                    td, th { border: 1px solid #000; padding: 6px 4px; text-align: center; font-size: 12px; }
+                    th { background: #f1f5f9; }
+                    .totalRow td { font-weight: bold; }
+                    .invoice { float: right; font-weight: bold; }
+                    .clear { clear: both; }
+                    .qr-container { text-align: center; margin-top: 10px; }
+                    .qr-container img { width: 120px; height: 120px; }
+                    .bill-pname { font-weight: 900 !important; color: #000 !important; font-size: 13px; }
+                </style>
+            </head>
+            <body>
+                ${content}
+            </body>
+            </html>
+        `);
+        frameDoc.document.close();
+
+        setTimeout(() => {
+            printFrame.contentWindow.focus();
+            printFrame.contentWindow.print();
+        }, 300);
     });
 
     document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
@@ -968,7 +1015,7 @@ function initBillingSystem() {
     });
 }
 
-/* --- PURANA ORIGINAL BILL HTML LAYOUT --- */
+/* --- RENDER INVOICE BILL HTML WITH DARK BOLD PRODUCT NAME --- */
 function renderInvoiceBillHTML(data) {
     let html = `<div class="invoice">Invoice No: ${data.invoiceNo}</div><div class="clear"></div>
     <b>${data.shopName || localStorage.getItem("shop")}</b><br>${data.address || localStorage.getItem("address")}<br>Phone: ${data.phone || localStorage.getItem("phone")}<br>`;
@@ -980,7 +1027,7 @@ function renderInvoiceBillHTML(data) {
     <tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
     
     data.items.forEach((i, index) => {
-        html += `<tr><td>${index + 1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`;
+        html += `<tr><td>${index + 1}</td><td class="bill-pname">${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`;
     });
     
     html += `<tr class="totalRow"><td colspan="4">Subtotal</td><td>₹${Number(data.subtotal).toFixed(2)}</td></tr>`;
@@ -1113,7 +1160,7 @@ function renderCartTable() {
     items.forEach((item, index) => {
         let row = tableBody.insertRow();
         row.insertCell(0).innerText = index + 1;
-        row.insertCell(1).innerText = item.p;
+        row.insertCell(1).innerHTML = `<span class="bill-pname">${item.p}</span>`;
         row.insertCell(2).innerText = item.q;
         row.insertCell(3).innerText = item.pr;
         row.insertCell(4).innerText = item.t;
@@ -1172,24 +1219,42 @@ function saveStockModal() {
     if(!currentEditingStockProduct) return;
     let stock = JSON.parse(localStorage.getItem("stock")) || {};
     let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
+    let stockHistory = JSON.parse(localStorage.getItem("stockHistory")) || [];
     
+    let newProductName = document.getElementById("modalProductName").value.trim();
     let newQty = parseInt(document.getElementById("modalStockQty").value);
     let newPrice = parseFloat(document.getElementById("modalStockPrice").value);
     
-    if(isNaN(newQty) || isNaN(newPrice)) {
-        showAppAlert("Invalid Input", "Please enter valid numbers for Quantity and Price.");
+    if(!newProductName || isNaN(newQty) || isNaN(newPrice)) {
+        showAppAlert("Invalid Input", "Please enter valid Product Name, Quantity and Price.");
         return;
     }
     
-    stock[currentEditingStockProduct] = newQty;
-    stockPrices[currentEditingStockProduct] = newPrice;
+    // If product name changed, update the dictionary keys
+    if (newProductName !== currentEditingStockProduct) {
+        stock[newProductName] = newQty;
+        stockPrices[newProductName] = newPrice;
+        delete stock[currentEditingStockProduct];
+        delete stockPrices[currentEditingStockProduct];
+
+        stockHistory.forEach(h => {
+            if(h.product === currentEditingStockProduct) {
+                h.product = newProductName;
+            }
+        });
+    } else {
+        stock[currentEditingStockProduct] = newQty;
+        stockPrices[currentEditingStockProduct] = newPrice;
+    }
     
     localStorage.setItem("stock", JSON.stringify(stock));
     localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
+    localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
     
     window.renderStock();
+    if(window.renderProductDropdown) window.renderProductDropdown();
     closeStockModal();
-    showAppAlert("Updated", `${currentEditingStockProduct} stock details updated successfully.`);
+    showAppAlert("Updated", `Stock details updated successfully.`);
 }
 
 function deleteStockItem(productName) {
@@ -1201,6 +1266,7 @@ function deleteStockItem(productName) {
         localStorage.setItem("stock", JSON.stringify(stock));
         localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
         window.renderStock();
+        if(window.renderProductDropdown) window.renderProductDropdown();
         showAppAlert("Deleted", "Product removed from stock.");
     });
 }
