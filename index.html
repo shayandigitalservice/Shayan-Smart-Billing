@@ -25,11 +25,11 @@
 </script>
 
 <style>
-/* --- PROFESSIONAL UI (MODERN DESIGN) --- */
+/* --- PROFESSIONAL UI & DESKTOP ENHANCEMENTS --- */
 :root {
     --accent: #6366f1;
-    --bg: #f8fafc;
-    --glass: rgba(255, 255, 255, 0.95);
+    --bg: #f1f5f9;
+    --card-bg: #ffffff;
     --text: #0f172a;
     --blue-btn: #2563eb;
     --danger: #ef4444;
@@ -37,12 +37,14 @@
     --success: #10b981;
 }
 
+* { box-sizing: border-box; }
+
 body { 
     font-family: 'Roboto', Arial, sans-serif; 
     background: var(--bg); 
     margin: 0; 
     color: var(--text); 
-    padding: 10px; 
+    padding: 20px 10px; 
 }
 
 h1 { 
@@ -50,9 +52,10 @@ h1 {
     font-family: 'Roboto', sans-serif;
     font-weight: 900;
     color: #0f172a;
-    margin-top: 10px;
-    margin-bottom: 15px;
+    margin-top: 0;
+    margin-bottom: 20px;
     letter-spacing: -0.5px;
+    font-size: 28px;
 }
 
 /* --- PWA INSTALL BANNER --- */
@@ -62,16 +65,14 @@ h1 {
     color: white;
     padding: 12px 16px;
     border-radius: 12px;
-    margin-bottom: 15px;
+    margin: 0 auto 15px auto;
+    max-width: 1100px;
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
     align-items: center;
     justify-content: space-between;
 }
 
-#pwaInstallBanner span {
-    font-weight: 700;
-    font-size: 14px;
-}
+#pwaInstallBanner span { font-weight: 700; font-size: 14px; }
 
 #pwaInstallBtn {
     background: #ffffff;
@@ -82,58 +83,69 @@ h1 {
     font-weight: bold;
     cursor: pointer;
     font-size: 13px;
+    transition: 0.2s;
 }
+#pwaInstallBtn:hover { background: #f8fafc; }
 
 input, select { 
     width: 100%; 
-    padding: 10px; 
-    margin: 5px 0; 
+    padding: 10px 12px; 
+    margin: 4px 0; 
     border-radius: 8px; 
-    border: 1px solid #ccc; 
+    border: 1px solid #cbd5e1; 
     font-size: 14px; 
-    box-sizing: border-box; 
     outline: none; 
     font-family: 'Roboto', sans-serif;
+    transition: border-color 0.2s;
+}
+input:focus, select:focus {
+    border-color: var(--blue-btn);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
 }
 
 .btn-blue { 
     width: 100%; 
-    padding: 10px; 
-    border-radius: 6px; 
+    padding: 11px; 
+    border-radius: 8px; 
     border: none; 
     background: var(--blue-btn); 
     color: white; 
     font-size: 14px; 
-    font-weight: 500; 
+    font-weight: 700; 
     cursor: pointer; 
     margin: 4px 0; 
     transition: 0.2s; 
     font-family: 'Roboto', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
 }
-
-.btn-blue:hover { opacity: 0.9; }
+.btn-blue:hover { opacity: 0.93; transform: translateY(-1px); }
+.btn-blue:active { transform: translateY(0); }
 
 /* --- BILLING UI CONTAINER --- */
 .billing-ui-container { 
-    max-width: 800px; 
+    max-width: 1100px; 
     margin: auto; 
-    background: #ffffff; 
-    padding: 15px; 
+    background: var(--card-bg); 
+    padding: 24px; 
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
 }
 
-.billing-ui-container h2 { text-align: center; margin-bottom: 10px; font-size: 20px; font-weight: 700; }
-table { width: 100%; margin-top: 10px; border-collapse: collapse; }
-th, td { border: 1px solid #ddd; padding: 8px; font-size: 13px; text-align: center; }
-th { background: #f1f5f9; font-weight: 700; }
+.billing-ui-container h2 { text-align: center; margin-bottom: 15px; font-size: 22px; font-weight: 700; }
+table { width: 100%; margin-top: 8px; border-collapse: collapse; }
+th, td { border: 1px solid #e2e8f0; padding: 10px; font-size: 13px; text-align: center; }
+th { background: #f8fafc; font-weight: 700; color: #475569; }
 .totalRow td { font-weight: bold; }
-.bill { margin-top: 20px; overflow-wrap: break-word; word-wrap: break-word; border: 1px dashed #ccc; padding: 10px; }
+
+.bill { margin-top: 20px; overflow-wrap: break-word; word-wrap: break-word; border: 1px dashed #cbd5e1; padding: 15px; border-radius: 8px; background: #fafafa; }
 .invoice { float: right; }
 .clear { clear: both; }
-.qr-container { text-align: center; margin-top: 15px; padding: 10px; border: 1px dashed #ccc; }
-.qr-container img { width: 140px; height: 140px; }
-.table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 10px; }
+.qr-container { text-align: center; margin-top: 15px; padding: 10px; border: 1px dashed #cbd5e1; border-radius: 8px; background: #fff; }
+.qr-container img { width: 130px; height: 130px; }
+.table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 12px; }
 
 /* Fixed Scrollable Wrapper for History Table */
 .scroll-history-wrapper {
@@ -145,11 +157,11 @@ th { background: #f1f5f9; font-weight: 700; }
 
 /* Collapsible Shop Details Box */
 .shop-toggle-btn {
-    background: #f1f5f9;
-    color: #475569;
+    background: #f8fafc;
+    color: #334155;
     border: 1px solid #cbd5e1;
     font-weight: bold;
-    padding: 8px 12px;
+    padding: 10px 14px;
     border-radius: 8px;
     cursor: pointer;
     width: 100%;
@@ -157,28 +169,27 @@ th { background: #f1f5f9; font-weight: 700; }
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     font-family: 'Roboto', sans-serif;
 }
 .shop-details-box {
     display: none;
     background: #f8fafc;
-    padding: 12px;
+    padding: 15px;
     border-radius: 8px;
     border: 1px solid #e2e8f0;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 /* Grand Total Prominent Box Style */
 .current-total-box {
-    background: #1e293b;
-    border: 2px solid #0f172a;
+    background: #0f172a;
     border-radius: 12px;
-    padding: 15px;
-    margin: 12px 0;
+    padding: 16px;
+    margin: 15px 0;
     text-align: center;
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
 }
 
 .current-total-box .sub-info {
@@ -188,7 +199,7 @@ th { background: #f1f5f9; font-weight: 700; }
 }
 
 .current-total-box .grand-total-title {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 900;
     color: #38bdf8;
     letter-spacing: 0.5px;
@@ -198,34 +209,36 @@ th { background: #f1f5f9; font-weight: 700; }
 .tax-discount-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 6px;
+    gap: 10px;
 }
 
 /* Action Buttons inside Table */
 .btn-action {
     border: none;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 5px 10px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 12px;
     color: white;
-    margin: 1px;
+    margin: 2px;
+    transition: 0.2s;
 }
 .btn-del { background: var(--danger); }
 .btn-edit { background: var(--warning); }
+.btn-action:hover { opacity: 0.85; }
 
 /* Sale Summary Cards */
-.sale-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; margin-bottom: 15px; }
-.sale-card { background: #f1f5f9; padding: 10px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0; }
-.sale-card span { display: block; font-size: 11px; color: #64748b; font-weight: bold; }
-.sale-card b { font-size: 13px; color: #0f172a; }
+.sale-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 20px; margin-bottom: 20px; }
+.sale-card { background: #f8fafc; padding: 14px; border-radius: 10px; text-align: center; border: 1px solid #e2e8f0; }
+.sale-card span { display: block; font-size: 12px; color: #64748b; font-weight: bold; margin-bottom: 4px; }
+.sale-card b { font-size: 16px; color: #0f172a; }
 
 /* Backup Section Box */
 .backup-box {
     background: #f0fdf4;
     border: 1px solid #bbf7d0;
-    padding: 12px;
-    border-radius: 10px;
+    padding: 16px;
+    border-radius: 12px;
     margin-top: 20px;
 }
 
@@ -233,12 +246,12 @@ th { background: #f1f5f9; font-weight: 700; }
 .reprint-box {
     background: #fffbebfb;
     border: 1px solid #fde68a;
-    padding: 12px;
-    border-radius: 10px;
+    padding: 16px;
+    border-radius: 12px;
     margin-top: 20px;
 }
 
-/* Modern Stylish Custom Modal Design */
+/* --- MODERN STYLISH CUSTOM MODAL SYSTEM --- */
 .modal-overlay {
     display: none;
     position: fixed;
@@ -247,7 +260,7 @@ th { background: #f1f5f9; font-weight: 700; }
     width: 100%;
     height: 100%;
     background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(5px);
     z-index: 9999;
     align-items: center;
     justify-content: center;
@@ -255,35 +268,67 @@ th { background: #f1f5f9; font-weight: 700; }
 .modal-card {
     background: #ffffff;
     width: 90%;
-    max-width: 400px;
+    max-width: 420px;
     border-radius: 16px;
-    padding: 20px;
+    padding: 24px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
     animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 @keyframes popIn {
-    from { opacity: 0; transform: scale(0.9); }
+    from { opacity: 0; transform: scale(0.92); }
     to { opacity: 1; transform: scale(1); }
 }
 .modal-header {
     font-size: 18px;
     font-weight: 700;
     color: #0f172a;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     border-bottom: 1px solid #f1f5f9;
-    padding-bottom: 8px;
+    padding-bottom: 10px;
+}
+.modal-body {
+    font-size: 14px;
+    color: #334155;
+    margin: 10px 0;
+    line-height: 1.5;
 }
 .modal-footer {
     display: flex;
-    gap: 8px;
-    margin-top: 15px;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: flex-end;
+}
+
+/* --- RESPONSIVE DESKTOP LAYOUT ENHANCEMENTS --- */
+@media screen and (min-width: 768px) {
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .btn-group-row { display: flex; gap: 10px; }
 }
 
 @media screen and (max-width:600px){
-  table th, table td { padding: 5px; font-size: 11px; }
+  table th, table td { padding: 6px 4px; font-size: 11px; }
   .invoice { float: none; text-align: right; }
   .tax-discount-grid { grid-template-columns: 1fr; }
-  .current-total-box .grand-total-title { font-size: 18px; }
+  .current-total-box .grand-total-title { font-size: 20px; }
+  .sale-summary { grid-template-columns: 1fr; }
+}
+
+/* --- UNIVERSAL PRINTER ADJUSTMENT (THERMAL + REGULAR A4) --- */
+@media print {
+    body * { visibility: hidden; }
+    #bill, #bill * { visibility: visible; }
+    #bill { 
+        position: absolute; 
+        left: 0; 
+        top: 0; 
+        width: 100% !important; 
+        margin: 0 !important; 
+        padding: 0 !important; 
+        border: none !important; 
+        background: transparent !important;
+    }
+    .qr-container img { width: 100px; height: 100px; }
 }
 </style>
 </head>
@@ -291,13 +336,13 @@ th { background: #f1f5f9; font-weight: 700; }
 
 <h1>Shayan Smart Billing</h1>
 
+<!-- PWA Installation Banner -->
+<div id="pwaInstallBanner">
+    <span>📲 Install Shayan Smart Billing App</span>
+    <button id="pwaInstallBtn">Install Now</button>
+</div>
+
 <div id="main-billing" class="billing-ui-container">
-    
-    <!-- PWA Installation Banner -->
-    <div id="pwaInstallBanner">
-        <span>📲 Install Shayan Smart Billing App</span>
-        <button id="pwaInstallBtn">Install Now</button>
-    </div>
 
     <h2>🧾 Bill Generator</h2>
 
@@ -307,20 +352,27 @@ th { background: #f1f5f9; font-weight: 700; }
         <span id="shopToggleIcon">▼</span>
     </button>
     <div id="shopDetailsBox" class="shop-details-box">
-        <input id="shop" placeholder="Shop Name">
+        <div class="grid-2">
+            <input id="shop" placeholder="Shop Name">
+            <input id="phone" placeholder="Phone">
+        </div>
         <input id="address" placeholder="Address">
-        <input id="phone" placeholder="Phone">
-        <input id="gstin" placeholder="GSTIN Number (Optional)">
-        <input id="upiId" placeholder="Enter Your UPI ID (e.g. name@upi)">
-        <button id="saveShopBtn" class="btn-blue" style="margin-top: 5px;">Save Shop Details</button>
+        <div class="grid-2">
+            <input id="gstin" placeholder="GSTIN Number (Optional)">
+            <input id="upiId" placeholder="Enter Your UPI ID (e.g. name@upi)">
+        </div>
+        <button id="saveShopBtn" class="btn-blue" style="margin-top: 8px;">Save Shop Details</button>
     </div>
 
     <!-- Main Billing Form -->
-    <input id="customer" placeholder="Customer Name">
-    <input id="productSearch" placeholder="Search Product">
+    <div class="grid-2">
+        <input id="customer" placeholder="Customer Name">
+        <input id="productSearch" placeholder="Search Product">
+    </div>
+    
     <select id="productDropdown"></select>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+    <div class="grid-2">
         <input id="qty" type="number" placeholder="Qty">
         <input id="price" type="number" placeholder="Price">
     </div>
@@ -361,26 +413,31 @@ th { background: #f1f5f9; font-weight: 700; }
         <div class="grand-total-title">GRAND TOTAL: ₹<span id="liveCurrentTotal">0.00</span></div>
     </div>
 
-    <input id="amtPaid" type="number" placeholder="Enter Amount Paid by Customer">
-    <select id="payment">
-      <option value="Cash">Cash</option>
-      <option value="UPI">UPI</option>
-      <option value="Card">Card</option>
-    </select>
+    <div class="grid-2">
+        <input id="amtPaid" type="number" placeholder="Enter Amount Paid by Customer">
+        <select id="payment">
+          <option value="Cash">Cash</option>
+          <option value="UPI">UPI</option>
+          <option value="Card">Card</option>
+        </select>
+    </div>
 
-    <button id="generateBillBtn" class="btn-blue" style="background:#2563eb;">Generate Bill</button>
-    <select id="printMode">
-        <option value="A4">Print A4</option>
-        <option value="Receipt" selected>Print Receipt</option>
-    </select>
-    <button id="printBillBtn" class="btn-blue">Print Bill</button>
-    <button id="sendWhatsAppBtn" class="btn-blue">Send WhatsApp</button>
+    <button id="generateBillBtn" class="btn-blue" style="background:#2563eb; font-size:16px; padding:12px; margin-top:10px;">⚡ Generate Bill</button>
+    
+    <div class="btn-group-row">
+        <select id="printMode" style="flex:1;">
+            <option value="Receipt" selected>Print Receipt (Thermal / POS)</option>
+            <option value="A4">Print Standard (A4)</option>
+        </select>
+        <button id="printBillBtn" class="btn-blue" style="flex:1;">🖨️ Print Bill</button>
+        <button id="sendWhatsAppBtn" class="btn-blue" style="background:#25d366; flex:1;">📲 Send WhatsApp</button>
+    </div>
 
     <div id="bill" class="bill"></div>
     
     <!-- REPRINT & OLD BILL SEARCH SECTION -->
     <div class="reprint-box">
-        <h3 style="margin-top:0; margin-bottom:8px; font-size:16px; color:#d97706;">🔍 Search, Edit & Manage Old Bills</h3>
+        <h3 style="margin-top:0; margin-bottom:10px; font-size:16px; color:#d97706;">🔍 Search, Edit & Manage Old Bills</h3>
         <input id="searchInvoiceInput" placeholder="Enter Customer Name or Invoice No..." oninput="filterHistoryBills()">
         <div class="scroll-history-wrapper">
             <table>
@@ -398,21 +455,23 @@ th { background: #f1f5f9; font-weight: 700; }
         <button id="clearAllHistoryBtn" class="btn-blue" style="background:#ef4444; margin-top:10px;">🗑️ Clear All Sales History</button>
     </div>
 
-    <button id="downloadHistoryBtn" class="btn-blue" style="margin-top: 15px;">Download Sales History (Excel)</button>
+    <button id="downloadHistoryBtn" class="btn-blue" style="margin-top: 15px; background:#475569;">📊 Download Sales History (Excel)</button>
     
     <div class="sale-summary">
-        <div class="sale-card"><span>Today</span><b id="saleToday">₹0</b></div>
-        <div class="sale-card"><span>Weekly</span><b id="saleWeekly">₹0</b></div>
-        <div class="sale-card"><span>Monthly</span><b id="saleMonthly">₹0</b></div>
+        <div class="sale-card"><span>Today's Sales</span><b id="saleToday">₹0.00</b></div>
+        <div class="sale-card"><span>Weekly Sales</span><b id="saleWeekly">₹0.00</b></div>
+        <div class="sale-card"><span>Monthly Sales</span><b id="saleMonthly">₹0.00</b></div>
     </div>
 
-    <hr style="margin:30px 0;">
+    <hr style="margin:30px 0; border:0; border-top:1px solid #e2e8f0;">
     <h2 style="display:flex; align-items:center; justify-content:center; gap:10px;">📦 Stock Management</h2>
 
-    <input id="stockProduct" placeholder="Product Name">
-    <input id="stockQty" type="number" placeholder="Quantity to Add">
-    <input id="stockPrice" type="number" placeholder="Selling Price (₹)">
-    <button id="addStockBtn" class="btn-blue">Add Stock</button>
+    <div class="grid-3">
+        <input id="stockProduct" placeholder="Product Name">
+        <input id="stockQty" type="number" placeholder="Quantity to Add">
+        <input id="stockPrice" type="number" placeholder="Selling Price (₹)">
+    </div>
+    <button id="addStockBtn" class="btn-blue" style="background:#0d9488;">+ Add Stock Item</button>
 
     <div class="table-wrapper">
         <table id="stockTable">
@@ -430,36 +489,48 @@ th { background: #f1f5f9; font-weight: 700; }
         </table>
     </div>
 
-    <button id="downloadStockBtn" class="btn-blue">Download Stock Excel</button>
+    <button id="downloadStockBtn" class="btn-blue" style="background:#475569;">📥 Download Stock Excel</button>
 
     <!-- Cloud Data Loss Protection / Backup Restore UI -->
     <div class="backup-box">
         <h3 style="margin-top:0; margin-bottom:8px; font-size:16px; color:#15803d;">💾 Data Backup & Restore</h3>
-        <p style="font-size:12px; color:#166534; margin-bottom:10px;">Mobile ghum hone ya kharab hone se bachne ke liye regular backup download karke rakhein.</p>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
-            <button id="exportBackupBtn" class="btn-blue" style="background:#16a34a;">Export Backup</button>
-            <button id="importBackupBtn" class="btn-blue" style="background:#0d9488;" onclick="document.getElementById('importFileInput').click()">Import Backup</button>
+        <p style="font-size:12px; color:#166534; margin-bottom:12px;">Mobile/PC kharab hone se data surakshit rakhne ke liye backup file download karein.</p>
+        <div class="grid-2">
+            <button id="exportBackupBtn" class="btn-blue" style="background:#16a34a;">📤 Export Backup</button>
+            <button id="importBackupBtn" class="btn-blue" style="background:#0d9488;" onclick="document.getElementById('importFileInput').click()">📥 Import Backup</button>
         </div>
         <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importDataBackup(event)">
     </div>
 </div>
 
-<!-- MODERN STYLISH STOCK EDIT MODAL -->
+<!-- STYLISH GENERIC CUSTOM DIALOGUE MODAL SYSTEM -->
+<div id="customModal" class="modal-overlay">
+    <div class="modal-card">
+        <div id="modalHeader" class="modal-header">Notification</div>
+        <div id="modalBody" class="modal-body">Message contents...</div>
+        <div id="modalFooter" class="modal-footer">
+            <button id="modalCancelBtn" class="btn-blue" style="background:#64748b; width:auto; padding:8px 16px;">Cancel</button>
+            <button id="modalConfirmBtn" class="btn-blue" style="background:#2563eb; width:auto; padding:8px 16px;">OK</button>
+        </div>
+    </div>
+</div>
+
+<!-- STYLISH STOCK EDIT MODAL -->
 <div id="stockModal" class="modal-overlay">
     <div class="modal-card">
         <div class="modal-header">✏️ Update Stock Item</div>
-        <label style="font-size:12px; font-weight:bold;">Product Name</label>
+        <label style="font-size:12px; font-weight:bold; color:#475569;">Product Name</label>
         <input id="modalProductName" disabled style="background:#f1f5f9; color:#64748b; margin-bottom:10px;">
         
-        <label style="font-size:12px; font-weight:bold;">Available Quantity</label>
+        <label style="font-size:12px; font-weight:bold; color:#475569;">Available Quantity</label>
         <input id="modalStockQty" type="number" style="margin-bottom:10px;">
         
-        <label style="font-size:12px; font-weight:bold;">Selling Price (₹)</label>
+        <label style="font-size:12px; font-weight:bold; color:#475569;">Selling Price (₹)</label>
         <input id="modalStockPrice" type="number" style="margin-bottom:10px;">
         
         <div class="modal-footer">
-            <button class="btn-blue" style="background:#64748b;" onclick="closeStockModal()">Cancel</button>
-            <button class="btn-blue" style="background:#10b981;" onclick="saveStockModal()">Save Changes</button>
+            <button class="btn-blue" style="background:#64748b; width:auto; padding:8px 16px;" onclick="closeStockModal()">Cancel</button>
+            <button class="btn-blue" style="background:#10b981; width:auto; padding:8px 16px;" onclick="saveStockModal()">Save Changes</button>
         </div>
     </div>
 </div>
@@ -469,6 +540,52 @@ let items = [];
 let editingIndex = -1;
 let deferredPrompt = null;
 let currentEditingStockProduct = null;
+
+/* --- CUSTOM MODAL POPUP ENGINE --- */
+function showAppAlert(title, message, callback = null) {
+    const modal = document.getElementById("customModal");
+    document.getElementById("modalHeader").innerText = title;
+    document.getElementById("modalBody").innerText = message;
+    
+    const cancelBtn = document.getElementById("modalCancelBtn");
+    const confirmBtn = document.getElementById("modalConfirmBtn");
+    
+    cancelBtn.style.display = "none";
+    confirmBtn.innerText = "OK";
+    confirmBtn.style.background = "var(--blue-btn)";
+    
+    confirmBtn.onclick = function() {
+        modal.style.display = "none";
+        if(callback) callback();
+    };
+    
+    modal.style.display = "flex";
+}
+
+function showAppConfirm(title, message, onConfirm, onCancel = null) {
+    const modal = document.getElementById("customModal");
+    document.getElementById("modalHeader").innerText = title;
+    document.getElementById("modalBody").innerText = message;
+    
+    const cancelBtn = document.getElementById("modalCancelBtn");
+    const confirmBtn = document.getElementById("modalConfirmBtn");
+    
+    cancelBtn.style.display = "block";
+    confirmBtn.innerText = "Confirm";
+    confirmBtn.style.background = "var(--danger)";
+    
+    confirmBtn.onclick = function() {
+        modal.style.display = "none";
+        if(onConfirm) onConfirm();
+    };
+    
+    cancelBtn.onclick = function() {
+        modal.style.display = "none";
+        if(onCancel) onCancel();
+    };
+    
+    modal.style.display = "flex";
+}
 
 // PWA Install Prompt Listener
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -482,9 +599,6 @@ document.getElementById("pwaInstallBtn")?.addEventListener("click", () => {
     if (deferredPrompt) {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the install prompt');
-            }
             deferredPrompt = null;
             document.getElementById("pwaInstallBanner").style.display = "none";
         });
@@ -534,7 +648,7 @@ function initBillingSystem() {
         localStorage.setItem("phone", phoneInput.value);
         localStorage.setItem("gstin", gstinInput.value);
         localStorage.setItem("upiId", upiInput.value);
-        alert("Shop details saved!");
+        showAppAlert("Success", "Shop details saved successfully!");
         toggleShopDetails();
     });
 
@@ -569,7 +683,7 @@ function initBillingSystem() {
         let p = stockProductInput.value.trim();
         let q = +stockQtyInput.value;
         let pr = +stockPriceInput.value || 0;
-        if(!p || isNaN(q)){ alert("Fill valid product name & quantity"); return; }
+        if(!p || isNaN(q)){ showAppAlert("Required Field", "Please enter a valid product name & quantity"); return; }
         stock[p] = (stock[p] || 0) + q;
         if(pr > 0) stockPrices[p] = pr;
         
@@ -583,6 +697,7 @@ function initBillingSystem() {
         stockPriceInput.value = "";
         renderStock();
         renderProductDropdown();
+        showAppAlert("Stock Updated", `Added ${q} units to ${p}`);
     });
 
     const productDropdown = document.getElementById("productDropdown");
@@ -595,7 +710,7 @@ function initBillingSystem() {
         productList.forEach(p => {
             let option = document.createElement("option");
             option.value = p; 
-            option.text = p;
+            option.text = `${p} (Available: ${stock[p]})`;
             productDropdown.appendChild(option);
         });
     }
@@ -643,8 +758,8 @@ function initBillingSystem() {
         let p = productDropdown.value.trim();
         let q = +qtyInput.value;
         let pr = +priceInput.value;
-        if(!p || !q || !pr){ alert("Fill all fields"); return; }
-        if(stock[p] === undefined){ alert("Product not in stock"); return; }
+        if(!p || !q || !pr){ showAppAlert("Incomplete Details", "Please select item, quantity & price."); return; }
+        if(stock[p] === undefined){ showAppAlert("Stock Error", "Selected product does not exist in stock."); return; }
 
         if(editingIndex > -1) {
             let oldItem = items[editingIndex];
@@ -652,7 +767,7 @@ function initBillingSystem() {
         }
 
         if(q > stock[p]){ 
-            alert(`Stock not sufficient for ${p}. Available: ${stock[p]}`); 
+            showAppAlert("Low Stock", `Stock not sufficient for ${p}. Available: ${stock[p]}`); 
             if(editingIndex > -1) stock[items[editingIndex].p] -= items[editingIndex].q;
             return; 
         }
@@ -675,6 +790,7 @@ function initBillingSystem() {
         }
 
         renderCartTable();
+        renderProductDropdown();
         productSearch.value = ""; 
         productDropdown.value = "";
         qtyInput.value = ""; 
@@ -689,7 +805,7 @@ function initBillingSystem() {
     }
 
     document.getElementById("generateBillBtn").addEventListener("click", function(){
-        if(items.length === 0){ alert("Add items first"); return; }
+        if(items.length === 0){ showAppAlert("Cart Empty", "Please add items to billing cart first."); return; }
         
         let subtotal = 0;
         items.forEach(i => subtotal += i.t);
@@ -750,30 +866,41 @@ function initBillingSystem() {
         document.getElementById("amtPaid").value = "";
         document.getElementById("discFlat").value = "";
         document.getElementById("discPercent").value = "";
+        
+        showAppAlert("Bill Generated", `Invoice #${invoiceNo} created successfully!`);
     });
 
     document.getElementById("printBillBtn").addEventListener("click", function(){
         let content = document.getElementById("bill").innerHTML;
-        if(!content) return alert("Generate bill first");
+        if(!content) return showAppAlert("No Bill", "Please generate a bill first.");
         let mode = document.getElementById("printMode").value;
         let width = 400, height = 700;
         if(mode == "A4"){ width = 800; height = 1100; }
+        
         let win = window.open('', '', `width=${width},height=${height}`);
-        win.document.write(`<html><head><title>Print Bill</title><style>
-        body{font-family:'Roboto',sans-serif;padding:10px;text-align:center;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;text-align:center;} .totalRow td{font-weight:bold;} .invoice{float:right;} .clear{clear:both;} .qr-container{margin-top:10px;} .qr-container img{width:120px;}
+        win.document.write(`<html><head><title>Print Bill - Invoice</title><style>
+        body{font-family:'Roboto',sans-serif;padding:10px;text-align:center;margin:0;} 
+        table{width:100%;border-collapse:collapse;margin-top:10px;} 
+        td,th{border:1px solid #000;padding:5px;text-align:center;font-size:12px;} 
+        .totalRow td{font-weight:bold;} .invoice{float:right;} .clear{clear:both;} 
+        .qr-container{margin-top:10px;} .qr-container img{width:110px;}
+        @page { margin: 5mm; }
         </style></head><body>${content}</body></html>`);
         win.document.close(); 
-        win.print();
+        win.focus();
+        setTimeout(() => { win.print(); win.close(); }, 250);
     });
 
     document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
-        let text = "🧾 BILL RECEIPT\n\n" + document.getElementById("bill").innerText;
+        let billElement = document.getElementById("bill");
+        if(!billElement.innerText) return showAppAlert("No Bill", "Generate bill first.");
+        let text = "🧾 BILL RECEIPT\n\n" + billElement.innerText;
         window.open("https://wa.me/?text=" + encodeURIComponent(text));
     });
 
     document.getElementById("downloadHistoryBtn").addEventListener("click", function(){
         let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
-        if(saleHistory.length === 0) return alert("No history found");
+        if(saleHistory.length === 0) return showAppAlert("No Data", "No sales history found.");
         let html = `<table border="1"><tr><th>Date</th><th>Invoice</th><th>Customer</th><th>Total</th><th>Paid</th><th>Unpaid</th></tr>`;
         saleHistory.forEach(s => {
             html += `<tr><td>${new Date(s.date).toLocaleDateString()}</td><td>${s.invoiceNo}</td><td>${s.customer}</td><td>${s.grandTotal || s.total}</td><td>${s.paid}</td><td>${s.unpaid}</td></tr>`;
@@ -788,14 +915,14 @@ function initBillingSystem() {
 
     document.getElementById("clearAllHistoryBtn").addEventListener("click", function(){
         let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
-        if(saleHistory.length === 0) return alert("Sales History pehle se khaali hai!");
+        if(saleHistory.length === 0) return showAppAlert("History Empty", "Sales History already empty!");
         
-        if(confirm("⚠️ Kya aap poore Sales History ko DELETE karna chahte hain? Yeh dobara recover nahi hoga!")) {
+        showAppConfirm("Delete All History", "Are you sure you want to delete ALL Sales History? This cannot be undone!", function(){
             localStorage.removeItem("saleHistory");
             filterHistoryBills();
             updateSaleSummary();
-            alert("Saare Purane Bills Delete Ho Gaye Hain.");
-        }
+            showAppAlert("Cleared", "All past sales history has been deleted.");
+        });
     });
 
     function updateSaleSummary(){
@@ -870,7 +997,7 @@ function renderInvoiceBillHTML(data) {
     
     if(data.upiId && data.paid > 0){
         let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent('upi://pay?pa='+data.upiId+'&pn='+(data.shopName||'')+'&am='+data.paid+'&cu=INR')}`;
-        html += `<div class="qr-container"><p>Scan to Pay: ₹${Number(data.paid).toFixed(2)}</p><img src="${qrUrl}" alt="UPI QR Code"></div>`;
+        html += `<div class="qr-container"><p style="margin:0 0 5px 0; font-size:12px; font-weight:bold;">Scan to Pay: ₹${Number(data.paid).toFixed(2)}</p><img src="${qrUrl}" alt="UPI QR Code"></div>`;
     }
 
     document.getElementById("bill").innerHTML = html;
@@ -909,7 +1036,7 @@ function reprintBill(invoiceNo) {
         renderInvoiceBillHTML(found);
         window.scrollTo({ top: document.getElementById("bill").offsetTop - 50, behavior: 'smooth' });
     } else {
-        alert("Invoice not found!");
+        showAppAlert("Not Found", "Invoice record not found.");
     }
 }
 
@@ -917,9 +1044,9 @@ function reprintBill(invoiceNo) {
 function editHistoryBill(invoiceNo) {
     let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
     let index = history.findIndex(h => h.invoiceNo == invoiceNo);
-    if(index === -1) return alert("Invoice not found!");
+    if(index === -1) return showAppAlert("Error", "Invoice not found.");
 
-    if(confirm(`Kya aap Invoice #${invoiceNo} ko edit karke billing cart mein wapas load karna chahte hain?`)) {
+    showAppConfirm("Edit Invoice", `Reload Invoice #${invoiceNo} back into cart for editing?`, function(){
         let targetBill = history[index];
         let stock = JSON.parse(localStorage.getItem("stock")) || {};
         
@@ -947,17 +1074,17 @@ function editHistoryBill(invoiceNo) {
         window.updateSaleSummary();
 
         window.scrollTo({ top: document.getElementById("customer").offsetTop - 50, behavior: 'smooth' });
-        alert("Bill details cart mein load ho gayi hain. Changes karke 'Generate Bill' click karein.");
-    }
+        showAppAlert("Loaded into Cart", "Bill details loaded back into cart. Make changes and click 'Generate Bill'.");
+    });
 }
 
 // DELETE INDIVIDUAL HISTORY BILL FUNCTIONALITY
 function deleteHistoryBill(invoiceNo) {
     let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
     let index = history.findIndex(h => h.invoiceNo == invoiceNo);
-    if(index === -1) return alert("Invoice not found!");
+    if(index === -1) return showAppAlert("Error", "Invoice not found.");
 
-    if(confirm(`Kya aap Invoice #${invoiceNo} ko permanent delete karna chahte hain? Stock Items return ho jayenge.`)) {
+    showAppConfirm("Delete Invoice", `Are you sure you want to delete Invoice #${invoiceNo}? Stock items will be restored.`, function(){
         let targetBill = history[index];
         let stock = JSON.parse(localStorage.getItem("stock")) || {};
 
@@ -975,8 +1102,8 @@ function deleteHistoryBill(invoiceNo) {
         localStorage.setItem("saleHistory", JSON.stringify(history));
         filterHistoryBills();
         window.updateSaleSummary();
-        alert(`Invoice #${invoiceNo} delete kar diya gaya hai.`);
-    }
+        showAppAlert("Deleted", `Invoice #${invoiceNo} has been deleted.`);
+    });
 }
 
 // Render Cart Table with Edit & Delete Action
@@ -1050,7 +1177,7 @@ function saveStockModal() {
     let newPrice = parseFloat(document.getElementById("modalStockPrice").value);
     
     if(isNaN(newQty) || isNaN(newPrice)) {
-        alert("Please enter valid Numbers!");
+        showAppAlert("Invalid Input", "Please enter valid numbers for Quantity and Price.");
         return;
     }
     
@@ -1062,10 +1189,11 @@ function saveStockModal() {
     
     window.renderStock();
     closeStockModal();
+    showAppAlert("Updated", `${currentEditingStockProduct} stock details updated successfully.`);
 }
 
 function deleteStockItem(productName) {
-    if(confirm(`Are you sure you want to delete "${productName}" from stock?`)){
+    showAppConfirm("Delete Stock Item", `Are you sure you want to delete "${productName}" from stock?`, function(){
         let stock = JSON.parse(localStorage.getItem("stock")) || {};
         let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
         delete stock[productName];
@@ -1073,8 +1201,8 @@ function deleteStockItem(productName) {
         localStorage.setItem("stock", JSON.stringify(stock));
         localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
         window.renderStock();
-        alert("Product deleted from stock.");
-    }
+        showAppAlert("Deleted", "Product removed from stock.");
+    });
 }
 
 // Calculate Live Discount, GST, and Grand Total
@@ -1099,7 +1227,7 @@ function calculateGrandTotal() {
     return grandTotal;
 }
 
-// Fixed Import JSON Data Backup Function
+// Import JSON Data Backup Function
 function importDataBackup(event) {
     const file = event.target.files[0];
     if(!file) return;
@@ -1108,7 +1236,7 @@ function importDataBackup(event) {
     fileReader.onload = function(e) {
         try {
             const data = JSON.parse(e.target.result);
-            if(confirm("Yeh backup import karne par purana data replace ho jayega. Continue karein?")) {
+            showAppConfirm("Restore Backup", "Importing this backup will overwrite existing local data. Continue?", function(){
                 if(data.shop) localStorage.setItem("shop", data.shop);
                 if(data.address) localStorage.setItem("address", data.address);
                 if(data.phone) localStorage.setItem("phone", data.phone);
@@ -1120,11 +1248,12 @@ function importDataBackup(event) {
                 if(data.stockHistory) localStorage.setItem("stockHistory", JSON.stringify(data.stockHistory));
                 if(data.saleHistory) localStorage.setItem("saleHistory", JSON.stringify(data.saleHistory));
                 
-                alert("Backup Successfully Restored!");
-                location.reload();
-            }
+                showAppAlert("Success", "Backup restored successfully!", function(){
+                    location.reload();
+                });
+            });
         } catch(err) {
-            alert("Invalid Backup File format!");
+            showAppAlert("Import Error", "Invalid Backup JSON file format!");
             console.error(err);
         }
     };
