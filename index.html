@@ -153,30 +153,171 @@ th { background: #f8fafc; font-weight: 700; color: #334155; }
     color: #000000;
 }
 
-/* --- BILL DISPLAY STYLE --- */
+/* --- BILL DISPLAY & PRINT STYLES --- */
 .bill { 
-    margin-top: 20px; 
-    overflow-wrap: break-word; 
-    word-wrap: break-word; 
-    border: 1px solid #cbd5e1; 
-    padding: 20px; 
-    border-radius: 8px; 
+    margin-top: 25px; 
+    padding: 24px; 
+    border-radius: 12px; 
     background: #ffffff; 
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    font-family: 'Roboto', Arial, sans-serif;
+    color: #1e293b;
 }
-.bill-header { text-align: center; margin-bottom: 15px; position: relative; }
-.bill-header .inv-no { position: absolute; right: 0; top: 0; font-size: 13px; font-weight: normal; color: #333; }
-.bill-header h3 { margin: 0 0 4px 0; font-size: 16px; font-weight: bold; color: #000; }
-.bill-header p { margin: 2px 0; font-size: 12px; color: #333; }
 
-.bill-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-.bill-table th, .bill-table td { border: 1px solid #475569; padding: 6px 8px; font-size: 12px; }
-.bill-table th { background-color: #ffffff; color: #000; font-weight: bold; }
+/* Stylish Receipt Header */
+.invoice-card-header {
+    border-bottom: 2px dashed #cbd5e1;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.shop-brand {
+    flex: 1;
+}
+
+.shop-brand h3 {
+    margin: 0 0 4px 0;
+    font-size: 20px;
+    font-weight: 900;
+    color: #0f172a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.shop-brand p {
+    margin: 2px 0;
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+.inv-meta-badge {
+    text-align: right;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+.inv-meta-badge .inv-no-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.inv-meta-badge .inv-number {
+    font-size: 16px;
+    font-weight: 900;
+    color: #2563eb;
+}
+
+.inv-meta-badge .inv-date {
+    font-size: 11px;
+    color: #475569;
+    margin-top: 2px;
+}
+
+.customer-info-bar {
+    display: flex;
+    justify-content: space-between;
+    background: #f1f5f9;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+/* Stylish Printable Table */
+.bill-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 10px; 
+}
+
+.bill-table th { 
+    background-color: #0f172a; 
+    color: #ffffff; 
+    font-weight: 700; 
+    font-size: 12px;
+    padding: 8px;
+    text-transform: uppercase;
+    border: none;
+}
+
+.bill-table td { 
+    border-bottom: 1px solid #e2e8f0; 
+    padding: 10px 8px; 
+    font-size: 13px; 
+    border-left: none;
+    border-right: none;
+    border-top: none;
+}
+
 .bill-table td.text-right { text-align: right; }
 .bill-table td.text-center { text-align: center; }
 
-.qr-container { text-align: center; margin-top: 15px; }
-.qr-container p { font-size: 12px; margin: 0 0 5px 0; color: #333; }
-.qr-container img { width: 110px; height: 110px; }
+/* Bill Summary Rows */
+.bill-summary-table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+
+.bill-summary-table td {
+    padding: 4px 8px;
+    font-size: 13px;
+    border: none;
+}
+
+.bill-summary-table .grand-row td {
+    font-size: 16px;
+    font-weight: 900;
+    color: #0f172a;
+    border-top: 2px solid #0f172a;
+    border-bottom: 2px double #0f172a;
+    padding: 8px;
+}
+
+/* Stylish QR Section */
+.qr-container { 
+    text-align: center; 
+    margin-top: 18px; 
+    padding-top: 15px;
+    border-top: 2px dashed #cbd5e1;
+}
+
+.qr-container p { 
+    font-size: 12px; 
+    margin: 0 0 8px 0; 
+    color: #334155; 
+    font-weight: 700;
+}
+
+.qr-container img { 
+    width: 115px; 
+    height: 115px; 
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    padding: 4px;
+    background: #fff;
+}
+
+.bill-footer-msg {
+    text-align: center;
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 12px;
+    font-weight: 500;
+}
+
 .table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 12px; }
 
 /* Scrollable Wrapper for History Table */
@@ -340,13 +481,15 @@ th { background: #f8fafc; font-weight: 700; color: #334155; }
 
 @media screen and (max-width:600px){
   table th, table td { padding: 6px 4px; font-size: 11px; }
-  .bill-header .inv-no { position: relative; display: block; text-align: center; margin-bottom: 5px; }
+  .invoice-card-header { flex-direction: column; text-align: center; align-items: center; }
+  .inv-meta-badge { text-align: center; width: 100%; margin-top: 5px; }
+  .customer-info-bar { flex-direction: column; gap: 4px; text-align: center; }
   .tax-discount-grid { grid-template-columns: 1fr; }
   .current-total-box .grand-total-title { font-size: 20px; }
   .sale-summary { grid-template-columns: 1fr; }
 }
 
-/* --- ACCURATE PRINT ENGINE ENGINE --- */
+/* --- PRINT ENGINE OPTIMIZATION --- */
 @media print {
     body * { visibility: hidden !important; }
     #bill, #bill * { visibility: visible !important; }
@@ -356,8 +499,9 @@ th { background: #f8fafc; font-weight: 700; color: #334155; }
         top: 0 !important; 
         width: 100% !important;
         margin: 0 !important;
-        padding: 10px !important;
+        padding: 15px !important;
         border: none !important;
+        box-shadow: none !important;
         background: #fff !important;
     }
 }
@@ -464,6 +608,7 @@ th { background: #f8fafc; font-weight: 700; color: #334155; }
         <button id="sendWhatsAppBtn" class="btn-blue" style="background:#25d366; flex:1;">📲 Send WhatsApp</button>
     </div>
 
+    <!-- STYLISH INVOICE CONTAINER -->
     <div id="bill" class="bill"></div>
     
     <!-- REPRINT & OLD BILL SEARCH SECTION -->
@@ -902,7 +1047,7 @@ function initBillingSystem() {
         showAppAlert("Bill Generated", `Invoice #${invoiceNo} created successfully!`);
     });
 
-    /* --- GUARANTEED CROSS-BROWSER PRINT SYSTEM --- */
+    /* --- PREMIUM STYLISH CROSS-BROWSER PRINT SYSTEM --- */
     document.getElementById("printBillBtn").addEventListener("click", function(){
         let content = document.getElementById("bill").innerHTML;
         if(!content || content.trim() === "") return showAppAlert("No Bill", "Please generate a bill first.");
@@ -927,19 +1072,27 @@ function initBillingSystem() {
             <head>
                 <title>Print Invoice</title>
                 <style>
-                    body { font-family: Arial, sans-serif; padding: 15px; margin: 0; color: #000; }
-                    .bill-header { text-align: center; margin-bottom: 15px; position: relative; }
-                    .bill-header .inv-no { position: absolute; right: 0; top: 0; font-size: 13px; font-weight: normal; color: #333; }
-                    .bill-header h3 { margin: 0 0 4px 0; font-size: 16px; font-weight: bold; color: #000; }
-                    .bill-header p { margin: 2px 0; font-size: 12px; color: #333; }
-                    .bill-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-                    .bill-table th, .bill-table td { border: 1px solid #475569; padding: 6px 8px; font-size: 12px; }
-                    .bill-table th { background-color: #ffffff; color: #000; font-weight: bold; }
+                    body { font-family: 'Roboto', Arial, sans-serif; padding: 10px; margin: 0; color: #1e293b; }
+                    .invoice-card-header { border-bottom: 2px dashed #cbd5e1; padding-bottom: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; }
+                    .shop-brand h3 { margin: 0 0 4px 0; font-size: 18px; font-weight: 900; color: #0f172a; text-transform: uppercase; }
+                    .shop-brand p { margin: 2px 0; font-size: 11px; color: #475569; }
+                    .inv-meta-badge { text-align: right; background: #f8fafc; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 6px; }
+                    .inv-meta-badge .inv-no-title { font-size: 10px; font-weight: 700; color: #64748b; }
+                    .inv-meta-badge .inv-number { font-size: 15px; font-weight: 900; color: #2563eb; }
+                    .inv-meta-badge .inv-date { font-size: 10px; color: #475569; }
+                    .customer-info-bar { display: flex; justify-content: space-between; background: #f1f5f9; padding: 6px 10px; border-radius: 6px; font-size: 11px; margin-bottom: 12px; }
+                    .bill-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+                    .bill-table th { background-color: #0f172a; color: #ffffff; font-weight: 700; font-size: 11px; padding: 6px; text-transform: uppercase; }
+                    .bill-table td { border-bottom: 1px solid #e2e8f0; padding: 8px 6px; font-size: 11px; }
                     .bill-table td.text-right { text-align: right; }
                     .bill-table td.text-center { text-align: center; }
-                    .qr-container { text-align: center; margin-top: 15px; }
-                    .qr-container p { font-size: 12px; margin: 0 0 5px 0; color: #333; }
-                    .qr-container img { width: 110px; height: 110px; }
+                    .bill-summary-table { width: 100%; margin-top: 8px; border-collapse: collapse; }
+                    .bill-summary-table td { padding: 3px 6px; font-size: 11px; }
+                    .bill-summary-table .grand-row td { font-size: 14px; font-weight: 900; color: #0f172a; border-top: 2px solid #0f172a; border-bottom: 2px double #0f172a; padding: 6px; }
+                    .qr-container { text-align: center; margin-top: 14px; padding-top: 10px; border-top: 2px dashed #cbd5e1; }
+                    .qr-container p { font-size: 11px; margin: 0 0 5px 0; font-weight: bold; }
+                    .qr-container img { width: 100px; height: 100px; }
+                    .bill-footer-msg { text-align: center; font-size: 10px; color: #64748b; margin-top: 10px; }
                 </style>
             </head>
             <body>
@@ -1032,31 +1185,39 @@ function initBillingSystem() {
     });
 }
 
-/* --- RENDER INVOICE BILL HTML EXACT MATCH WITH PHOTO --- */
+/* --- RENDER HIGHLY STYLISH PROFESSIONAL INVOICE BILL HTML --- */
 function renderInvoiceBillHTML(data) {
-    let formattedDate = new Date(data.date).toLocaleDateString('en-GB') + ', ' + new Date(data.date).toLocaleTimeString('en-GB');
+    let formattedDate = new Date(data.date).toLocaleDateString('en-GB') + ', ' + new Date(data.date).toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'});
 
     let html = `
-    <div class="bill-header">
-        <div class="inv-no">Invoice No: ${data.invoiceNo}</div>
-        <h3>${data.shopName || localStorage.getItem("shop") || 'Shayan Smart market'}</h3>
-        <p>${data.address || localStorage.getItem("address") || ''}</p>
-        <p>Phone: ${data.phone || localStorage.getItem("phone") || ''}</p>
-        ${data.gstin ? `<p>GSTIN: ${data.gstin}</p>` : ''}
-        <p>Date: ${formattedDate}</p>
-        <p>Customer: ${data.customer}</p>
-        <p>Payment Mode: ${data.paymentMode}</p>
+    <div class="invoice-card-header">
+        <div class="shop-brand">
+            <h3>${data.shopName || localStorage.getItem("shop") || 'Shayan Smart Market'}</h3>
+            <p>${data.address || localStorage.getItem("address") || ''}</p>
+            <p><strong>Phone:</strong> ${data.phone || localStorage.getItem("phone") || ''}</p>
+            ${data.gstin ? `<p><strong>GSTIN:</strong> ${data.gstin}</p>` : ''}
+        </div>
+        <div class="inv-meta-badge">
+            <div class="inv-no-title">INVOICE NO</div>
+            <div class="inv-number">#${data.invoiceNo}</div>
+            <div class="inv-date">${formattedDate}</div>
+        </div>
     </div>
     
+    <div class="customer-info-bar">
+        <span><strong>Customer:</strong> ${data.customer}</span>
+        <span><strong>Payment Mode:</strong> ${data.paymentMode}</span>
+    </div>
+
     <div style="overflow-x:auto;">
         <table class="bill-table">
             <thead>
                 <tr>
-                    <th style="width:10%;">No</th>
-                    <th style="width:35%;">Item</th>
-                    <th style="width:15%;">Qty</th>
-                    <th style="width:20%;">Price</th>
-                    <th style="width:20%;">Total</th>
+                    <th style="width:8%;" class="text-center">#</th>
+                    <th style="width:42%;">Item Description</th>
+                    <th style="width:15%;" class="text-center">Qty</th>
+                    <th style="width:17%;" class="text-right">Price</th>
+                    <th style="width:18%;" class="text-right">Total</th>
                 </tr>
             </thead>
             <tbody>`;
@@ -1064,63 +1225,68 @@ function renderInvoiceBillHTML(data) {
     data.items.forEach((i, index) => {
         html += `
             <tr>
-                <td class="text-center">${index + 1}</td>
-                <td class="text-center" style="font-weight:500;">${i.p}</td>
+                <td class="text-center" style="color:#64748b;">${index + 1}</td>
+                <td style="font-weight:700; color:#0f172a;">${i.p}</td>
                 <td class="text-center">${i.q}</td>
-                <td class="text-center">${i.pr}</td>
-                <td class="text-center">${i.t}</td>
+                <td class="text-right">₹${Number(i.pr).toFixed(2)}</td>
+                <td class="text-right" style="font-weight:700;">₹${Number(i.t).toFixed(2)}</td>
             </tr>`;
     });
     
     html += `
-            <tr>
-                <td colspan="4" class="text-right" style="font-weight:bold;">Subtotal</td>
-                <td class="text-center" style="font-weight:bold;">₹${Number(data.subtotal).toFixed(2)}</td>
-            </tr>`;
+        </tbody>
+    </table>
+    </div>
+
+    <table class="bill-summary-table">
+        <tr>
+            <td class="text-right" style="color:#475569;">Subtotal:</td>
+            <td class="text-right" style="width:25%; font-weight:700;">₹${Number(data.subtotal).toFixed(2)}</td>
+        </tr>`;
             
     if(data.discountVal > 0) {
         html += `
-            <tr>
-                <td colspan="4" class="text-right" style="font-weight:bold; color:#ef4444;">Discount</td>
-                <td class="text-center" style="font-weight:bold; color:#ef4444;">-₹${Number(data.discountVal).toFixed(2)}</td>
-            </tr>`;
+        <tr>
+            <td class="text-right" style="color:#ef4444;">Discount:</td>
+            <td class="text-right" style="font-weight:700; color:#ef4444;">-₹${Number(data.discountVal).toFixed(2)}</td>
+        </tr>`;
     }
     if(data.gstRate > 0) {
         html += `
-            <tr>
-                <td colspan="4" class="text-right" style="font-weight:bold;">CGST (${(data.gstRate/2)}%)</td>
-                <td class="text-center" style="font-weight:bold;">₹${Number(data.cgst).toFixed(2)}</td>
-            </tr>
-            <tr>
-                <td colspan="4" class="text-right" style="font-weight:bold;">SGST (${(data.gstRate/2)}%)</td>
-                <td class="text-center" style="font-weight:bold;">₹${Number(data.sgst).toFixed(2)}</td>
-            </tr>`;
+        <tr>
+            <td class="text-right" style="color:#475569;">CGST (${(data.gstRate/2)}%):</td>
+            <td class="text-right" style="font-weight:700;">₹${Number(data.cgst).toFixed(2)}</td>
+        </tr>
+        <tr>
+            <td class="text-right" style="color:#475569;">SGST (${(data.gstRate/2)}%):</td>
+            <td class="text-right" style="font-weight:700;">₹${Number(data.sgst).toFixed(2)}</td>
+        </tr>`;
     }
     html += `
-            <tr>
-                <td colspan="4" class="text-right" style="font-weight:bold;">Grand Total</td>
-                <td class="text-center" style="font-weight:bold;">₹${Number(data.grandTotal || data.total).toFixed(2)}</td>
-            </tr>
-            <tr>
-                <td colspan="4" class="text-right" style="font-weight:bold; color:#10b981;">Paid Amount</td>
-                <td class="text-center" style="font-weight:bold; color:#10b981;">₹${Number(data.paid).toFixed(2)}</td>
-            </tr>
-            <tr>
-                <td colspan="4" class="text-right" style="font-weight:bold; color:#ef4444;">Unpaid Balance</td>
-                <td class="text-center" style="font-weight:bold; color:#ef4444;">₹${Number(data.unpaid).toFixed(2)}</td>
-            </tr>
-        </tbody>
-    </table>
-    </div>`;
+        <tr class="grand-row">
+            <td class="text-right">Grand Total:</td>
+            <td class="text-right">₹${Number(data.grandTotal || data.total).toFixed(2)}</td>
+        </tr>
+        <tr>
+            <td class="text-right" style="color:#10b981; font-weight:700; padding-top:6px;">Paid Amount:</td>
+            <td class="text-right" style="font-weight:700; color:#10b981; padding-top:6px;">₹${Number(data.paid).toFixed(2)}</td>
+        </tr>
+        <tr>
+            <td class="text-right" style="color:#ef4444; font-weight:700;">Unpaid Balance:</td>
+            <td class="text-right" style="font-weight:700; color:#ef4444;">₹${Number(data.unpaid).toFixed(2)}</td>
+        </tr>
+    </table>`;
     
     if(data.upiId && data.paid > 0){
         let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent('upi://pay?pa='+data.upiId+'&pn='+(data.shopName||'')+'&am='+data.paid+'&cu=INR')}`;
         html += `
         <div class="qr-container">
-            <p>Scan to Pay: ₹${Number(data.paid).toFixed(2)}</p>
+            <p>📲 Scan with UPI App to Pay ₹${Number(data.paid).toFixed(2)}</p>
             <img src="${qrUrl}" alt="UPI QR Code">
         </div>`;
     }
+
+    html += `<div class="bill-footer-msg">✨ Thank you for shopping with us! Please visit again. ✨</div>`;
 
     document.getElementById("bill").innerHTML = html;
 }
