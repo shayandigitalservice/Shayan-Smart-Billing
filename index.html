@@ -199,7 +199,7 @@ tr:hover td { background-color: #f8fafc; }
 .sale-card b { font-size: 22px; color: var(--secondary); font-family: 'Outfit', sans-serif; margin-top: 4px; display: block; }
 .sale-card.profit-card b { color: var(--success); }
 
-.reprint-box, .backup-box {
+.reprint-box {
     background: #ffffff;
     border: 1px solid var(--border);
     padding: 20px;
@@ -220,11 +220,7 @@ tr:hover td { background-color: #f8fafc; }
 }
 .btn-del { background: var(--danger); }
 .btn-del:hover { background: var(--danger-hover); }
-.btn-edit { background: var(--warning); }
 
-/* ==========================================
-   PRINT SHEET INVOICE LAYOUT 
-   ========================================== */
 .bill { 
     margin-top: 30px; 
     padding: 28px; 
@@ -255,7 +251,6 @@ tr:hover td { background-color: #f8fafc; }
 .inv-meta-badge {
     text-align: right; background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 14px; border-radius: 10px;
 }
-.inv-meta-badge .inv-no-title { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; }
 .inv-meta-badge .inv-number { font-size: 18px; font-weight: 800; color: var(--primary); font-family: 'Outfit', sans-serif; }
 .inv-meta-badge .inv-date { font-size: 11px; color: #475569; margin-top: 2px; }
 
@@ -267,7 +262,6 @@ tr:hover td { background-color: #f8fafc; }
 .bill-table th { background-color: #0f172a; color: #ffffff; font-weight: 600; font-size: 11px; padding: 10px; text-transform: uppercase; }
 .bill-table td { border-bottom: 1px solid #e2e8f0; padding: 12px 10px; font-size: 13px; }
 .bill-table td.text-right { text-align: right; }
-.bill-table td.text-center { text-align: center; }
 
 .bill-summary-table { width: 100%; margin-top: 15px; border-collapse: collapse; }
 .bill-summary-table td { padding: 6px 10px; font-size: 13px; border: none; }
@@ -308,19 +302,19 @@ tr:hover td { background-color: #f8fafc; }
 <div class="app-header">
     <h1><i class="fa-solid fa-bolt"></i> Shayan Smart Billing Pro</h1>
     <p>Offline POS System with Hold Sale, Split Payment & P&L Calculator</p>
+    <!-- INSTALL APP BUTTON (Auto Appears on Mobiles) -->
+    <div id="installBtnContainer" style="margin-top: 12px;"></div>
 </div>
 
 <div id="main-billing" class="billing-ui-container">
 
     <div class="section-title">
         <span><i class="fa-solid fa-receipt"></i> Bill Generator</span>
-        <!-- Hold Sale Recall Badge -->
         <button id="viewHoldBillsBtn" class="btn-blue" style="background:var(--warning); width:auto; padding:6px 14px; font-size:12px;" onclick="openHoldModal()">
             <i class="fa-solid fa-pause"></i> Hold Bills (<span id="holdCountBadge">0</span>)
         </button>
     </div>
 
-    <!-- Main Billing Form -->
     <div class="grid-2">
         <div><label>Customer Name</label><input id="customer" placeholder="Enter Customer Name"></div>
         <div><label>Search Inventory</label><input id="productSearch" placeholder="Type to search stock..."></div>
@@ -354,7 +348,6 @@ tr:hover td { background-color: #f8fafc; }
         </table>
     </div>
 
-    <!-- Discount & GST Section -->
     <div class="tax-discount-grid">
         <div><label>Discount (Flat ₹)</label><input id="discFlat" type="number" placeholder="0.00" oninput="calculateGrandTotal()"></div>
         <div><label>Discount (%)</label><input id="discPercent" type="number" placeholder="0%" oninput="calculateGrandTotal()"></div>
@@ -370,13 +363,11 @@ tr:hover td { background-color: #f8fafc; }
         </div>
     </div>
 
-    <!-- Grand Total Display -->
     <div class="current-total-box">
         <div class="sub-info">Subtotal: ₹<span id="liveSubTotal">0.00</span> | Tax/GST: ₹<span id="liveGstTotal">0.00</span></div>
         <div class="grand-total-title">GRAND TOTAL: ₹<span id="liveCurrentTotal">0.00</span></div>
     </div>
 
-    <!-- Payment Mode & Split Payment Section -->
     <div class="grid-2">
         <div>
             <label>Payment Mode</label>
@@ -390,7 +381,6 @@ tr:hover td { background-color: #f8fafc; }
         <div><label>Amount Paid by Customer</label><input id="amtPaid" type="number" placeholder="Enter amount received"></div>
     </div>
 
-    <!-- Dynamic Split Payment Fields -->
     <div id="splitPaymentFields" class="grid-2" style="display:none; background:#f1f5f9; padding:12px; border-radius:10px; margin-bottom:12px;">
         <div><label>Cash Amount (₹)</label><input id="splitCashAmt" type="number" placeholder="0.00" oninput="updateSplitTotal()"></div>
         <div><label>UPI / Card Amount (₹)</label><input id="splitUpiAmt" type="number" placeholder="0.00" oninput="updateSplitTotal()"></div>
@@ -403,13 +393,11 @@ tr:hover td { background-color: #f8fafc; }
             <option value="Receipt" selected>POS Thermal Receipt (80mm)</option>
             <option value="A4">Standard Sheet (A4)</option>
         </select>
-        <button id="printBillBtn" class="btn-blue" style="flex:1; background:#0f172a;"><i class="fa-solid fa-print"></i> Print Invoice</button>
+        <button id="printBillBtn" class="btn-blue" style="flex:1; background:#0f172a;" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Invoice</button>
     </div>
 
-    <!-- INVOICE SHEET CONTAINER -->
     <div id="bill" class="bill"></div>
     
-    <!-- Sales History & Search -->
     <div class="reprint-box">
         <div style="font-size:16px; font-weight:700; color:var(--secondary); margin-bottom:10px;"><i class="fa-solid fa-magnifying-glass"></i> Search Past Invoices</div>
         <input id="searchInvoiceInput" placeholder="Type customer name or invoice number..." oninput="filterHistoryBills()">
@@ -429,7 +417,6 @@ tr:hover td { background-color: #f8fafc; }
         </div>
     </div>
 
-    <!-- Sales & Profit Analytics -->
     <div class="sale-summary">
         <div class="sale-card"><span>Today's Sales</span><b id="saleToday">₹0.00</b></div>
         <div class="sale-card profit-card"><span>Today's Net Profit</span><b id="profitToday">₹0.00</b></div>
@@ -437,7 +424,6 @@ tr:hover td { background-color: #f8fafc; }
         <div class="sale-card"><span>Monthly Sales</span><b id="saleMonthly">₹0.00</b></div>
     </div>
 
-    <!-- Inventory & Stock Management with Purchase Price (Feature 6) -->
     <div class="section-title" style="margin-top: 40px;"><span><i class="fa-solid fa-boxes-stacked"></i> Inventory & Stock Management</span></div>
 
     <div class="grid-2">
@@ -504,7 +490,6 @@ tr:hover td { background-color: #f8fafc; }
 
 <script>
 let items = [];
-let editingIndex = -1;
 
 function showAppAlert(title, message) {
     const modal = document.getElementById("customModal");
@@ -520,6 +505,7 @@ document.addEventListener("DOMContentLoaded", function(){
     renderProductDropdown();
     filterHistoryBills();
     updateHoldBadge();
+    updateSaleSummary();
 });
 
 function initSystem() {
@@ -527,7 +513,6 @@ function initSystem() {
     let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
     let stockPurchasePrices = JSON.parse(localStorage.getItem("stockPurchasePrices")) || {};
 
-    // ADD STOCK ITEM WITH PURCHASE PRICE
     document.getElementById("addStockBtn").addEventListener("click", function(){
         let p = document.getElementById("stockProduct").value.trim();
         let q = +document.getElementById("stockQty").value;
@@ -554,7 +539,6 @@ function initSystem() {
         showAppAlert("Stock Updated", `Added ${q} units to ${p}`);
     });
 
-    // ADD ITEM TO CART
     document.getElementById("addItemBtn").addEventListener("click", function(){
         let p = document.getElementById("productDropdown").value;
         let q = +document.getElementById("qty").value;
@@ -578,7 +562,6 @@ function initSystem() {
         document.getElementById("price").value = "";
     });
 
-    // GENERATE BILL INVOICE WITH SPLIT PAYMENT & PROFIT
     document.getElementById("generateBillBtn").addEventListener("click", function(){
         if(items.length === 0){ showAppAlert("Empty Cart", "Please add items to cart."); return; }
 
@@ -598,11 +581,8 @@ function initSystem() {
         let gstRate = parseFloat(document.getElementById("gstRate").value) || 0;
         let totalGst = taxableAmount * (gstRate / 100);
         let grandTotal = taxableAmount + totalGst;
-
-        // CALCULATE PROFIT (Net Profit = Taxable Amount - Cost of Goods Sold)
         let netProfit = taxableAmount - totalCostPrice;
 
-        // SPLIT PAYMENT CAPTURE
         let paymentMode = document.getElementById("payment").value;
         let splitCash = 0, splitUpi = 0;
         let paid = 0;
@@ -651,7 +631,6 @@ function initSystem() {
     });
 }
 
-// FEATURE 1: HOLD / PARK SALE SYSTEM
 function holdCurrentCart() {
     if(items.length === 0) return showAppAlert("Cart Empty", "No items in cart to hold.");
 
@@ -715,7 +694,6 @@ function restoreHoldBill(holdId) {
     }
 }
 
-// FEATURE 2: SPLIT PAYMENT UI TOGGLE
 function toggleSplitPaymentUI() {
     let mode = document.getElementById("payment").value;
     let splitBox = document.getElementById("splitPaymentFields");
@@ -736,7 +714,6 @@ function updateSplitTotal() {
     document.getElementById("amtPaid").value = (cash + upi).toFixed(2);
 }
 
-// RENDER RETAIL TABLES & CARDS
 function renderStock() {
     let stock = JSON.parse(localStorage.getItem("stock")) || {};
     let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
@@ -818,7 +795,6 @@ function calculateGrandTotal() {
     document.getElementById("liveCurrentTotal").innerText = grandTotal.toFixed(2);
 }
 
-// FEATURE 6: PROFIT ANALYTICS UPDATER
 function updateSaleSummary() {
     let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
     let today = new Date();
@@ -861,6 +837,15 @@ function filterHistoryBills() {
     });
 }
 
+function reprintBill(invNo) {
+    let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
+    let target = history.find(h => h.invoiceNo === invNo);
+    if(target) {
+        renderInvoiceBillHTML(target);
+        window.scrollTo({ top: document.getElementById("bill").offsetTop, behavior: 'smooth' });
+    }
+}
+
 function renderInvoiceBillHTML(data) {
     let html = `
     <div class="invoice-card-header">
@@ -896,6 +881,49 @@ function deleteStock(productName) {
     localStorage.setItem("stock", JSON.stringify(stock));
     renderStock();
     renderProductDropdown();
+}
+
+/* ==========================================
+   SERVICE WORKER & PWA INSTALL PROMPT SCRIPT
+   ========================================== */
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('Service Worker Registered Successfully!'))
+            .catch(err => console.log('Service Worker Registration Failed:', err));
+    });
+}
+
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showInstallButton();
+});
+
+function showInstallButton() {
+    let container = document.getElementById('installBtnContainer');
+    if(!container || document.getElementById('pwaInstallBtn')) return;
+
+    let btn = document.createElement('button');
+    btn.id = 'pwaInstallBtn';
+    btn.className = 'btn-blue';
+    btn.style.cssText = 'background: #10b981; width: auto; margin: 0 auto; display: inline-flex; padding: 8px 16px; font-size: 13px;';
+    btn.innerHTML = '<i class="fa-solid fa-download"></i> Install App on Mobile';
+
+    btn.addEventListener('click', () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    btn.style.display = 'none';
+                }
+                deferredPrompt = null;
+            });
+        }
+    });
+
+    container.appendChild(btn);
 }
 </script>
 </body>
