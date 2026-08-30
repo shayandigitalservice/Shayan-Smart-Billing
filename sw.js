@@ -1,12 +1,13 @@
-const CACHE_NAME = 'shayan-pos-v1';
+const CACHE_NAME = 'shayan-pos-v2';
 
 const FILES_TO_CACHE = [
   './',
   './index.html',
-  './manifest.json'
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
-// Install Event - Files Cache Karein
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
@@ -16,7 +17,6 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate Event - Purana Cache Clean Karein
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keyList) => {
@@ -31,7 +31,6 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch Event - Offline Working & Network Fallback
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
@@ -40,9 +39,7 @@ self.addEventListener('fetch', (event) => {
       if (cachedResponse) {
         return cachedResponse;
       }
-      return fetch(event.request).then((networkResponse) => {
-        return networkResponse;
-      }).catch(() => {
+      return fetch(event.request).catch(() => {
         if (event.request.mode === 'navigate') {
           return caches.match('./index.html');
         }
