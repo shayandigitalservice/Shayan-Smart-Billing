@@ -70,7 +70,7 @@ body {
     font-family: 'Inter', sans-serif; 
     background: var(--bg); 
     color: var(--text); 
-    padding: 24px 12px; 
+    padding: 16px 10px 90px 10px; /* Extra bottom padding to avoid bottom navbar overlap */
     line-height: 1.5;
     transition: background 0.3s, color 0.3s;
 }
@@ -79,13 +79,13 @@ h1, h2, h3, .font-heading {
     font-family: 'Outfit', sans-serif;
 }
 
-/* App Header Header */
+/* App Header */
 .app-header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 .app-header h1 {
-    font-size: 32px;
+    font-size: 26px;
     font-weight: 800;
     background: linear-gradient(135deg, #3b82f6 0%, #4f46e5 100%);
     -webkit-background-clip: text;
@@ -93,48 +93,50 @@ h1, h2, h3, .font-heading {
     letter-spacing: -0.5px;
 }
 .app-header p {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--text-muted);
     font-weight: 500;
 }
 
-/* TOP NAVIGATION BAR */
+/* FIXED BOTTOM MOBILE-FRIENDLY NAVIGATION BAR */
 .app-navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     display: flex;
-    justify-content: center;
-    gap: 8px;
-    max-width: 1100px;
-    margin: 0 auto 24px auto;
+    justify-content: space-around;
     background: var(--card-bg);
-    padding: 8px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border);
-    flex-wrap: wrap;
+    padding: 8px 4px;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+    border-top: 1px solid var(--border);
+    z-index: 1000;
 }
 .nav-btn {
     background: transparent;
     border: none;
     color: var(--text-muted);
-    padding: 10px 18px;
-    font-size: 14px;
+    padding: 6px 10px;
+    font-size: 11px;
     font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
-    display: inline-flex;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     transition: all 0.2s;
     font-family: 'Inter', sans-serif;
+    flex: 1;
+}
+.nav-btn i {
+    font-size: 18px;
 }
 .nav-btn:hover {
     color: var(--primary);
-    background: var(--primary-light);
 }
 .nav-btn.active {
-    background: var(--primary);
-    color: white;
-    box-shadow: var(--shadow-sm);
+    color: var(--primary);
 }
 
 /* Tab Content View Controller */
@@ -155,33 +157,32 @@ h1, h2, h3, .font-heading {
     display: none;
     background: linear-gradient(135deg, #4f46e5, #3b82f6);
     color: white;
-    padding: 12px 20px;
+    padding: 10px 16px;
     border-radius: var(--radius);
-    margin: 0 auto 20px auto;
+    margin: 0 auto 16px auto;
     max-width: 1100px;
     box-shadow: var(--shadow-lg);
     align-items: center;
     justify-content: space-between;
 }
-#pwaInstallBanner span { font-weight: 600; font-size: 14px; }
+#pwaInstallBanner span { font-weight: 600; font-size: 13px; }
 #pwaInstallBtn {
     background: #ffffff;
     color: var(--primary);
     border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 6px 12px;
+    border-radius: 6px;
     font-weight: 700;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 12px;
     transition: 0.2s;
     box-shadow: var(--shadow-sm);
 }
-#pwaInstallBtn:hover { background: #f1f5f9; transform: translateY(-1px); }
 
 /* Inputs & UI Form Controls */
 label {
     display: block;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     color: var(--text-muted);
     margin-bottom: 4px;
@@ -191,7 +192,7 @@ label {
 
 input, select { 
     width: 100%; 
-    padding: 11px 14px; 
+    padding: 10px 12px; 
     margin-bottom: 12px; 
     border-radius: 8px; 
     border: 1px solid var(--border); 
@@ -212,28 +213,28 @@ input:focus, select:focus {
     max-width: 1100px; 
     margin: auto; 
     background: var(--card-bg); 
-    padding: 28px; 
-    border-radius: 20px;
+    padding: 20px 16px; 
+    border-radius: 16px;
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--border);
 }
 
 .section-title {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--secondary);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     border-bottom: 2px solid var(--bg);
-    padding-bottom: 10px;
+    padding-bottom: 8px;
 }
 
 /* Action Buttons */
 .btn-blue { 
     width: 100%; 
-    padding: 12px 18px; 
+    padding: 12px 16px; 
     border-radius: 10px; 
     border: none; 
     background: var(--primary); 
@@ -256,24 +257,24 @@ input:focus, select:focus {
 .table-wrapper { 
     overflow-x: auto; 
     width: 100%; 
-    margin: 16px 0; 
+    margin: 14px 0; 
     border-radius: 10px; 
     border: 1px solid var(--border);
 }
-table { width: 100%; border-collapse: collapse; }
+table { width: 100%; border-collapse: collapse; white-space: nowrap; }
 th { 
     background: var(--bg); 
     font-weight: 600; 
     color: var(--text-muted); 
     text-transform: uppercase; 
-    font-size: 11px; 
+    font-size: 10px; 
     letter-spacing: 0.5px;
-    padding: 12px 14px;
+    padding: 10px 12px;
     border-bottom: 1px solid var(--border);
     text-align: left;
 }
 td { 
-    padding: 12px 14px; 
+    padding: 10px 12px; 
     font-size: 13px; 
     border-bottom: 1px solid var(--border);
     color: var(--text);
@@ -288,34 +289,34 @@ tr:hover td { background-color: var(--primary-light); }
 .current-total-box {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     border-radius: var(--radius);
-    padding: 20px;
-    margin: 20px 0;
+    padding: 16px;
+    margin: 16px 0;
     text-align: center;
     color: #ffffff;
     box-shadow: var(--shadow-md);
     position: relative;
     overflow: hidden;
 }
-.current-total-box .sub-info { font-size: 13px; color: #94a3b8; margin-bottom: 4px; }
-.current-total-box .grand-total-title { font-size: 28px; font-weight: 800; color: #38bdf8; letter-spacing: -0.5px; }
+.current-total-box .sub-info { font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
+.current-total-box .grand-total-title { font-size: 24px; font-weight: 800; color: #38bdf8; letter-spacing: -0.5px; }
 
 /* Grid Layouts */
-.grid-2 { display: grid; grid-template-columns: 1fr; gap: 12px; }
-.grid-3 { display: grid; grid-template-columns: 1fr; gap: 12px; }
-.tax-discount-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-.btn-group-row { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+.grid-2 { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.grid-3 { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.tax-discount-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.btn-group-row { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
 
 /* Analytics Cards */
-.sale-summary { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 10px 0 24px 0; }
+.sale-summary { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 10px 0 20px 0; }
 .sale-card { 
     background: var(--card-bg); 
-    padding: 18px; 
+    padding: 16px; 
     border-radius: var(--radius); 
     border: 1px solid var(--border); 
     box-shadow: var(--shadow-sm);
 }
-.sale-card span { display: block; font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
-.sale-card b { font-size: 22px; color: var(--secondary); font-family: 'Outfit', sans-serif; margin-top: 4px; display: block; }
+.sale-card span { display: block; font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+.sale-card b { font-size: 20px; color: var(--secondary); font-family: 'Outfit', sans-serif; margin-top: 4px; display: block; }
 
 /* Action Buttons inside Table */
 .btn-action {
@@ -337,9 +338,9 @@ tr:hover td { background-color: var(--primary-light); }
    ULTRA-STYLISH PRINT SHEET & RECEIPT INVOICE
    ========================================== */
 .bill { 
-    margin-top: 30px; 
-    padding: 28px; 
-    border-radius: 16px; 
+    margin-top: 24px; 
+    padding: 20px; 
+    border-radius: 14px; 
     background: #ffffff; 
     border: 1px solid #cbd5e1;
     box-shadow: var(--shadow-md);
@@ -351,18 +352,18 @@ tr:hover td { background-color: var(--primary-light); }
 
 .invoice-card-header {
     border-bottom: 2px dashed #cbd5e1;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 12px;
 }
 
 .shop-brand h3 {
     margin: 0 0 4px 0;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 800;
     color: #0f172a;
     letter-spacing: -0.5px;
@@ -371,7 +372,7 @@ tr:hover td { background-color: var(--primary-light); }
 
 .shop-brand p {
     margin: 2px 0;
-    font-size: 12px;
+    font-size: 11px;
     color: #475569;
 }
 
@@ -379,79 +380,81 @@ tr:hover td { background-color: var(--primary-light); }
     text-align: right;
     background: #f8fafc;
     border: 1px solid #e2e8f0;
-    padding: 10px 14px;
-    border-radius: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    width: 100%;
 }
 
-.inv-meta-badge .inv-no-title { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
-.inv-meta-badge .inv-number { font-size: 18px; font-weight: 800; color: var(--primary); font-family: 'Outfit', sans-serif; }
-.inv-meta-badge .inv-date { font-size: 11px; color: #475569; margin-top: 2px; }
+.inv-meta-badge .inv-no-title { font-size: 9px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+.inv-meta-badge .inv-number { font-size: 16px; font-weight: 800; color: var(--primary); font-family: 'Outfit', sans-serif; }
+.inv-meta-badge .inv-date { font-size: 10px; color: #475569; margin-top: 2px; }
 
 .customer-info-bar {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 4px;
     background: #f1f5f9;
-    padding: 10px 14px;
+    padding: 10px 12px;
     border-radius: 8px;
     font-size: 12px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     font-weight: 500;
     color: #0f172a;
 }
 
-.bill-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.bill-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
 .bill-table th { 
     background-color: #0f172a; 
     color: #ffffff; 
     font-weight: 600; 
-    font-size: 11px;
-    padding: 10px;
+    font-size: 10px;
+    padding: 8px;
     text-transform: uppercase;
     border: none;
     letter-spacing: 0.5px;
 }
 .bill-table td { 
     border-bottom: 1px solid #e2e8f0; 
-    padding: 12px 10px; 
-    font-size: 13px; 
+    padding: 10px 8px; 
+    font-size: 12px; 
     color: #0f172a;
 }
 .bill-table td.text-right { text-align: right; }
 .bill-table td.text-center { text-align: center; }
 
-.bill-summary-table { width: 100%; margin-top: 15px; border-collapse: collapse; }
-.bill-summary-table td { padding: 6px 10px; font-size: 13px; border: none; color: #0f172a; }
+.bill-summary-table { width: 100%; margin-top: 12px; border-collapse: collapse; }
+.bill-summary-table td { padding: 5px 8px; font-size: 12px; border: none; color: #0f172a; }
 .bill-summary-table .grand-row td {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 800;
     color: #0f172a;
     border-top: 2px solid #0f172a;
     border-bottom: 2px double #0f172a;
-    padding: 10px;
+    padding: 8px;
 }
 
 .qr-container { 
     text-align: center; 
-    margin-top: 20px; 
-    padding-top: 18px;
+    margin-top: 16px; 
+    padding-top: 14px;
     border-top: 2px dashed #cbd5e1;
 }
-.qr-container p { font-size: 12px; margin: 0 0 10px 0; color: #334155; font-weight: 600; }
+.qr-container p { font-size: 11px; margin: 0 0 8px 0; color: #334155; font-weight: 600; }
 .qr-container img { 
-    width: 120px; 
-    height: 120px; 
-    border-radius: 12px;
+    width: 110px; 
+    height: 110px; 
+    border-radius: 10px;
     border: 1px solid #cbd5e1;
-    padding: 6px;
+    padding: 4px;
     background: #fff;
     box-shadow: var(--shadow-sm);
 }
 
 .bill-footer-msg {
     text-align: center;
-    font-size: 12px;
+    font-size: 11px;
     color: #64748b;
-    margin-top: 16px;
+    margin-top: 14px;
     font-weight: 500;
 }
 
@@ -464,12 +467,13 @@ tr:hover td { background-color: var(--primary-light); }
     backdrop-filter: blur(4px);
     z-index: 9999;
     align-items: center; justify-content: center;
+    padding: 16px;
 }
 .modal-card {
     background: var(--card-bg);
-    width: 90%; max-width: 440px;
+    width: 100%; max-width: 400px;
     border-radius: 16px;
-    padding: 24px;
+    padding: 20px;
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--border);
     animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -479,27 +483,40 @@ tr:hover td { background-color: var(--primary-light); }
     to { opacity: 1; transform: scale(1); }
 }
 .modal-header {
-    font-size: 18px; font-weight: 700; color: var(--secondary);
-    margin-bottom: 12px; border-bottom: 1px solid var(--border);
-    padding-bottom: 10px; font-family: 'Outfit', sans-serif;
+    font-size: 16px; font-weight: 700; color: var(--secondary);
+    margin-bottom: 10px; border-bottom: 1px solid var(--border);
+    padding-bottom: 8px; font-family: 'Outfit', sans-serif;
 }
-.modal-footer { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+.modal-footer { display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end; }
 
 /* Responsive Media Queries */
 @media screen and (min-width: 768px) {
+    body { padding: 24px 12px; }
+    .app-navbar {
+        position: static;
+        max-width: 1100px;
+        margin: 0 auto 24px auto;
+        box-shadow: var(--shadow-sm);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        justify-content: center;
+        gap: 8px;
+        padding: 8px;
+    }
+    .nav-btn {
+        flex: unset;
+        flex-direction: row;
+        padding: 10px 18px;
+        font-size: 14px;
+    }
+    .nav-btn i { font-size: 14px; }
     .grid-2 { grid-template-columns: 1fr 1fr; }
     .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
     .tax-discount-grid { grid-template-columns: 1fr 1fr 1fr; }
     .btn-group-row { flex-direction: row; }
     .sale-summary { grid-template-columns: 1fr 1fr 1fr; }
-}
-
-@media screen and (max-width: 600px) {
-    body { padding: 12px 6px; }
-    .billing-ui-container { padding: 16px; border-radius: 14px; }
-    .invoice-card-header { flex-direction: column; text-align: center; }
-    .inv-meta-badge { text-align: center; width: 100%; }
-    .customer-info-bar { flex-direction: column; gap: 6px; text-align: center; }
+    .inv-meta-badge { width: auto; text-align: right; }
+    .customer-info-bar { flex-direction: row; justify-content: space-between; }
 }
 
 /* Pure Clean Print Styling Engine */
@@ -513,6 +530,7 @@ tr:hover td { background-color: var(--primary-light); }
         padding: 0 !important; border: none !important;
         box-shadow: none !important; background: #fff !important;
     }
+    .app-navbar { display: none !important; }
 }
 </style>
 </head>
@@ -523,7 +541,7 @@ tr:hover td { background-color: var(--primary-light); }
     <p>Modern Smart POS, Inventory & Billing System</p>
 </div>
 
-<!-- NAVIGATION BAR -->
+<!-- FIXED BOTTOM / RESPONSIVE NAVIGATION BAR -->
 <div class="app-navbar">
     <button class="nav-btn active" onclick="switchTab('homeTab', this)"><i class="fa-solid fa-house"></i> Home</button>
     <button class="nav-btn" onclick="switchTab('stockTab', this)"><i class="fa-solid fa-boxes-stacked"></i> Stock</button>
@@ -533,7 +551,7 @@ tr:hover td { background-color: var(--primary-light); }
 
 <!-- PWA Installation Banner -->
 <div id="pwaInstallBanner">
-    <span><i class="fa-solid fa-mobile-screen-button"></i> Install Shayan Smart Billing App</span>
+    <span><i class="fa-solid fa-mobile-screen-button"></i> Install App</span>
     <button id="pwaInstallBtn">Install Now</button>
 </div>
 
@@ -688,8 +706,8 @@ tr:hover td { background-color: var(--primary-light); }
     <div class="section-title"><i class="fa-solid fa-gear"></i> App Settings & Preferences</div>
 
     <!-- 1) Shop Details Setting -->
-    <div style="background:var(--bg); padding:20px; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:20px;">
-        <div style="font-size:16px; font-weight:700; color:var(--secondary); margin-bottom:14px;"><i class="fa-solid fa-store"></i> 1. Shop Details, GSTIN & UPI Setup</div>
+    <div style="background:var(--bg); padding:16px; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:16px;">
+        <div style="font-size:15px; font-weight:700; color:var(--secondary); margin-bottom:12px;"><i class="fa-solid fa-store"></i> 1. Shop Details, GSTIN & UPI Setup</div>
         <div class="grid-2">
             <div><label>Shop Name</label><input id="shop" placeholder="e.g. Shayan Super Market"></div>
             <div><label>Phone Number</label><input id="phone" placeholder="e.g. +91 9876543210"></div>
@@ -703,32 +721,32 @@ tr:hover td { background-color: var(--primary-light); }
     </div>
 
     <!-- 2) Dark Mode Toggle -->
-    <div style="background:var(--bg); padding:20px; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
+    <div style="background:var(--bg); padding:16px; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
         <div>
-            <div style="font-size:16px; font-weight:700; color:var(--secondary);"><i class="fa-solid fa-moon"></i> 2. Dark Mode Theme</div>
-            <p style="font-size:12px; color:var(--text-muted);">Switch between light and dark UI themes.</p>
+            <div style="font-size:15px; font-weight:700; color:var(--secondary);"><i class="fa-solid fa-moon"></i> 2. Dark Mode Theme</div>
+            <p style="font-size:11px; color:var(--text-muted);">Switch between light and dark UI themes.</p>
         </div>
-        <button id="darkModeToggleBtn" class="btn-blue" style="width:auto; padding:10px 20px;" onclick="toggleDarkMode()"><i class="fa-solid fa-circle-half-stroke"></i> Toggle Dark Mode</button>
+        <button id="darkModeToggleBtn" class="btn-blue" style="width:auto; padding:10px 16px;" onclick="toggleDarkMode()"><i class="fa-solid fa-circle-half-stroke"></i> Toggle</button>
     </div>
 
     <!-- 3) Sales History Import & Export -->
-    <div style="background:var(--bg); padding:20px; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:20px;">
-        <div style="font-size:16px; font-weight:700; color:var(--secondary); margin-bottom:6px;"><i class="fa-solid fa-file-invoice-dollar"></i> 3. Sales History Backup & Restore</div>
-        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Export or restore only your past sales records.</p>
+    <div style="background:var(--bg); padding:16px; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:16px;">
+        <div style="font-size:15px; font-weight:700; color:var(--secondary); margin-bottom:4px;"><i class="fa-solid fa-file-invoice-dollar"></i> 3. Sales History Backup & Restore</div>
+        <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Export or restore only your past sales records.</p>
         <div class="grid-2">
-            <button class="btn-blue" style="background:#16a34a;" onclick="exportSalesHistoryOnly()"><i class="fa-solid fa-file-export"></i> Export Sales History</button>
-            <button class="btn-blue" style="background:#0d9488;" onclick="document.getElementById('importSalesFileInput').click()"><i class="fa-solid fa-file-import"></i> Import Sales History</button>
+            <button class="btn-blue" style="background:#16a34a;" onclick="exportSalesHistoryOnly()"><i class="fa-solid fa-file-export"></i> Export Sales</button>
+            <button class="btn-blue" style="background:#0d9488;" onclick="document.getElementById('importSalesFileInput').click()"><i class="fa-solid fa-file-import"></i> Import Sales</button>
         </div>
         <input type="file" id="importSalesFileInput" accept=".json" style="display:none" onchange="importSalesHistoryOnly(event)">
     </div>
 
     <!-- 4) Stock Import & Export -->
-    <div style="background:var(--bg); padding:20px; border-radius:var(--radius); border:1px solid var(--border);">
-        <div style="font-size:16px; font-weight:700; color:var(--secondary); margin-bottom:6px;"><i class="fa-solid fa-boxes-stacked"></i> 4. Stock & Inventory Backup & Restore</div>
-        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Export or restore only your item inventory and prices.</p>
+    <div style="background:var(--bg); padding:16px; border-radius:var(--radius); border:1px solid var(--border);">
+        <div style="font-size:15px; font-weight:700; color:var(--secondary); margin-bottom:4px;"><i class="fa-solid fa-boxes-stacked"></i> 4. Stock & Inventory Backup & Restore</div>
+        <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Export or restore only your item inventory and prices.</p>
         <div class="grid-2">
-            <button class="btn-blue" style="background:#16a34a;" onclick="exportStockOnly()"><i class="fa-solid fa-file-export"></i> Export Stock Data</button>
-            <button class="btn-blue" style="background:#0d9488;" onclick="document.getElementById('importStockFileInput').click()"><i class="fa-solid fa-file-import"></i> Import Stock Data</button>
+            <button class="btn-blue" style="background:#16a34a;" onclick="exportStockOnly()"><i class="fa-solid fa-file-export"></i> Export Stock</button>
+            <button class="btn-blue" style="background:#0d9488;" onclick="document.getElementById('importStockFileInput').click()"><i class="fa-solid fa-file-import"></i> Import Stock</button>
         </div>
         <input type="file" id="importStockFileInput" accept=".json" style="display:none" onchange="importStockOnly(event)">
     </div>
@@ -738,10 +756,10 @@ tr:hover td { background-color: var(--primary-light); }
 <div id="customModal" class="modal-overlay">
     <div class="modal-card">
         <div id="modalHeader" class="modal-header">Notification</div>
-        <div id="modalBody" style="font-size:14px; color:var(--text); margin: 12px 0;">Message...</div>
+        <div id="modalBody" style="font-size:14px; color:var(--text); margin: 10px 0;">Message...</div>
         <div id="modalFooter" class="modal-footer">
-            <button id="modalCancelBtn" class="btn-blue" style="background:#64748b; width:auto; padding:8px 16px;">Cancel</button>
-            <button id="modalConfirmBtn" class="btn-blue" style="background:var(--primary); width:auto; padding:8px 16px;">OK</button>
+            <button id="modalCancelBtn" class="btn-blue" style="background:#64748b; width:auto; padding:8px 14px;">Cancel</button>
+            <button id="modalConfirmBtn" class="btn-blue" style="background:var(--primary); width:auto; padding:8px 14px;">OK</button>
         </div>
     </div>
 </div>
@@ -760,8 +778,8 @@ tr:hover td { background-color: var(--primary-light); }
         <input id="modalStockPrice" type="number">
         
         <div class="modal-footer">
-            <button class="btn-blue" style="background:#64748b; width:auto; padding:8px 16px;" onclick="closeStockModal()">Cancel</button>
-            <button class="btn-blue" style="background:#10b981; width:auto; padding:8px 16px;" onclick="saveStockModal()">Save Changes</button>
+            <button class="btn-blue" style="background:#64748b; width:auto; padding:8px 14px;" onclick="closeStockModal()">Cancel</button>
+            <button class="btn-blue" style="background:#10b981; width:auto; padding:8px 14px;" onclick="saveStockModal()">Save</button>
         </div>
     </div>
 </div>
@@ -903,7 +921,7 @@ function initBillingSystem() {
         for(let p in stock){
             let updates = stockHistory.filter(h => h.product === p);
             let lastUpdate = updates[updates.length - 1]?.date || "";
-            let badge = stock[p] <= 5 ? " <span style='color:var(--danger);font-weight:bold;font-size:11px;'>⚠ Low</span>" : "";
+            let badge = stock[p] <= 5 ? " <span style='color:var(--danger);font-weight:bold;font-size:10px;'>⚠ Low</span>" : "";
             let row = tbody.insertRow();
             row.insertCell(0).innerText = sno++;
             row.insertCell(1).innerHTML = `<span class="stock-pname">${p}</span>` + badge;
