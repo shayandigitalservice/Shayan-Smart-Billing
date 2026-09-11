@@ -49,6 +49,21 @@
     --radius: 12px;
 }
 
+[data-theme="dark"] {
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --primary-light: rgba(99, 102, 241, 0.15);
+    --secondary: #f8fafc;
+    --bg: #0f172a;
+    --card-bg: #1e293b;
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border: #334155;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 10px 25px -5px rgb(0 0 0 / 0.5);
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body { 
@@ -57,6 +72,7 @@ body {
     color: var(--text); 
     padding: 24px 12px; 
     line-height: 1.5;
+    transition: background 0.3s, color 0.3s;
 }
 
 h1, h2, h3, .font-heading {
@@ -66,7 +82,7 @@ h1, h2, h3, .font-heading {
 /* App Header Header */
 .app-header {
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 .app-header h1 {
     font-size: 32px;
@@ -80,6 +96,58 @@ h1, h2, h3, .font-heading {
     font-size: 13px;
     color: var(--text-muted);
     font-weight: 500;
+}
+
+/* TOP NAVIGATION BAR */
+.app-navbar {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    max-width: 1100px;
+    margin: 0 auto 24px auto;
+    background: var(--card-bg);
+    padding: 8px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+.nav-btn:hover {
+    color: var(--primary);
+    background: var(--primary-light);
+}
+.nav-btn.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Tab Content View Controller */
+.app-tab-content {
+    display: none;
+}
+.app-tab-content.active-tab {
+    display: block;
+    animation: fadeIn 0.25s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* PWA Install Banner */
@@ -131,7 +199,7 @@ input, select {
     outline: none; 
     font-family: 'Inter', sans-serif;
     transition: all 0.2s ease;
-    background-color: #fff;
+    background-color: var(--card-bg);
     color: var(--text);
 }
 input:focus, select:focus {
@@ -147,7 +215,7 @@ input:focus, select:focus {
     padding: 28px; 
     border-radius: 20px;
     box-shadow: var(--shadow-lg);
-    border: 1px solid rgba(226, 232, 240, 0.8);
+    border: 1px solid var(--border);
 }
 
 .section-title {
@@ -194,7 +262,7 @@ input:focus, select:focus {
 }
 table { width: 100%; border-collapse: collapse; }
 th { 
-    background: #f8fafc; 
+    background: var(--bg); 
     font-weight: 600; 
     color: var(--text-muted); 
     text-transform: uppercase; 
@@ -211,7 +279,7 @@ td {
     color: var(--text);
 }
 tr:last-child td { border-bottom: none; }
-tr:hover td { background-color: #f8fafc; }
+tr:hover td { background-color: var(--primary-light); }
 
 .stock-pname { font-weight: 600; color: var(--secondary); }
 .bill-pname { font-weight: 500; color: var(--text); }
@@ -228,16 +296,6 @@ tr:hover td { background-color: #f8fafc; }
     position: relative;
     overflow: hidden;
 }
-.current-total-box::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 200px;
-    height: 200px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 50%;
-}
 .current-total-box .sub-info { font-size: 13px; color: #94a3b8; margin-bottom: 4px; }
 .current-total-box .grand-total-title { font-size: 28px; font-weight: 800; color: #38bdf8; letter-spacing: -0.5px; }
 
@@ -247,55 +305,17 @@ tr:hover td { background-color: #f8fafc; }
 .tax-discount-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
 .btn-group-row { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
 
-/* Collapsible Shop Panel */
-.shop-toggle-btn {
-    background: #f8fafc;
-    color: var(--text);
-    border: 1px solid var(--border);
-    font-weight: 600;
-    padding: 12px 16px;
-    border-radius: var(--radius);
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    transition: 0.2s;
-}
-.shop-toggle-btn:hover { background: #f1f5f9; }
-.shop-details-box {
-    display: none;
-    background: #f8fafc;
-    padding: 20px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    margin-bottom: 20px;
-}
-
 /* Analytics Cards */
-.sale-summary { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 24px 0; }
+.sale-summary { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 10px 0 24px 0; }
 .sale-card { 
-    background: #ffffff; 
+    background: var(--card-bg); 
     padding: 18px; 
     border-radius: var(--radius); 
     border: 1px solid var(--border); 
     box-shadow: var(--shadow-sm);
-    position: relative;
 }
 .sale-card span { display: block; font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
 .sale-card b { font-size: 22px; color: var(--secondary); font-family: 'Outfit', sans-serif; margin-top: 4px; display: block; }
-
-/* Secondary Utility Boxes */
-.reprint-box, .backup-box {
-    background: #ffffff;
-    border: 1px solid var(--border);
-    padding: 20px;
-    border-radius: var(--radius);
-    margin-top: 24px;
-    box-shadow: var(--shadow-sm);
-}
 
 /* Action Buttons inside Table */
 .btn-action {
@@ -321,7 +341,7 @@ tr:hover td { background-color: #f8fafc; }
     padding: 28px; 
     border-radius: 16px; 
     background: #ffffff; 
-    border: 1px solid var(--border);
+    border: 1px solid #cbd5e1;
     box-shadow: var(--shadow-md);
     font-family: 'Inter', sans-serif;
     color: #0f172a;
@@ -329,7 +349,6 @@ tr:hover td { background-color: #f8fafc; }
     overflow: hidden;
 }
 
-/* Stylish Header Banner */
 .invoice-card-header {
     border-bottom: 2px dashed #cbd5e1;
     padding-bottom: 20px;
@@ -353,7 +372,7 @@ tr:hover td { background-color: #f8fafc; }
 .shop-brand p {
     margin: 2px 0;
     font-size: 12px;
-    color: #64748b;
+    color: #475569;
 }
 
 .inv-meta-badge {
@@ -377,6 +396,7 @@ tr:hover td { background-color: #f8fafc; }
     font-size: 12px;
     margin-bottom: 20px;
     font-weight: 500;
+    color: #0f172a;
 }
 
 .bill-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
@@ -394,12 +414,13 @@ tr:hover td { background-color: #f8fafc; }
     border-bottom: 1px solid #e2e8f0; 
     padding: 12px 10px; 
     font-size: 13px; 
+    color: #0f172a;
 }
 .bill-table td.text-right { text-align: right; }
 .bill-table td.text-center { text-align: center; }
 
 .bill-summary-table { width: 100%; margin-top: 15px; border-collapse: collapse; }
-.bill-summary-table td { padding: 6px 10px; font-size: 13px; border: none; }
+.bill-summary-table td { padding: 6px 10px; font-size: 13px; border: none; color: #0f172a; }
 .bill-summary-table .grand-row td {
     font-size: 16px;
     font-weight: 800;
@@ -445,11 +466,12 @@ tr:hover td { background-color: #f8fafc; }
     align-items: center; justify-content: center;
 }
 .modal-card {
-    background: #ffffff;
+    background: var(--card-bg);
     width: 90%; max-width: 440px;
     border-radius: 16px;
     padding: 24px;
     box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
     animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 @keyframes popIn {
@@ -457,7 +479,7 @@ tr:hover td { background-color: #f8fafc; }
     to { opacity: 1; transform: scale(1); }
 }
 .modal-header {
-    font-size: 18px; font-weight: 700; color: #0f172a;
+    font-size: 18px; font-weight: 700; color: var(--secondary);
     margin-bottom: 12px; border-bottom: 1px solid var(--border);
     padding-bottom: 10px; font-family: 'Outfit', sans-serif;
 }
@@ -501,33 +523,23 @@ tr:hover td { background-color: #f8fafc; }
     <p>Modern Smart POS, Inventory & Billing System</p>
 </div>
 
+<!-- NAVIGATION BAR -->
+<div class="app-navbar">
+    <button class="nav-btn active" onclick="switchTab('homeTab', this)"><i class="fa-solid fa-house"></i> Home</button>
+    <button class="nav-btn" onclick="switchTab('stockTab', this)"><i class="fa-solid fa-boxes-stacked"></i> Stock</button>
+    <button class="nav-btn" onclick="switchTab('historyTab', this)"><i class="fa-solid fa-clock-rotate-left"></i> History</button>
+    <button class="nav-btn" onclick="switchTab('settingTab', this)"><i class="fa-solid fa-gear"></i> Setting</button>
+</div>
+
 <!-- PWA Installation Banner -->
 <div id="pwaInstallBanner">
     <span><i class="fa-solid fa-mobile-screen-button"></i> Install Shayan Smart Billing App</span>
     <button id="pwaInstallBtn">Install Now</button>
 </div>
 
-<div id="main-billing" class="billing-ui-container">
-
+<!-- TAB 1: HOME (Billing & Dashboard) -->
+<div id="homeTab" class="app-tab-content active-tab billing-ui-container">
     <div class="section-title"><i class="fa-solid fa-receipt"></i> Bill Generator</div>
-
-    <!-- Collapsible Shop Details -->
-    <button type="button" class="shop-toggle-btn" onclick="toggleShopDetails()">
-        <span><i class="fa-solid fa-store"></i> Shop Details, GSTIN & UPI Setup</span>
-        <span id="shopToggleIcon"><i class="fa-solid fa-chevron-down"></i></span>
-    </button>
-    <div id="shopDetailsBox" class="shop-details-box">
-        <div class="grid-2">
-            <div><label>Shop Name</label><input id="shop" placeholder="e.g. Shayan Super Market"></div>
-            <div><label>Phone Number</label><input id="phone" placeholder="e.g. +91 9876543210"></div>
-        </div>
-        <div><label>Shop Address</label><input id="address" placeholder="Full shop address"></div>
-        <div class="grid-2">
-            <div><label>GSTIN Number (Optional)</label><input id="gstin" placeholder="GSTIN (if applicable)"></div>
-            <div><label>UPI ID for Payment QR</label><input id="upiId" placeholder="e.g. name@upi"></div>
-        </div>
-        <button id="saveShopBtn" class="btn-blue" style="margin-top: 8px;"><i class="fa-solid fa-floppy-disk"></i> Save Shop Details</button>
-    </div>
 
     <!-- Main Billing Form -->
     <div class="grid-2">
@@ -606,38 +618,11 @@ tr:hover td { background-color: #f8fafc; }
 
     <!-- STYLISH INVOICE DISPLAY CONTAINER -->
     <div id="bill" class="bill"></div>
-    
-    <!-- REPRINT & OLD BILL SEARCH SECTION -->
-    <div class="reprint-box">
-        <div style="font-size:16px; font-weight:700; color:var(--secondary); margin-bottom:10px;"><i class="fa-solid fa-magnifying-glass"></i> Search & Manage Past Invoices</div>
-        <input id="searchInvoiceInput" placeholder="Type customer name or invoice number..." oninput="filterHistoryBills()">
-        <div class="table-wrapper" style="max-height: 250px; overflow-y: auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Inv #</th>
-                        <th>Customer</th>
-                        <th>Amount</th>
-                        <th style="text-align:center;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="historyTableBody"></tbody>
-            </table>
-        </div>
-        <button id="clearAllHistoryBtn" class="btn-blue" style="background:var(--danger); margin-top:10px;"><i class="fa-solid fa-trash-can"></i> Clear All Sales History</button>
-    </div>
+</div>
 
-    <button id="downloadHistoryBtn" class="btn-blue" style="margin-top: 15px; background:#475569;"><i class="fa-solid fa-file-excel"></i> Export Sales History (Excel)</button>
-    
-    <!-- Sale Analytics Cards -->
-    <div class="sale-summary">
-        <div class="sale-card"><span>Today's Sales</span><b id="saleToday">₹0.00</b></div>
-        <div class="sale-card"><span>Weekly Sales</span><b id="saleWeekly">₹0.00</b></div>
-        <div class="sale-card"><span>Monthly Sales</span><b id="saleMonthly">₹0.00</b></div>
-    </div>
-
-    <!-- Stock Management Section -->
-    <div class="section-title" style="margin-top: 40px;"><i class="fa-solid fa-boxes-stacked"></i> Inventory & Stock Management</div>
+<!-- TAB 2: STOCK MANAGEMENT -->
+<div id="stockTab" class="app-tab-content billing-ui-container">
+    <div class="section-title"><i class="fa-solid fa-boxes-stacked"></i> Inventory & Stock Management</div>
 
     <div class="grid-3">
         <div><label>Product Name</label><input id="stockProduct" placeholder="Product Title"></div>
@@ -662,17 +647,90 @@ tr:hover td { background-color: #f8fafc; }
         </table>
     </div>
 
-    <button id="downloadStockBtn" class="btn-blue" style="background:#475569;"><i class="fa-solid fa-file-csv"></i> Download Inventory Excel</button>
+    <button id="downloadStockBtn" class="btn-blue" style="background:#475569;"><i class="fa-solid fa-file-csv"></i> Download Inventory CSV</button>
+</div>
 
-    <!-- Data Backup & Restore Panel -->
-    <div class="backup-box">
-        <div style="font-size:16px; font-weight:700; color:#15803d; margin-bottom:6px;"><i class="fa-solid fa-database"></i> Data Protection & Backup</div>
-        <p style="font-size:12px; color:#166534; margin-bottom:12px;">Mobile/PC badalne par apna data surakshit backup json file me export aur restore karein.</p>
-        <div class="grid-2">
-            <button id="exportBackupBtn" class="btn-blue" style="background:#16a34a;"><i class="fa-solid fa-file-export"></i> Export Backup</button>
-            <button id="importBackupBtn" class="btn-blue" style="background:#0d9488;" onclick="document.getElementById('importFileInput').click()"><i class="fa-solid fa-file-import"></i> Import Backup</button>
+<!-- TAB 3: HISTORY -->
+<div id="historyTab" class="app-tab-content billing-ui-container">
+    <div class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Sales History & Management</div>
+
+    <!-- Sale Analytics Cards -->
+    <div class="sale-summary">
+        <div class="sale-card"><span>Today's Sales</span><b id="saleToday">₹0.00</b></div>
+        <div class="sale-card"><span>Weekly Sales</span><b id="saleWeekly">₹0.00</b></div>
+        <div class="sale-card"><span>Monthly Sales</span><b id="saleMonthly">₹0.00</b></div>
+    </div>
+
+    <div class="reprint-box" style="margin-top:0;">
+        <input id="searchInvoiceInput" placeholder="Type customer name or invoice number..." oninput="filterHistoryBills()">
+        <div class="table-wrapper" style="max-height: 350px; overflow-y: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Inv #</th>
+                        <th>Customer</th>
+                        <th>Amount</th>
+                        <th style="text-align:center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody"></tbody>
+            </table>
         </div>
-        <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importDataBackup(event)">
+        <div class="grid-2" style="margin-top:15px;">
+            <button id="downloadHistoryBtn" class="btn-blue" style="background:#475569;"><i class="fa-solid fa-file-excel"></i> Export Sales Excel</button>
+            <button id="clearAllHistoryBtn" class="btn-blue" style="background:var(--danger);"><i class="fa-solid fa-trash-can"></i> Clear All History</button>
+        </div>
+    </div>
+</div>
+
+<!-- TAB 4: SETTING -->
+<div id="settingTab" class="app-tab-content billing-ui-container">
+    <div class="section-title"><i class="fa-solid fa-gear"></i> App Settings & Preferences</div>
+
+    <!-- 1) Shop Details Setting -->
+    <div style="background:var(--bg); padding:20px; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:20px;">
+        <div style="font-size:16px; font-weight:700; color:var(--secondary); margin-bottom:14px;"><i class="fa-solid fa-store"></i> 1. Shop Details, GSTIN & UPI Setup</div>
+        <div class="grid-2">
+            <div><label>Shop Name</label><input id="shop" placeholder="e.g. Shayan Super Market"></div>
+            <div><label>Phone Number</label><input id="phone" placeholder="e.g. +91 9876543210"></div>
+        </div>
+        <div><label>Shop Address</label><input id="address" placeholder="Full shop address"></div>
+        <div class="grid-2">
+            <div><label>GSTIN Number (Optional)</label><input id="gstin" placeholder="GSTIN (if applicable)"></div>
+            <div><label>UPI ID for Payment QR</label><input id="upiId" placeholder="e.g. name@upi"></div>
+        </div>
+        <button id="saveShopBtn" class="btn-blue" style="margin-top: 8px;"><i class="fa-solid fa-floppy-disk"></i> Save Shop Details</button>
+    </div>
+
+    <!-- 2) Dark Mode Toggle -->
+    <div style="background:var(--bg); padding:20px; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+            <div style="font-size:16px; font-weight:700; color:var(--secondary);"><i class="fa-solid fa-moon"></i> 2. Dark Mode Theme</div>
+            <p style="font-size:12px; color:var(--text-muted);">Switch between light and dark UI themes.</p>
+        </div>
+        <button id="darkModeToggleBtn" class="btn-blue" style="width:auto; padding:10px 20px;" onclick="toggleDarkMode()"><i class="fa-solid fa-circle-half-stroke"></i> Toggle Dark Mode</button>
+    </div>
+
+    <!-- 3) Sales History Import & Export -->
+    <div style="background:var(--bg); padding:20px; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:20px;">
+        <div style="font-size:16px; font-weight:700; color:var(--secondary); margin-bottom:6px;"><i class="fa-solid fa-file-invoice-dollar"></i> 3. Sales History Backup & Restore</div>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Export or restore only your past sales records.</p>
+        <div class="grid-2">
+            <button class="btn-blue" style="background:#16a34a;" onclick="exportSalesHistoryOnly()"><i class="fa-solid fa-file-export"></i> Export Sales History</button>
+            <button class="btn-blue" style="background:#0d9488;" onclick="document.getElementById('importSalesFileInput').click()"><i class="fa-solid fa-file-import"></i> Import Sales History</button>
+        </div>
+        <input type="file" id="importSalesFileInput" accept=".json" style="display:none" onchange="importSalesHistoryOnly(event)">
+    </div>
+
+    <!-- 4) Stock Import & Export -->
+    <div style="background:var(--bg); padding:20px; border-radius:var(--radius); border:1px solid var(--border);">
+        <div style="font-size:16px; font-weight:700; color:var(--secondary); margin-bottom:6px;"><i class="fa-solid fa-boxes-stacked"></i> 4. Stock & Inventory Backup & Restore</div>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Export or restore only your item inventory and prices.</p>
+        <div class="grid-2">
+            <button class="btn-blue" style="background:#16a34a;" onclick="exportStockOnly()"><i class="fa-solid fa-file-export"></i> Export Stock Data</button>
+            <button class="btn-blue" style="background:#0d9488;" onclick="document.getElementById('importStockFileInput').click()"><i class="fa-solid fa-file-import"></i> Import Stock Data</button>
+        </div>
+        <input type="file" id="importStockFileInput" accept=".json" style="display:none" onchange="importStockOnly(event)">
     </div>
 </div>
 
@@ -680,7 +738,7 @@ tr:hover td { background-color: #f8fafc; }
 <div id="customModal" class="modal-overlay">
     <div class="modal-card">
         <div id="modalHeader" class="modal-header">Notification</div>
-        <div id="modalBody" style="font-size:14px; color:#334155; margin: 12px 0;">Message...</div>
+        <div id="modalBody" style="font-size:14px; color:var(--text); margin: 12px 0;">Message...</div>
         <div id="modalFooter" class="modal-footer">
             <button id="modalCancelBtn" class="btn-blue" style="background:#64748b; width:auto; padding:8px 16px;">Cancel</button>
             <button id="modalConfirmBtn" class="btn-blue" style="background:var(--primary); width:auto; padding:8px 16px;">OK</button>
@@ -713,6 +771,29 @@ let items = [];
 let editingIndex = -1;
 let deferredPrompt = null;
 let currentEditingStockProduct = null;
+
+/* TAB SWITCHING ENGINE */
+function switchTab(tabId, btnElement) {
+    document.querySelectorAll('.app-tab-content').forEach(tab => tab.classList.remove('active-tab'));
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+    
+    document.getElementById(tabId).classList.add('active-tab');
+    btnElement.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* THEME MANAGER */
+function toggleDarkMode() {
+    let currentTheme = document.documentElement.getAttribute("data-theme");
+    let newTheme = currentTheme === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+}
+
+// Load Theme preference on startup
+if(localStorage.getItem("theme") === "dark") {
+    document.documentElement.setAttribute("data-theme", "dark");
+}
 
 /* CUSTOM MODAL SYSTEM */
 function showAppAlert(title, message, callback = null) {
@@ -777,18 +858,6 @@ document.getElementById("pwaInstallBtn")?.addEventListener("click", () => {
     }
 });
 
-function toggleShopDetails() {
-    const box = document.getElementById("shopDetailsBox");
-    const icon = document.getElementById("shopToggleIcon");
-    if (box.style.display === "block") {
-        box.style.display = "none";
-        icon.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
-    } else {
-        box.style.display = "block";
-        icon.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
-    }
-}
-
 document.addEventListener("DOMContentLoaded", function(){
     initBillingSystem();
     filterHistoryBills();
@@ -820,7 +889,6 @@ function initBillingSystem() {
         localStorage.setItem("gstin", gstinInput.value);
         localStorage.setItem("upiId", upiInput.value);
         showAppAlert("Success", "Shop details updated successfully!");
-        toggleShopDetails();
     });
 
     const stockProductInput = document.getElementById("stockProduct");
@@ -905,17 +973,18 @@ function initBillingSystem() {
     });
 
     document.getElementById("downloadStockBtn").addEventListener("click", function(){
-        let html = `<table border="1"><tr><th>S.No</th><th>Product</th><th>Available Qty</th><th>Selling Price</th></tr>`;
+        let csvContent = "data:text/csv;charset=utf-8,S.No,Product,Available Qty,Selling Price\n";
         let sno = 1;
         for(let p in stock){
-            html += `<tr><td>${sno++}</td><td>${p}</td><td>${stock[p]}</td><td>₹${stockPrices[p] || 0}</td></tr>`;
+            csvContent += `${sno++},"${p}",${stock[p]},${stockPrices[p] || 0}\n`;
         }
-        html += `</table>`;
-        let blob = new Blob([html], {type: "application/vnd.ms-excel"});
-        let a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "Inventory_Stock.xlsx";
-        a.click();
+        let encodedUri = encodeURI(csvContent);
+        let link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "Inventory_Stock.csv");
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
     });
 
     const qtyInput = document.getElementById("qty");
@@ -1146,28 +1215,6 @@ function initBillingSystem() {
     }
     window.updateSaleSummary = updateSaleSummary;
     updateSaleSummary();
-
-    document.getElementById("exportBackupBtn").addEventListener("click", function(){
-        let backupData = {
-            shop: localStorage.getItem("shop") || "",
-            address: localStorage.getItem("address") || "",
-            phone: localStorage.getItem("phone") || "",
-            gstin: localStorage.getItem("gstin") || "",
-            upiId: localStorage.getItem("upiId") || "",
-            invoiceCounter: localStorage.getItem("invoiceCounter") || "1",
-            stock: JSON.parse(localStorage.getItem("stock")) || {},
-            stockPrices: JSON.parse(localStorage.getItem("stockPrices")) || {},
-            stockHistory: JSON.parse(localStorage.getItem("stockHistory")) || [],
-            saleHistory: JSON.parse(localStorage.getItem("saleHistory")) || []
-        };
-        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
-        let downloadAnchor = document.createElement('a');
-        downloadAnchor.setAttribute("href", dataStr);
-        downloadAnchor.setAttribute("download", `Shayan_Smart_Billing_Backup_${new Date().toISOString().slice(0,10)}.json`);
-        document.body.appendChild(downloadAnchor);
-        downloadAnchor.click();
-        downloadAnchor.remove();
-    });
 }
 
 /* RENDER MODERN HIGH-END PRINT INVOICE */
@@ -1307,6 +1354,7 @@ function reprintBill(invoiceNo) {
     let found = history.find(h => h.invoiceNo == invoiceNo);
     if(found) {
         renderInvoiceBillHTML(found);
+        switchTab('homeTab', document.querySelector('.app-navbar button:first-child'));
         window.scrollTo({ top: document.getElementById("bill").offsetTop - 50, behavior: 'smooth' });
     } else {
         showAppAlert("Not Found", "Invoice record not found.");
@@ -1340,7 +1388,7 @@ function editHistoryBill(invoiceNo) {
         filterHistoryBills();
         window.updateSaleSummary();
 
-        window.scrollTo({ top: document.getElementById("customer").offsetTop - 50, behavior: 'smooth' });
+        switchTab('homeTab', document.querySelector('.app-navbar button:first-child'));
         showAppAlert("Loaded", "Bill items reloaded into cart.");
     });
 }
@@ -1501,36 +1549,83 @@ function calculateGrandTotal() {
     return grandTotal;
 }
 
-function importDataBackup(event) {
+/* SETTING: SALES HISTORY BACKUP & RESTORE */
+function exportSalesHistoryOnly() {
+    let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(saleHistory, null, 2));
+    let downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `Sales_History_Backup_${new Date().toISOString().slice(0,10)}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+}
+
+function importSalesHistoryOnly(event) {
     const file = event.target.files[0];
     if(!file) return;
-
     const fileReader = new FileReader();
     fileReader.onload = function(e) {
         try {
             const data = JSON.parse(e.target.result);
-            showAppConfirm("Restore Backup", "Overwrite current data with imported backup?", function(){
-                if(data.shop) localStorage.setItem("shop", data.shop);
-                if(data.address) localStorage.setItem("address", data.address);
-                if(data.phone) localStorage.setItem("phone", data.phone);
-                if(data.gstin) localStorage.setItem("gstin", data.gstin);
-                if(data.upiId) localStorage.setItem("upiId", data.upiId);
-                if(data.invoiceCounter) localStorage.setItem("invoiceCounter", data.invoiceCounter);
-                if(data.stock) localStorage.setItem("stock", JSON.stringify(data.stock));
-                if(data.stockPrices) localStorage.setItem("stockPrices", JSON.stringify(data.stockPrices));
-                if(data.stockHistory) localStorage.setItem("stockHistory", JSON.stringify(data.stockHistory));
-                if(data.saleHistory) localStorage.setItem("saleHistory", JSON.stringify(data.saleHistory));
-                
-                showAppAlert("Restored", "Backup imported successfully!", function(){
-                    location.reload();
+            if(Array.isArray(data)) {
+                showAppConfirm("Restore Sales", "Overwrite current sales history with imported data?", function(){
+                    localStorage.setItem("saleHistory", JSON.stringify(data));
+                    filterHistoryBills();
+                    updateSaleSummary();
+                    showAppAlert("Restored", "Sales history imported successfully!");
                 });
-            });
+            } else {
+                showAppAlert("Error", "Invalid Sales History format.");
+            }
         } catch(err) {
-            showAppAlert("Import Error", "Invalid Backup JSON file!");
+            showAppAlert("Import Error", "Invalid JSON file!");
+        }
+    };
+    fileReader.readAsText(file);
+}
+
+/* SETTING: STOCK BACKUP & RESTORE */
+function exportStockOnly() {
+    let stockData = {
+        stock: JSON.parse(localStorage.getItem("stock")) || {},
+        stockPrices: JSON.parse(localStorage.getItem("stockPrices")) || {},
+        stockHistory: JSON.parse(localStorage.getItem("stockHistory")) || []
+    };
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(stockData, null, 2));
+    let downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `Stock_Inventory_Backup_${new Date().toISOString().slice(0,10)}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+}
+
+function importStockOnly(event) {
+    const file = event.target.files[0];
+    if(!file) return;
+    const fileReader = new FileReader();
+    fileReader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            if(data.stock) {
+                showAppConfirm("Restore Stock", "Overwrite current inventory stock with imported data?", function(){
+                    localStorage.setItem("stock", JSON.stringify(data.stock));
+                    if(data.stockPrices) localStorage.setItem("stockPrices", JSON.stringify(data.stockPrices));
+                    if(data.stockHistory) localStorage.setItem("stockHistory", JSON.stringify(data.stockHistory));
+                    renderStock();
+                    if(window.renderProductDropdown) window.renderProductDropdown();
+                    showAppAlert("Restored", "Stock inventory imported successfully!");
+                });
+            } else {
+                showAppAlert("Error", "Invalid Stock JSON format.");
+            }
+        } catch(err) {
+            showAppAlert("Import Error", "Invalid JSON file!");
         }
     };
     fileReader.readAsText(file);
 }
 </script>
 </body>
-                </html>
+</html>
