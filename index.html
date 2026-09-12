@@ -1,1649 +1,464 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shayan Smart Billing - Ultra POS & Stock System</title>
-<link rel="manifest" href="manifest.json">
-<!-- Inter & Outfit Fonts for Modern UI -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-<!-- Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
-<meta name="theme-color" content="#4f46e5">
-
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js')
-        .then(() => console.log("Service Worker Registered"))
-        .catch(err => console.log("SW Register Failed", err));
-    });
-  }
-</script>
-
+<title>Udhaar Manager PRO - Free Udhaar Tracker & Customer Billing App Online</title>
+<link rel="canonical" href="https://https://shayandigitalservice.github.io/my-tools-site/udhaar.html/udhaar-manager-pro" />
+<meta name="description" content="Udhaar Manager PRO is a free online udhaar tracker and mini POS tool for shopkeepers. Manage customers, track udhaar, add payments, generate receipts, and share via WhatsApp easily. Mobile & desktop friendly.">
+<meta name="keywords" content="Udhaar manager, Udhaar tracker, Customer billing, Mini POS, Free billing app, Shop invoice, WhatsApp bill, Udhaar receipt online, Small business billing, Shop accounting">
 <style>
-/* ==========================================
-   ULTRA MODERN DESIGN SYSTEM & VARIABLES 
-   ========================================== */
-:root {
-    --primary: #4f46e5;
-    --primary-hover: #4338ca;
-    --primary-light: #e0e7ff;
-    --secondary: #0f172a;
-    --bg: #f8fafc;
-    --card-bg: #ffffff;
-    --text: #1e293b;
-    --text-muted: #64748b;
-    --border: #e2e8f0;
-    --danger: #ef4444;
-    --danger-hover: #dc2626;
-    --warning: #f59e0b;
-    --success: #10b981;
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04);
-    --radius: 12px;
-}
+body{font-family:Arial;background:#f4f4f4;margin:0;padding:10px;}
+.container{max-width:800px;margin:auto;background:white;padding:15px;border-radius:10px;}
+h2{text-align:center;}
+input,select,button{padding:10px;margin:6px 0;border-radius:6px;box-sizing:border-box;}
+input,select{width:100%;}
+button{background:#2563eb;color:white;border:none;cursor:pointer;}
+.card{border:1px solid #ccc;padding:10px;margin:6px 0;border-radius:6px;cursor:pointer;}
+table{width:100%;border-collapse:collapse;margin-top:10px;}
+td,th{border:1px solid #000;padding:6px;text-align:center;}
+.dashboard{background:#e6f2ff;padding:10px;border-radius:6px;margin-bottom:10px;}
 
-[data-theme="dark"] {
-    --primary: #6366f1;
-    --primary-hover: #4f46e5;
-    --primary-light: rgba(99, 102, 241, 0.15);
-    --secondary: #f8fafc;
-    --bg: #0f172a;
-    --card-bg: #1e293b;
-    --text: #f1f5f9;
-    --text-muted: #94a3b8;
-    --border: #334155;
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
-    --shadow-lg: 0 10px 25px -5px rgb(0 0 0 / 0.5);
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body { 
-    font-family: 'Inter', sans-serif; 
-    background: var(--bg); 
-    color: var(--text); 
-    padding: 16px 10px 90px 10px; /* Extra bottom padding to avoid bottom navbar overlap */
-    line-height: 1.5;
-    transition: background 0.3s, color 0.3s;
-}
-
-h1, h2, h3, .font-heading {
-    font-family: 'Outfit', sans-serif;
-}
-
-/* App Header */
-.app-header {
-    text-align: center;
-    margin-bottom: 16px;
-}
-.app-header h1 {
-    font-size: 26px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #3b82f6 0%, #4f46e5 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -0.5px;
-}
-.app-header p {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-weight: 500;
-}
-
-/* FIXED BOTTOM MOBILE-FRIENDLY NAVIGATION BAR */
-.app-navbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    background: var(--card-bg);
-    padding: 8px 4px;
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
-    border-top: 1px solid var(--border);
-    z-index: 1000;
-}
-.nav-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    padding: 6px 10px;
-    font-size: 11px;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    transition: all 0.2s;
-    font-family: 'Inter', sans-serif;
-    flex: 1;
-}
-.nav-btn i {
-    font-size: 18px;
-}
-.nav-btn:hover {
-    color: var(--primary);
-}
-.nav-btn.active {
-    color: var(--primary);
-}
-
-/* Tab Content View Controller */
-.app-tab-content {
-    display: none;
-}
-.app-tab-content.active-tab {
-    display: block;
-    animation: fadeIn 0.25s ease-in-out;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* PWA Install Banner */
-#pwaInstallBanner {
-    display: none;
-    background: linear-gradient(135deg, #4f46e5, #3b82f6);
-    color: white;
-    padding: 10px 16px;
-    border-radius: var(--radius);
-    margin: 0 auto 16px auto;
-    max-width: 1100px;
-    box-shadow: var(--shadow-lg);
-    align-items: center;
-    justify-content: space-between;
-}
-#pwaInstallBanner span { font-weight: 600; font-size: 13px; }
-#pwaInstallBtn {
-    background: #ffffff;
-    color: var(--primary);
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 12px;
-    transition: 0.2s;
-    box-shadow: var(--shadow-sm);
-}
-
-/* Inputs & UI Form Controls */
-label {
-    display: block;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-muted);
-    margin-bottom: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-input, select { 
-    width: 100%; 
-    padding: 10px 12px; 
-    margin-bottom: 12px; 
-    border-radius: 8px; 
-    border: 1px solid var(--border); 
-    font-size: 14px; 
-    outline: none; 
-    font-family: 'Inter', sans-serif;
-    transition: all 0.2s ease;
-    background-color: var(--card-bg);
-    color: var(--text);
-}
-input:focus, select:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-light);
-}
-
-/* Glass & Card Design Containers */
-.billing-ui-container { 
-    max-width: 1100px; 
-    margin: auto; 
-    background: var(--card-bg); 
-    padding: 20px 16px; 
-    border-radius: 16px;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--border);
-}
-
-.section-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--secondary);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 2px solid var(--bg);
-    padding-bottom: 8px;
-}
-
-/* Action Buttons */
-.btn-blue { 
-    width: 100%; 
-    padding: 12px 16px; 
-    border-radius: 10px; 
-    border: none; 
-    background: var(--primary); 
-    color: white; 
-    font-size: 14px; 
-    font-weight: 600; 
-    cursor: pointer; 
-    transition: all 0.2s ease; 
-    font-family: 'Inter', sans-serif;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    box-shadow: var(--shadow-sm);
-}
-.btn-blue:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
-.btn-blue:active { transform: translateY(0); }
-
-/* Stylish Tables */
-.table-wrapper { 
-    overflow-x: auto; 
-    width: 100%; 
-    margin: 14px 0; 
-    border-radius: 10px; 
-    border: 1px solid var(--border);
-}
-table { width: 100%; border-collapse: collapse; white-space: nowrap; }
-th { 
-    background: var(--bg); 
-    font-weight: 600; 
-    color: var(--text-muted); 
-    text-transform: uppercase; 
-    font-size: 10px; 
-    letter-spacing: 0.5px;
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border);
-    text-align: left;
-}
-td { 
-    padding: 10px 12px; 
-    font-size: 13px; 
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-}
-tr:last-child td { border-bottom: none; }
-tr:hover td { background-color: var(--primary-light); }
-
-.stock-pname { font-weight: 600; color: var(--secondary); }
-.bill-pname { font-weight: 500; color: var(--text); }
-
-/* Prominent Total Dashboard Box */
-.current-total-box {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    border-radius: var(--radius);
-    padding: 16px;
-    margin: 16px 0;
-    text-align: center;
-    color: #ffffff;
-    box-shadow: var(--shadow-md);
-    position: relative;
-    overflow: hidden;
-}
-.current-total-box .sub-info { font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
-.current-total-box .grand-total-title { font-size: 24px; font-weight: 800; color: #38bdf8; letter-spacing: -0.5px; }
-
-/* Grid Layouts */
-.grid-2 { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.grid-3 { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.tax-discount-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.btn-group-row { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
-
-/* Analytics Cards */
-.sale-summary { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 10px 0 20px 0; }
-.sale-card { 
-    background: var(--card-bg); 
-    padding: 16px; 
-    border-radius: var(--radius); 
-    border: 1px solid var(--border); 
-    box-shadow: var(--shadow-sm);
-}
-.sale-card span { display: block; font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
-.sale-card b { font-size: 20px; color: var(--secondary); font-family: 'Outfit', sans-serif; margin-top: 4px; display: block; }
-
-/* Action Buttons inside Table */
-.btn-action {
-    border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 12px;
-    color: white;
-    margin: 2px;
-    transition: 0.2s;
-}
-.btn-del { background: var(--danger); }
-.btn-del:hover { background: var(--danger-hover); }
-.btn-edit { background: var(--warning); }
-.btn-edit:hover { opacity: 0.9; }
-
-/* ==========================================
-   ULTRA-STYLISH PRINT SHEET & RECEIPT INVOICE
-   ========================================== */
-.bill { 
-    margin-top: 24px; 
-    padding: 20px; 
-    border-radius: 14px; 
-    background: #ffffff; 
-    border: 1px solid #cbd5e1;
-    box-shadow: var(--shadow-md);
-    font-family: 'Inter', sans-serif;
-    color: #0f172a;
-    position: relative;
-    overflow: hidden;
-}
-
-.invoice-card-header {
-    border-bottom: 2px dashed #cbd5e1;
-    padding-bottom: 16px;
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.shop-brand h3 {
-    margin: 0 0 4px 0;
-    font-size: 20px;
-    font-weight: 800;
-    color: #0f172a;
-    letter-spacing: -0.5px;
-    font-family: 'Outfit', sans-serif;
-}
-
-.shop-brand p {
-    margin: 2px 0;
-    font-size: 11px;
-    color: #475569;
-}
-
-.inv-meta-badge {
-    text-align: right;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    padding: 8px 12px;
-    border-radius: 8px;
-    width: 100%;
-}
-
-.inv-meta-badge .inv-no-title { font-size: 9px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
-.inv-meta-badge .inv-number { font-size: 16px; font-weight: 800; color: var(--primary); font-family: 'Outfit', sans-serif; }
-.inv-meta-badge .inv-date { font-size: 10px; color: #475569; margin-top: 2px; }
-
-.customer-info-bar {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    background: #f1f5f9;
-    padding: 10px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    margin-bottom: 16px;
-    font-weight: 500;
-    color: #0f172a;
-}
-
-.bill-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-.bill-table th { 
-    background-color: #0f172a; 
-    color: #ffffff; 
-    font-weight: 600; 
-    font-size: 10px;
-    padding: 8px;
-    text-transform: uppercase;
-    border: none;
-    letter-spacing: 0.5px;
-}
-.bill-table td { 
-    border-bottom: 1px solid #e2e8f0; 
-    padding: 10px 8px; 
-    font-size: 12px; 
-    color: #0f172a;
-}
-.bill-table td.text-right { text-align: right; }
-.bill-table td.text-center { text-align: center; }
-
-.bill-summary-table { width: 100%; margin-top: 12px; border-collapse: collapse; }
-.bill-summary-table td { padding: 5px 8px; font-size: 12px; border: none; color: #0f172a; }
-.bill-summary-table .grand-row td {
-    font-size: 15px;
-    font-weight: 800;
-    color: #0f172a;
-    border-top: 2px solid #0f172a;
-    border-bottom: 2px double #0f172a;
-    padding: 8px;
-}
-
-.qr-container { 
-    text-align: center; 
-    margin-top: 16px; 
-    padding-top: 14px;
-    border-top: 2px dashed #cbd5e1;
-}
-.qr-container p { font-size: 11px; margin: 0 0 8px 0; color: #334155; font-weight: 600; }
-.qr-container img { 
-    width: 110px; 
-    height: 110px; 
-    border-radius: 10px;
-    border: 1px solid #cbd5e1;
-    padding: 4px;
-    background: #fff;
-    box-shadow: var(--shadow-sm);
-}
-
-.bill-footer-msg {
-    text-align: center;
-    font-size: 11px;
-    color: #64748b;
-    margin-top: 14px;
-    font-weight: 500;
-}
-
-/* Modals */
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(4px);
-    z-index: 9999;
-    align-items: center; justify-content: center;
-    padding: 16px;
-}
-.modal-card {
-    background: var(--card-bg);
-    width: 100%; max-width: 400px;
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--border);
-    animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-@keyframes popIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-}
-.modal-header {
-    font-size: 16px; font-weight: 700; color: var(--secondary);
-    margin-bottom: 10px; border-bottom: 1px solid var(--border);
-    padding-bottom: 8px; font-family: 'Outfit', sans-serif;
-}
-.modal-footer { display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end; }
-
-/* Responsive Media Queries */
-@media screen and (min-width: 768px) {
-    body { padding: 24px 12px; }
-    .app-navbar {
-        position: static;
-        max-width: 1100px;
-        margin: 0 auto 24px auto;
-        box-shadow: var(--shadow-sm);
-        border-radius: var(--radius);
-        border: 1px solid var(--border);
-        justify-content: center;
-        gap: 8px;
-        padding: 8px;
-    }
-    .nav-btn {
-        flex: unset;
-        flex-direction: row;
-        padding: 10px 18px;
-        font-size: 14px;
-    }
-    .nav-btn i { font-size: 14px; }
-    .grid-2 { grid-template-columns: 1fr 1fr; }
-    .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
-    .tax-discount-grid { grid-template-columns: 1fr 1fr 1fr; }
-    .btn-group-row { flex-direction: row; }
-    .sale-summary { grid-template-columns: 1fr 1fr 1fr; }
-    .inv-meta-badge { width: auto; text-align: right; }
-    .customer-info-bar { flex-direction: row; justify-content: space-between; }
-}
-
-/* Pure Clean Print Styling Engine */
-@media print {
-    body * { visibility: hidden !important; }
-    #bill, #bill * { visibility: visible !important; }
-    #bill { 
-        position: absolute !important; 
-        left: 0 !important; top: 0 !important; 
-        width: 100% !important; margin: 0 !important;
-        padding: 0 !important; border: none !important;
-        box-shadow: none !important; background: #fff !important;
-    }
-    .app-navbar { display: none !important; }
+/* BUTTON STYLING */
+.centered{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+button.smallbtn{padding:8px 12px;font-size:14px;min-width:100px;}
+@media(max-width:600px){
+  .centered{flex-direction:column;align-items:center;}
+  button.smallbtn{width:80%;}
 }
 </style>
 </head>
+
 <body>
 
-<div class="app-header">
-    <h1><i class="fa-solid fa-bolt"></i> Shayan Smart Billing</h1>
-    <p>Modern Smart POS, Inventory & Billing System</p>
-</div>
+<div class="container">
 
-<!-- FIXED BOTTOM / RESPONSIVE NAVIGATION BAR -->
-<div class="app-navbar">
-    <button class="nav-btn active" onclick="switchTab('homeTab', this)"><i class="fa-solid fa-house"></i> Home</button>
-    <button class="nav-btn" onclick="switchTab('stockTab', this)"><i class="fa-solid fa-boxes-stacked"></i> Stock</button>
-    <button class="nav-btn" onclick="switchTab('historyTab', this)"><i class="fa-solid fa-clock-rotate-left"></i> History</button>
-    <button class="nav-btn" onclick="switchTab('settingTab', this)"><i class="fa-solid fa-gear"></i> Setting</button>
-</div>
+<h2>💰 Udhaar Manager PRO</h2>
 
-<!-- PWA Installation Banner -->
-<div id="pwaInstallBanner">
-    <span><i class="fa-solid fa-mobile-screen-button"></i> Install App</span>
-    <button id="pwaInstallBtn">Install Now</button>
-</div>
+<!-- SHOP -->
+<input id="shop" placeholder="Shop Name">
+<input id="address" placeholder="Address">
+<input id="phone" placeholder="Mobile Number">
+<button class="smallbtn" onclick="saveShop()">Save Shop</button>
 
-<!-- TAB 1: HOME (Billing & Dashboard) -->
-<div id="homeTab" class="app-tab-content active-tab billing-ui-container">
-    <div class="section-title"><i class="fa-solid fa-receipt"></i> Bill Generator</div>
+<hr>
 
-    <!-- Main Billing Form -->
-    <div class="grid-2">
-        <div><label>Customer Name</label><input id="customer" placeholder="Enter Customer Name"></div>
-        <div><label>Search Product</label><input id="productSearch" placeholder="Type to search stock..."></div>
-    </div>
-    
-    <div><label>Select Inventory Product</label><select id="productDropdown"></select></div>
+<!-- DASHBOARD -->
+<div id="grandTotalBox" class="dashboard"></div>
 
-    <div class="grid-2">
-        <div><label>Quantity</label><input id="qty" type="number" placeholder="Qty"></div>
-        <div><label>Unit Price (₹)</label><input id="price" type="number" placeholder="Price"></div>
-    </div>
-    <button id="addItemBtn" class="btn-blue"><i class="fa-solid fa-cart-plus"></i> Add Item to Invoice</button>
+<!-- CUSTOMER -->
+<input id="cname" placeholder="Customer Name">
+<input id="cmobile" placeholder="Mobile Number">
+<button class="smallbtn" onclick="addCustomer()">Add Customer</button>
 
-    <div class="table-wrapper">
-        <table id="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Product</th>
-                    <th>Qty</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                    <th style="text-align:center;">Action</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
-    </div>
+<input id="search" placeholder="Search Customer" onkeyup="showCustomers()">
 
-    <!-- Discount & GST Section -->
-    <div class="tax-discount-grid">
-        <div><label>Discount (Flat ₹)</label><input id="discFlat" type="number" placeholder="0.00" oninput="calculateGrandTotal()"></div>
-        <div><label>Discount (%)</label><input id="discPercent" type="number" placeholder="0%" oninput="calculateGrandTotal()"></div>
-        <div>
-            <label>GST Slab Rate</label>
-            <select id="gstRate" onchange="calculateGrandTotal()">
-                <option value="0">GST 0%</option>
-                <option value="5">GST 5% (CGST 2.5% + SGST 2.5%)</option>
-                <option value="12">GST 12% (CGST 6% + SGST 6%)</option>
-                <option value="18">GST 18% (CGST 9% + SGST 9%)</option>
-                <option value="28">GST 28% (CGST 14% + SGST 14%)</option>
-            </select>
-        </div>
-    </div>
+<button class="smallbtn" onclick="downloadExcel()">📊 Download All Data</button>
 
-    <!-- Prominent Grand Total Display -->
-    <div class="current-total-box">
-        <div class="sub-info">Subtotal: ₹<span id="liveSubTotal">0.00</span> | Tax/GST: ₹<span id="liveGstTotal">0.00</span></div>
-        <div class="grand-total-title">GRAND TOTAL: ₹<span id="liveCurrentTotal">0.00</span></div>
-    </div>
+<div id="customerList"></div>
 
-    <div class="grid-2">
-        <div><label>Amount Paid by Customer</label><input id="amtPaid" type="number" placeholder="Enter amount received"></div>
-        <div>
-            <label>Payment Mode</label>
-            <select id="payment">
-              <option value="UPI">UPI / Dynamic QR</option>
-              <option value="Cash">Cash</option>
-              <option value="Card">Card</option>
-            </select>
-        </div>
-    </div>
+<hr>
 
-    <button id="generateBillBtn" class="btn-blue" style="background:var(--primary); font-size:16px; padding:14px; margin-top:10px;"><i class="fa-solid fa-bolt"></i> Generate Bill Invoice</button>
-    
-    <div class="btn-group-row">
-        <select id="printMode" style="flex:1; margin-bottom:0;">
-            <option value="Receipt" selected>Receipt Layout (POS Thermal Paper)</option>
-            <option value="A4">Standard Invoice Layout (A4 Sheet)</option>
-        </select>
-        <button id="printBillBtn" class="btn-blue" style="flex:1; background:#0f172a;"><i class="fa-solid fa-print"></i> Print Invoice</button>
-        <button id="sendWhatsAppBtn" class="btn-blue" style="background:#25d366; flex:1;"><i class="fa-brands fa-whatsapp"></i> Send WhatsApp</button>
-    </div>
+<!-- PROFILE -->
+<div id="profile"></div>
 
-    <!-- STYLISH INVOICE DISPLAY CONTAINER -->
-    <div id="bill" class="bill"></div>
-</div>
-
-<!-- TAB 2: STOCK MANAGEMENT -->
-<div id="stockTab" class="app-tab-content billing-ui-container">
-    <div class="section-title"><i class="fa-solid fa-boxes-stacked"></i> Inventory & Stock Management</div>
-
-    <div class="grid-3">
-        <div><label>Product Name</label><input id="stockProduct" placeholder="Product Title"></div>
-        <div><label>Add Stock Quantity</label><input id="stockQty" type="number" placeholder="Qty"></div>
-        <div><label>Selling Price (₹)</label><input id="stockPrice" type="number" placeholder="Price"></div>
-    </div>
-    <button id="addStockBtn" class="btn-blue" style="background:#0d9488;"><i class="fa-solid fa-plus"></i> Add Item to Stock</button>
-
-    <div class="table-wrapper">
-        <table id="stockTable">
-            <thead>
-                <tr>
-                    <th>S.No</th>
-                    <th>Product</th>
-                    <th>Available Qty</th>
-                    <th>Selling Price</th>
-                    <th>Last Updated</th>
-                    <th style="text-align:center;">Action</th>
-                </tr>
-            </thead>
-            <tbody id="stockTableBody"></tbody>
-        </table>
-    </div>
-
-    <button id="downloadStockBtn" class="btn-blue" style="background:#475569;"><i class="fa-solid fa-file-csv"></i> Download Inventory CSV</button>
-</div>
-
-<!-- TAB 3: HISTORY -->
-<div id="historyTab" class="app-tab-content billing-ui-container">
-    <div class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Sales History & Management</div>
-
-    <!-- Sale Analytics Cards -->
-    <div class="sale-summary">
-        <div class="sale-card"><span>Today's Sales</span><b id="saleToday">₹0.00</b></div>
-        <div class="sale-card"><span>Weekly Sales</span><b id="saleWeekly">₹0.00</b></div>
-        <div class="sale-card"><span>Monthly Sales</span><b id="saleMonthly">₹0.00</b></div>
-    </div>
-
-    <div class="reprint-box" style="margin-top:0;">
-        <input id="searchInvoiceInput" placeholder="Type customer name or invoice number..." oninput="filterHistoryBills()">
-        <div class="table-wrapper" style="max-height: 350px; overflow-y: auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Inv #</th>
-                        <th>Customer</th>
-                        <th>Amount</th>
-                        <th style="text-align:center;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="historyTableBody"></tbody>
-            </table>
-        </div>
-        <div class="grid-2" style="margin-top:15px;">
-            <button id="downloadHistoryBtn" class="btn-blue" style="background:#475569;"><i class="fa-solid fa-file-excel"></i> Export Sales Excel</button>
-            <button id="clearAllHistoryBtn" class="btn-blue" style="background:var(--danger);"><i class="fa-solid fa-trash-can"></i> Clear All History</button>
-        </div>
-    </div>
-</div>
-
-<!-- TAB 4: SETTING -->
-<div id="settingTab" class="app-tab-content billing-ui-container">
-    <div class="section-title"><i class="fa-solid fa-gear"></i> App Settings & Preferences</div>
-
-    <!-- 1) Shop Details Setting -->
-    <div style="background:var(--bg); padding:16px; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:16px;">
-        <div style="font-size:15px; font-weight:700; color:var(--secondary); margin-bottom:12px;"><i class="fa-solid fa-store"></i> 1. Shop Details, GSTIN & UPI Setup</div>
-        <div class="grid-2">
-            <div><label>Shop Name</label><input id="shop" placeholder="e.g. Shayan Super Market"></div>
-            <div><label>Phone Number</label><input id="phone" placeholder="e.g. +91 9876543210"></div>
-        </div>
-        <div><label>Shop Address</label><input id="address" placeholder="Full shop address"></div>
-        <div class="grid-2">
-            <div><label>GSTIN Number (Optional)</label><input id="gstin" placeholder="GSTIN (if applicable)"></div>
-            <div><label>UPI ID for Payment QR</label><input id="upiId" placeholder="e.g. name@upi"></div>
-        </div>
-        <button id="saveShopBtn" class="btn-blue" style="margin-top: 8px;"><i class="fa-solid fa-floppy-disk"></i> Save Shop Details</button>
-    </div>
-
-    <!-- 2) Dark Mode Toggle -->
-    <div style="background:var(--bg); padding:16px; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-        <div>
-            <div style="font-size:15px; font-weight:700; color:var(--secondary);"><i class="fa-solid fa-moon"></i> 2. Dark Mode Theme</div>
-            <p style="font-size:11px; color:var(--text-muted);">Switch between light and dark UI themes.</p>
-        </div>
-        <button id="darkModeToggleBtn" class="btn-blue" style="width:auto; padding:10px 16px;" onclick="toggleDarkMode()"><i class="fa-solid fa-circle-half-stroke"></i> Toggle</button>
-    </div>
-
-    <!-- 3) Sales History Import & Export -->
-    <div style="background:var(--bg); padding:16px; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:16px;">
-        <div style="font-size:15px; font-weight:700; color:var(--secondary); margin-bottom:4px;"><i class="fa-solid fa-file-invoice-dollar"></i> 3. Sales History Backup & Restore</div>
-        <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Export or restore only your past sales records.</p>
-        <div class="grid-2">
-            <button class="btn-blue" style="background:#16a34a;" onclick="exportSalesHistoryOnly()"><i class="fa-solid fa-file-export"></i> Export Sales</button>
-            <button class="btn-blue" style="background:#0d9488;" onclick="document.getElementById('importSalesFileInput').click()"><i class="fa-solid fa-file-import"></i> Import Sales</button>
-        </div>
-        <input type="file" id="importSalesFileInput" accept=".json" style="display:none" onchange="importSalesHistoryOnly(event)">
-    </div>
-
-    <!-- 4) Stock Import & Export -->
-    <div style="background:var(--bg); padding:16px; border-radius:var(--radius); border:1px solid var(--border);">
-        <div style="font-size:15px; font-weight:700; color:var(--secondary); margin-bottom:4px;"><i class="fa-solid fa-boxes-stacked"></i> 4. Stock & Inventory Backup & Restore</div>
-        <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Export or restore only your item inventory and prices.</p>
-        <div class="grid-2">
-            <button class="btn-blue" style="background:#16a34a;" onclick="exportStockOnly()"><i class="fa-solid fa-file-export"></i> Export Stock</button>
-            <button class="btn-blue" style="background:#0d9488;" onclick="document.getElementById('importStockFileInput').click()"><i class="fa-solid fa-file-import"></i> Import Stock</button>
-        </div>
-        <input type="file" id="importStockFileInput" accept=".json" style="display:none" onchange="importStockOnly(event)">
-    </div>
-</div>
-
-<!-- CUSTOM DIALOGUE MODAL -->
-<div id="customModal" class="modal-overlay">
-    <div class="modal-card">
-        <div id="modalHeader" class="modal-header">Notification</div>
-        <div id="modalBody" style="font-size:14px; color:var(--text); margin: 10px 0;">Message...</div>
-        <div id="modalFooter" class="modal-footer">
-            <button id="modalCancelBtn" class="btn-blue" style="background:#64748b; width:auto; padding:8px 14px;">Cancel</button>
-            <button id="modalConfirmBtn" class="btn-blue" style="background:var(--primary); width:auto; padding:8px 14px;">OK</button>
-        </div>
-    </div>
-</div>
-
-<!-- STOCK EDIT MODAL -->
-<div id="stockModal" class="modal-overlay">
-    <div class="modal-card">
-        <div class="modal-header"><i class="fa-solid fa-pen-to-square"></i> Update Stock Item</div>
-        <label>Product Title</label>
-        <input id="modalProductName">
-        
-        <label>Available Quantity</label>
-        <input id="modalStockQty" type="number">
-        
-        <label>Selling Price (₹)</label>
-        <input id="modalStockPrice" type="number">
-        
-        <div class="modal-footer">
-            <button class="btn-blue" style="background:#64748b; width:auto; padding:8px 14px;" onclick="closeStockModal()">Cancel</button>
-            <button class="btn-blue" style="background:#10b981; width:auto; padding:8px 14px;" onclick="saveStockModal()">Save</button>
-        </div>
-    </div>
 </div>
 
 <script>
-let items = [];
-let editingIndex = -1;
-let deferredPrompt = null;
-let currentEditingStockProduct = null;
+let data = JSON.parse(localStorage.getItem("udhaarData")) || [];
+let current = null;
 
-/* TAB SWITCHING ENGINE */
-function switchTab(tabId, btnElement) {
-    document.querySelectorAll('.app-tab-content').forEach(tab => tab.classList.remove('active-tab'));
-    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-    
-    document.getElementById(tabId).classList.add('active-tab');
-    btnElement.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+/* SAVE SHOP */
+function saveShop(){
+localStorage.setItem("shop",shop.value);
+localStorage.setItem("address",address.value);
+localStorage.setItem("phone",phone.value);
+alert("Saved");
 }
 
-/* THEME MANAGER */
-function toggleDarkMode() {
-    let currentTheme = document.documentElement.getAttribute("data-theme");
-    let newTheme = currentTheme === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", newTheme);
-    localStorage.setItem("theme", newTheme);
+/* SAVE */
+function save(){
+localStorage.setItem("udhaarData",JSON.stringify(data));
+updateDashboard();
 }
 
-// Load Theme preference on startup
-if(localStorage.getItem("theme") === "dark") {
-    document.documentElement.setAttribute("data-theme", "dark");
-}
-
-/* CUSTOM MODAL SYSTEM */
-function showAppAlert(title, message, callback = null) {
-    const modal = document.getElementById("customModal");
-    document.getElementById("modalHeader").innerText = title;
-    document.getElementById("modalBody").innerText = message;
-    
-    const cancelBtn = document.getElementById("modalCancelBtn");
-    const confirmBtn = document.getElementById("modalConfirmBtn");
-    
-    cancelBtn.style.display = "none";
-    confirmBtn.innerText = "OK";
-    confirmBtn.style.background = "var(--primary)";
-    
-    confirmBtn.onclick = function() {
-        modal.style.display = "none";
-        if(callback) callback();
-    };
-    modal.style.display = "flex";
-}
-
-function showAppConfirm(title, message, onConfirm, onCancel = null) {
-    const modal = document.getElementById("customModal");
-    document.getElementById("modalHeader").innerText = title;
-    document.getElementById("modalBody").innerText = message;
-    
-    const cancelBtn = document.getElementById("modalCancelBtn");
-    const confirmBtn = document.getElementById("modalConfirmBtn");
-    
-    cancelBtn.style.display = "block";
-    confirmBtn.innerText = "Confirm";
-    confirmBtn.style.background = "var(--danger)";
-    
-    confirmBtn.onclick = function() {
-        modal.style.display = "none";
-        if(onConfirm) onConfirm();
-    };
-    
-    cancelBtn.onclick = function() {
-        modal.style.display = "none";
-        if(onCancel) onCancel();
-    };
-    
-    modal.style.display = "flex";
-}
-
-// PWA Install Prompt Listener
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    const banner = document.getElementById("pwaInstallBanner");
-    if(banner) banner.style.display = "flex";
+/* DASHBOARD */
+function updateDashboard(){
+let total=0,paid=0;
+let totalCustomers = data.length;
+data.forEach(c=>{
+c.history.forEach(t=>{
+if(t.type=="credit") total+=t.amount;
+else paid+=t.amount;
 });
-
-document.getElementById("pwaInstallBtn")?.addEventListener("click", () => {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-            deferredPrompt = null;
-            document.getElementById("pwaInstallBanner").style.display = "none";
-        });
-    }
 });
+let balance = total - paid;
+document.getElementById("grandTotalBox").innerHTML = `
+<b>👥 Total Customers: ${totalCustomers}</b><br>
+<b>💰 Total Udhaar: ₹${total}</b><br>
+<b>💸 Total Paid: ₹${paid}</b><br>
+<b>🧾 Balance: ₹${balance}</b>
+`;
+}
 
-document.addEventListener("DOMContentLoaded", function(){
-    initBillingSystem();
-    filterHistoryBills();
+/* ADD CUSTOMER */
+function addCustomer(){
+if(!cname.value){alert("Enter name");return;}
+data.push({name:cname.value,mobile:cmobile.value,history:[]});
+save(); cname.value=""; cmobile.value="";
+showCustomers();
+}
+
+/* SHOW CUSTOMERS */
+function showCustomers(){
+let s=search.value.toLowerCase();
+let html="";
+data.forEach((c,i)=>{
+if(!c.name.toLowerCase().includes(s)) return;
+html+=`<div class="card" onclick="openProfile(${i})">
+<b>${c.name}</b><br>${c.mobile}
+</div>`;
 });
-
-function initBillingSystem() {
-    let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter")) || 1;
-    let stock = JSON.parse(localStorage.getItem("stock")) || {};
-    let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
-    let stockHistory = JSON.parse(localStorage.getItem("stockHistory")) || [];
-
-    const shopInput = document.getElementById("shop");
-    const addressInput = document.getElementById("address");
-    const phoneInput = document.getElementById("phone");
-    const gstinInput = document.getElementById("gstin");
-    const upiInput = document.getElementById("upiId");
-    const saveShopBtn = document.getElementById("saveShopBtn");
-
-    shopInput.value = localStorage.getItem("shop") || "";
-    addressInput.value = localStorage.getItem("address") || "";
-    phoneInput.value = localStorage.getItem("phone") || "";
-    gstinInput.value = localStorage.getItem("gstin") || "";
-    upiInput.value = localStorage.getItem("upiId") || "";
-
-    saveShopBtn.addEventListener("click", function(){
-        localStorage.setItem("shop", shopInput.value);
-        localStorage.setItem("address", addressInput.value);
-        localStorage.setItem("phone", phoneInput.value);
-        localStorage.setItem("gstin", gstinInput.value);
-        localStorage.setItem("upiId", upiInput.value);
-        showAppAlert("Success", "Shop details updated successfully!");
-    });
-
-    const stockProductInput = document.getElementById("stockProduct");
-    const stockQtyInput = document.getElementById("stockQty");
-    const stockPriceInput = document.getElementById("stockPrice");
-    const addStockBtn = document.getElementById("addStockBtn");
-
-    window.renderStock = function(){
-        const tbody = document.getElementById("stockTableBody");
-        tbody.innerHTML = "";
-        let sno = 1;
-        for(let p in stock){
-            let updates = stockHistory.filter(h => h.product === p);
-            let lastUpdate = updates[updates.length - 1]?.date || "";
-            let badge = stock[p] <= 5 ? " <span style='color:var(--danger);font-weight:bold;font-size:10px;'>⚠ Low</span>" : "";
-            let row = tbody.insertRow();
-            row.insertCell(0).innerText = sno++;
-            row.insertCell(1).innerHTML = `<span class="stock-pname">${p}</span>` + badge;
-            row.insertCell(2).innerHTML = `<b>${stock[p]}</b>`;
-            row.insertCell(3).innerText = "₹" + (stockPrices[p] || 0);
-            row.insertCell(4).innerText = lastUpdate ? new Date(lastUpdate).toLocaleDateString() : "-";
-            row.insertCell(5).style.textAlign = "center";
-            row.insertCell(5).innerHTML = `
-                <button class="btn-action btn-edit" onclick="openStockModal('${p}')"><i class="fa-solid fa-pen"></i></button>
-                <button class="btn-action btn-del" onclick="deleteStockItem('${p}')"><i class="fa-solid fa-trash"></i></button>
-            `;
-        }
-    };
-    renderStock();
-
-    addStockBtn.addEventListener("click", function(){
-        let p = stockProductInput.value.trim();
-        let q = +stockQtyInput.value;
-        let pr = +stockPriceInput.value || 0;
-        if(!p || isNaN(q)){ showAppAlert("Required Field", "Please enter valid product details"); return; }
-        stock[p] = (stock[p] || 0) + q;
-        if(pr > 0) stockPrices[p] = pr;
-        
-        stockHistory.push({product:p, qtyAdded:q, type:"Added", date:new Date().toISOString()});
-        localStorage.setItem("stock", JSON.stringify(stock));
-        localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
-        localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
-        
-        stockProductInput.value = ""; stockQtyInput.value = ""; stockPriceInput.value = "";
-        renderStock();
-        renderProductDropdown();
-        showAppAlert("Stock Updated", `Added ${q} units to ${p}`);
-    });
-
-    const productDropdown = document.getElementById("productDropdown");
-    const productSearch = document.getElementById("productSearch");
-    const priceInput = document.getElementById("price");
-
-    function renderProductDropdown(){
-        productDropdown.innerHTML = "<option value=''>-- Select Item --</option>";
-        let productList = [...new Set(Object.keys(stock))];
-        productList.forEach(p => {
-            let option = document.createElement("option");
-            option.value = p; 
-            option.text = `${p} (Available: ${stock[p]})`;
-            productDropdown.appendChild(option);
-        });
-    }
-    renderProductDropdown();
-    window.renderProductDropdown = renderProductDropdown;
-
-    productDropdown.addEventListener("change", function(){
-        let selectedProduct = this.value;
-        if(selectedProduct && stockPrices[selectedProduct]){
-            priceInput.value = stockPrices[selectedProduct];
-        }
-    });
-
-    productSearch.addEventListener("input", function(){
-        let val = this.value.toLowerCase();
-        let options = Array.from(productDropdown.options);
-        let match = options.find(o => o.value.toLowerCase().includes(val) && o.value !== "");
-        if(match) {
-            productDropdown.value = match.value;
-            if(stockPrices[match.value]) priceInput.value = stockPrices[match.value];
-        }
-    });
-
-    document.getElementById("downloadStockBtn").addEventListener("click", function(){
-        let csvContent = "data:text/csv;charset=utf-8,S.No,Product,Available Qty,Selling Price\n";
-        let sno = 1;
-        for(let p in stock){
-            csvContent += `${sno++},"${p}",${stock[p]},${stockPrices[p] || 0}\n`;
-        }
-        let encodedUri = encodeURI(csvContent);
-        let link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "Inventory_Stock.csv");
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-    });
-
-    const qtyInput = document.getElementById("qty");
-    const addItemBtn = document.getElementById("addItemBtn");
-
-    addItemBtn.addEventListener("click", function(){
-        let p = productDropdown.value.trim();
-        let q = +qtyInput.value;
-        let pr = +priceInput.value;
-        if(!p || !q || !pr){ showAppAlert("Incomplete Details", "Select item, quantity & price."); return; }
-        if(stock[p] === undefined){ showAppAlert("Stock Error", "Product not in stock."); return; }
-
-        if(editingIndex > -1) {
-            let oldItem = items[editingIndex];
-            stock[oldItem.p] += oldItem.q;
-        }
-
-        if(q > stock[p]){ 
-            showAppAlert("Low Stock", `Stock not sufficient. Available: ${stock[p]}`); 
-            if(editingIndex > -1) stock[items[editingIndex].p] -= items[editingIndex].q;
-            return; 
-        }
-
-        stock[p] -= q;
-        stockHistory.push({product:p, qtyAdded:-q, type:"Sold", date:new Date().toISOString()});
-        localStorage.setItem("stock", JSON.stringify(stock));
-        localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
-        renderStock();
-
-        let t = q * pr;
-
-        if(editingIndex > -1) {
-            items[editingIndex] = {p, q, pr, t};
-            editingIndex = -1;
-            addItemBtn.innerHTML = '<i class="fa-solid fa-cart-plus"></i> Add Item to Invoice';
-            addItemBtn.style.background = "var(--primary)";
-        } else {
-            items.push({p, q, pr, t});
-        }
-
-        renderCartTable();
-        renderProductDropdown();
-        productSearch.value = ""; productDropdown.value = "";
-        qtyInput.value = ""; priceInput.value = "";
-    });
-
-    function getInvoiceNumber(){ 
-        let num = invoiceCounter; 
-        invoiceCounter++; 
-        localStorage.setItem("invoiceCounter", invoiceCounter); 
-        return num; 
-    }
-
-    document.getElementById("generateBillBtn").addEventListener("click", function(){
-        if(items.length === 0){ showAppAlert("Cart Empty", "Please add items to billing cart first."); return; }
-        
-        let subtotal = 0;
-        items.forEach(i => subtotal += i.t);
-        
-        let flatDisc = parseFloat(document.getElementById("discFlat").value) || 0;
-        let percentDisc = parseFloat(document.getElementById("discPercent").value) || 0;
-        let discountVal = flatDisc + (subtotal * (percentDisc / 100));
-        let taxableAmount = subtotal - discountVal;
-        if(taxableAmount < 0) taxableAmount = 0;
-
-        let gstRate = parseFloat(document.getElementById("gstRate").value) || 0;
-        let totalGst = taxableAmount * (gstRate / 100);
-        let cgst = totalGst / 2;
-        let sgst = totalGst / 2;
-        let grandTotal = taxableAmount + totalGst;
-
-        let paid = parseFloat(document.getElementById("amtPaid").value);
-        if(isNaN(paid)) paid = grandTotal;
-
-        let unpaid = grandTotal - paid;
-        if(unpaid < 0) unpaid = 0;
-
-        let invoiceNo = getInvoiceNumber();
-        let dateISO = new Date().toISOString();
-        let paymentMode = document.getElementById("payment").value;
-
-        let invoiceData = {
-            invoiceNo,
-            shopName: shopInput.value,
-            address: addressInput.value,
-            phone: phoneInput.value,
-            gstin: gstinInput.value.trim(),
-            upiId: upiInput.value.trim(),
-            customer: document.getElementById("customer").value || 'Walk-in Customer',
-            paymentMode,
-            date: dateISO,
-            items: [...items],
-            subtotal,
-            discountVal,
-            gstRate,
-            cgst,
-            sgst,
-            grandTotal,
-            paid,
-            unpaid
-        };
-
-        renderInvoiceBillHTML(invoiceData);
-
-        let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
-        saleHistory.push(invoiceData);
-        localStorage.setItem("saleHistory", JSON.stringify(saleHistory));
-
-        updateSaleSummary();
-        filterHistoryBills();
-        items = [];
-        renderCartTable();
-        document.getElementById("amtPaid").value = "";
-        document.getElementById("discFlat").value = "";
-        document.getElementById("discPercent").value = "";
-        
-        showAppAlert("Invoice Created", `Invoice #${invoiceNo} generated successfully!`);
-    });
-
-    /* CROSS-BROWSER PRINT SYSTEM */
-    document.getElementById("printBillBtn").addEventListener("click", function(){
-        let content = document.getElementById("bill").innerHTML;
-        if(!content || content.trim() === "") return showAppAlert("No Invoice", "Please generate an invoice first.");
-        
-        let printMode = document.getElementById("printMode").value;
-        let printFrame = document.getElementById("printFrame");
-        if (!printFrame) {
-            printFrame = document.createElement('iframe');
-            printFrame.id = 'printFrame';
-            printFrame.style.position = 'fixed';
-            printFrame.style.right = '0'; printFrame.style.bottom = '0';
-            printFrame.style.width = '0'; printFrame.style.height = '0'; printFrame.style.border = '0';
-            document.body.appendChild(printFrame);
-        }
-        
-        let frameDoc = printFrame.contentWindow || printFrame.contentDocument.document || printFrame.contentDocument;
-        frameDoc.document.open();
-        frameDoc.document.write(`
-            <html>
-            <head>
-                <title>Print Invoice</title>
-                <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-                <style>
-                    body { font-family: 'Inter', sans-serif; padding: ${printMode === 'Receipt' ? '5px' : '20px'}; margin: 0; color: #0f172a; }
-                    .invoice-card-header { border-bottom: 2px dashed #cbd5e1; padding-bottom: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; }
-                    .shop-brand h3 { margin: 0 0 4px 0; font-size: 18px; font-weight: 800; text-transform: uppercase; }
-                    .shop-brand p { margin: 2px 0; font-size: 11px; color: #475569; }
-                    .inv-meta-badge { text-align: right; background: #f8fafc; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 6px; }
-                    .inv-meta-badge .inv-no-title { font-size: 10px; font-weight: 700; color: #64748b; }
-                    .inv-meta-badge .inv-number { font-size: 16px; font-weight: 800; color: #4f46e5; }
-                    .customer-info-bar { display: flex; justify-content: space-between; background: #f1f5f9; padding: 6px 10px; border-radius: 6px; font-size: 11px; margin-bottom: 12px; }
-                    .bill-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-                    .bill-table th { background-color: #0f172a; color: #ffffff; font-weight: 700; font-size: 11px; padding: 6px; text-transform: uppercase; }
-                    .bill-table td { border-bottom: 1px solid #e2e8f0; padding: 8px 6px; font-size: 11px; }
-                    .bill-table td.text-right { text-align: right; }
-                    .bill-table td.text-center { text-align: center; }
-                    .bill-summary-table { width: 100%; margin-top: 8px; border-collapse: collapse; }
-                    .bill-summary-table td { padding: 3px 6px; font-size: 11px; }
-                    .bill-summary-table .grand-row td { font-size: 14px; font-weight: 800; border-top: 2px solid #0f172a; border-bottom: 2px double #0f172a; padding: 6px; }
-                    .qr-container { text-align: center; margin-top: 14px; padding-top: 10px; border-top: 2px dashed #cbd5e1; }
-                    .qr-container p { font-size: 11px; margin: 0 0 5px 0; font-weight: bold; }
-                    .qr-container img { width: 100px; height: 100px; }
-                    .bill-footer-msg { text-align: center; font-size: 10px; color: #64748b; margin-top: 10px; }
-                </style>
-            </head>
-            <body>
-                ${content}
-            </body>
-            </html>
-        `);
-        frameDoc.document.close();
-
-        setTimeout(() => {
-            printFrame.contentWindow.focus();
-            printFrame.contentWindow.print();
-        }, 300);
-    });
-
-    document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
-        let billElement = document.getElementById("bill");
-        if(!billElement.innerText) return showAppAlert("No Bill", "Generate invoice first.");
-        let text = "🧾 INVOICE RECEIPT\n\n" + billElement.innerText;
-        window.open("https://wa.me/?text=" + encodeURIComponent(text));
-    });
-
-    document.getElementById("downloadHistoryBtn").addEventListener("click", function(){
-        let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
-        if(saleHistory.length === 0) return showAppAlert("No Data", "No sales history recorded.");
-        let html = `<table border="1"><tr><th>Date</th><th>Invoice</th><th>Customer</th><th>Total</th><th>Paid</th></tr>`;
-        saleHistory.forEach(s => {
-            html += `<tr><td>${new Date(s.date).toLocaleDateString()}</td><td>${s.invoiceNo}</td><td>${s.customer}</td><td>${s.grandTotal || s.total}</td><td>${s.paid}</td></tr>`;
-        });
-        html += `</table>`;
-        let blob = new Blob([html], {type: "application/vnd.ms-excel"});
-        let a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "Sales_History.xlsx"; 
-        a.click();
-    });
-
-    document.getElementById("clearAllHistoryBtn").addEventListener("click", function(){
-        let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
-        if(saleHistory.length === 0) return showAppAlert("History Empty", "Sales history is already clear!");
-        
-        showAppConfirm("Delete Sales History", "Permanently clear all historical sales records?", function(){
-            localStorage.removeItem("saleHistory");
-            filterHistoryBills();
-            updateSaleSummary();
-            showAppAlert("Cleared", "All sales history records deleted.");
-        });
-    });
-
-    function updateSaleSummary(){
-        let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
-        let today = new Date();
-        let tTotal = 0, wTotal = 0, mTotal = 0;
-        history.forEach(s => {
-            let sDate = new Date(s.date);
-            let tot = s.grandTotal || s.total || 0;
-            if(sDate.toDateString() === today.toDateString()) tTotal += tot;
-            let diffDays = Math.ceil(Math.abs(today - sDate) / (1000 * 60 * 60 * 24));
-            if(diffDays <= 7) wTotal += tot;
-            if(sDate.getMonth() === today.getMonth() && sDate.getFullYear() === today.getFullYear()) mTotal += tot;
-        });
-        document.getElementById("saleToday").innerText = "₹" + tTotal.toFixed(2);
-        document.getElementById("saleWeekly").innerText = "₹" + wTotal.toFixed(2);
-        document.getElementById("saleMonthly").innerText = "₹" + mTotal.toFixed(2);
-    }
-    window.updateSaleSummary = updateSaleSummary;
-    updateSaleSummary();
+customerList.innerHTML=html;
 }
 
-/* RENDER MODERN HIGH-END PRINT INVOICE */
-function renderInvoiceBillHTML(data) {
-    let formattedDate = new Date(data.date).toLocaleDateString('en-GB') + ', ' + new Date(data.date).toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'});
+/* OPEN PROFILE */
+function openProfile(i){
+current=i;
+let c=data[i];
+let total=0,paid=0;
+c.history.forEach(t=>{
+if(t.type=="credit") total+=t.amount;
+else paid+=t.amount;
+});
+let balance=total-paid;
 
-    let html = `
-    <div class="invoice-card-header">
-        <div class="shop-brand">
-            <h3>${data.shopName || localStorage.getItem("shop") || 'Shayan Smart Market'}</h3>
-            <p>${data.address || localStorage.getItem("address") || ''}</p>
-            <p><strong>Phone:</strong> ${data.phone || localStorage.getItem("phone") || ''}</p>
-            ${data.gstin ? `<p><strong>GSTIN:</strong> ${data.gstin}</p>` : ''}
-        </div>
-        <div class="inv-meta-badge">
-            <div class="inv-no-title">TAX INVOICE</div>
-            <div class="inv-number">#${data.invoiceNo}</div>
-            <div class="inv-date">${formattedDate}</div>
-        </div>
-    </div>
-    
-    <div class="customer-info-bar">
-        <span><strong>Customer:</strong> ${data.customer}</span>
-        <span><strong>Payment Mode:</strong> ${data.paymentMode}</span>
-    </div>
+let html=`
+<h3>${c.name}</h3>
+Mobile: ${c.mobile}<br>
+<b>Total Udhaar:</b> ₹${total}<br>
+<b>Paid:</b> ₹${paid}<br>
+<b>Unpaid:</b> ₹${balance}
 
-    <div style="overflow-x:auto;">
-        <table class="bill-table">
-            <thead>
-                <tr>
-                    <th style="width:8%;" class="text-center">#</th>
-                    <th style="width:42%;">Item Description</th>
-                    <th style="width:15%;" class="text-center">Qty</th>
-                    <th style="width:17%;" class="text-right">Price</th>
-                    <th style="width:18%;" class="text-right">Total</th>
-                </tr>
-            </thead>
-            <tbody>`;
-    
-    data.items.forEach((i, index) => {
-        html += `
-            <tr>
-                <td class="text-center" style="color:#64748b;">${index + 1}</td>
-                <td style="font-weight:600; color:#0f172a;">${i.p}</td>
-                <td class="text-center">${i.q}</td>
-                <td class="text-right">₹${Number(i.pr).toFixed(2)}</td>
-                <td class="text-right" style="font-weight:700;">₹${Number(i.t).toFixed(2)}</td>
-            </tr>`;
-    });
-    
-    html += `
-        </tbody>
-    </table>
-    </div>
+<hr>
 
-    <table class="bill-summary-table">
-        <tr>
-            <td class="text-right" style="color:#475569;">Subtotal:</td>
-            <td class="text-right" style="width:25%; font-weight:600;">₹${Number(data.subtotal).toFixed(2)}</td>
-        </tr>`;
-            
-    if(data.discountVal > 0) {
-        html += `
-        <tr>
-            <td class="text-right" style="color:var(--danger);">Discount:</td>
-            <td class="text-right" style="font-weight:600; color:var(--danger);">-₹${Number(data.discountVal).toFixed(2)}</td>
-        </tr>`;
-    }
-    if(data.gstRate > 0) {
-        html += `
-        <tr>
-            <td class="text-right" style="color:#475569;">CGST (${(data.gstRate/2)}%):</td>
-            <td class="text-right" style="font-weight:600;">₹${Number(data.cgst).toFixed(2)}</td>
-        </tr>
-        <tr>
-            <td class="text-right" style="color:#475569;">SGST (${(data.gstRate/2)}%):</td>
-            <td class="text-right" style="font-weight:600;">₹${Number(data.sgst).toFixed(2)}</td>
-        </tr>`;
-    }
-    html += `
-        <tr class="grand-row">
-            <td class="text-right">Grand Total:</td>
-            <td class="text-right">₹${Number(data.grandTotal || data.total).toFixed(2)}</td>
-        </tr>
-        <tr>
-            <td class="text-right" style="color:var(--success); font-weight:600; padding-top:6px;">Amount Paid:</td>
-            <td class="text-right" style="font-weight:600; color:var(--success); padding-top:6px;">₹${Number(data.paid).toFixed(2)}</td>
-        </tr>
-        <tr>
-            <td class="text-right" style="color:var(--danger); font-weight:600;">Balance Due:</td>
-            <td class="text-right" style="font-weight:600; color:var(--danger);">₹${Number(data.unpaid).toFixed(2)}</td>
-        </tr>
-    </table>`;
-    
-    if(data.upiId && data.paid > 0){
-        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent('upi://pay?pa='+data.upiId+'&pn='+(data.shopName||'')+'&am='+data.paid+'&cu=INR')}`;
-        html += `
-        <div class="qr-container">
-            <p><i class="fa-solid fa-qrcode"></i> Scan to Pay ₹${Number(data.paid).toFixed(2)} via UPI</p>
-            <img src="${qrUrl}" alt="UPI QR Code">
-        </div>`;
-    }
+<input id="amt" type="number" placeholder="Enter Amount">
 
-    html += `<div class="bill-footer-msg">✨ Thank you for your business! Please visit again. ✨</div>`;
+<div class="centered">
+<button class="smallbtn" onclick="addUdhaar()">Add Udhaar</button>
+<button class="smallbtn" onclick="addPayment()">Add Payment</button>
+<button class="smallbtn" onclick="sendReminder()">📲 WhatsApp</button>
+<button class="smallbtn" onclick="printData()">🖨 Print</button>
+<button class="smallbtn" onclick="deleteCustomer()" style="background:red;">Delete Customer</button>
+</div>
 
-    document.getElementById("bill").innerHTML = html;
+<select id="filter" onchange="openProfile(${i})">
+<option value="all">Full</option>
+<option value="today">Today</option>
+<option value="week">Last Week</option>
+<option value="month">Last Month</option>
+</select>
+
+<h4>History</h4>
+<table>
+<tr><th>Date & Time</th><th>Type</th><th>Amount</th></tr>
+`;
+
+let now=new Date();
+c.history.forEach(t=>{
+let d=new Date(t.date);
+let show=true;
+let f=document.getElementById("filter")?.value || "all";
+if(f=="today" && d.toDateString()!=now.toDateString()) show=false;
+if(f=="week" && (now-d)>7*86400000) show=false;
+if(f=="month" && d.getMonth()!=now.getMonth()) show=false;
+if(show){
+html+=`<tr>
+<td>${t.date}</td>
+<td>${t.type}</td>
+<td>₹${t.amount}</td>
+</tr>`;
+}
+});
+html+=`</table>`;
+profile.innerHTML=html;
 }
 
-function filterHistoryBills() {
-    let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
-    let query = (document.getElementById("searchInvoiceInput")?.value || "").toLowerCase();
-    let tbody = document.getElementById("historyTableBody");
-    if(!tbody) return;
-    tbody.innerHTML = "";
-
-    let filtered = history.filter(h => 
-        (h.invoiceNo && h.invoiceNo.toString().includes(query)) ||
-        (h.customer && h.customer.toLowerCase().includes(query))
-    );
-
-    filtered.reverse().forEach(h => {
-        let row = tbody.insertRow();
-        row.insertCell(0).innerText = "#" + h.invoiceNo;
-        row.insertCell(1).innerText = h.customer || 'Walk-in';
-        row.insertCell(2).innerText = "₹" + (h.grandTotal || h.total || 0).toFixed(2);
-        row.insertCell(3).style.textAlign = "center";
-        row.insertCell(3).innerHTML = `
-            <button class="btn-action btn-blue" style="padding:4px 8px;" onclick="reprintBill(${h.invoiceNo})" title="View"><i class="fa-solid fa-eye"></i></button>
-            <button class="btn-action btn-edit" style="padding:4px 8px;" onclick="editHistoryBill(${h.invoiceNo})" title="Edit"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn-action btn-del" style="padding:4px 8px;" onclick="deleteHistoryBill(${h.invoiceNo})" title="Delete"><i class="fa-solid fa-trash"></i></button>
-        `;
-    });
+/* ADD UDHAAR */
+function addUdhaar(){
+let amt=+document.getElementById("amt").value;
+if(!amt){alert("Enter amount");return;}
+data[current].history.push({type:"credit",amount:amt,date:new Date().toLocaleString()});
+save();
+openProfile(current);
 }
 
-function reprintBill(invoiceNo) {
-    let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
-    let found = history.find(h => h.invoiceNo == invoiceNo);
-    if(found) {
-        renderInvoiceBillHTML(found);
-        switchTab('homeTab', document.querySelector('.app-navbar button:first-child'));
-        window.scrollTo({ top: document.getElementById("bill").offsetTop - 50, behavior: 'smooth' });
-    } else {
-        showAppAlert("Not Found", "Invoice record not found.");
-    }
+/* ADD PAYMENT */
+function addPayment(){
+let amt=+document.getElementById("amt").value;
+if(!amt){alert("Enter amount");return;}
+data[current].history.push({type:"paid",amount:amt,date:new Date().toLocaleString()});
+save();
+openProfile(current);
 }
 
-function editHistoryBill(invoiceNo) {
-    let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
-    let index = history.findIndex(h => h.invoiceNo == invoiceNo);
-    if(index === -1) return showAppAlert("Error", "Invoice not found.");
+/* WHATSAPP */
+function sendReminder(){
+let c=data[current];
+let total=0,paid=0;
+c.history.forEach(t=>{
+if(t.type=="credit") total+=t.amount;
+else paid+=t.amount;
+});
+let bal=total-paid;
+let shopName=localStorage.getItem("shop")||"My Shop";
+let shopAddress=localStorage.getItem("address")||"";
+let shopPhone=localStorage.getItem("phone")||"";
 
-    showAppConfirm("Edit Invoice", `Reload Invoice #${invoiceNo} into cart for modification?`, function(){
-        let targetBill = history[index];
-        let stock = JSON.parse(localStorage.getItem("stock")) || {};
-        
-        targetBill.items.forEach(item => {
-            if(stock[item.p] !== undefined) stock[item.p] += item.q;
-        });
-        localStorage.setItem("stock", JSON.stringify(stock));
-        window.renderStock();
+let msg=`🧾 Udhaar Reminder
 
-        items = [...targetBill.items];
-        document.getElementById("customer").value = targetBill.customer || "";
-        document.getElementById("amtPaid").value = targetBill.paid || "";
-        document.getElementById("gstRate").value = targetBill.gstRate || "0";
-        
-        renderCartTable();
+Shop: ${shopName}
+Address: ${shopAddress}
+Phone: ${shopPhone}
 
-        history.splice(index, 1);
-        localStorage.setItem("saleHistory", JSON.stringify(history));
-        filterHistoryBills();
-        window.updateSaleSummary();
+Name: ${c.name}
+Total: ₹${total}
+Paid: ₹${paid}
+Balance: ₹${bal}
 
-        switchTab('homeTab', document.querySelector('.app-navbar button:first-child'));
-        showAppAlert("Loaded", "Bill items reloaded into cart.");
-    });
+Please pay soon 🙏`;
+
+let url="https://wa.me/"+(c.mobile||"")+"?text="+encodeURIComponent(msg);
+window.open(url);
 }
 
-function deleteHistoryBill(invoiceNo) {
-    let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
-    let index = history.findIndex(h => h.invoiceNo == invoiceNo);
-    if(index === -1) return showAppAlert("Error", "Invoice not found.");
+/* PRINT CLEAN */
+function printData(){
+let content = document.getElementById("profile").cloneNode(true);
+let btns = content.querySelectorAll("button,input,select");
+btns.forEach(b => b.remove());
 
-    showAppConfirm("Delete Invoice", `Delete Invoice #${invoiceNo}? Stock will be restored automatically.`, function(){
-        let targetBill = history[index];
-        let stock = JSON.parse(localStorage.getItem("stock")) || {};
+let shopName=localStorage.getItem("shop")||"My Shop";
+let shopAddress=localStorage.getItem("address")||"";
+let shopPhone=localStorage.getItem("phone")||"";
+let c=data[current];
+let total=0,paid=0;
+c.history.forEach(t=>{
+if(t.type=="credit") total+=t.amount;
+else paid+=t.amount;
+});
+let balance=total-paid;
 
-        targetBill.items.forEach(item => {
-            if(stock[item.p] !== undefined) stock[item.p] += item.q;
-        });
-        localStorage.setItem("stock", JSON.stringify(stock));
-        window.renderStock();
-
-        history.splice(index, 1);
-        localStorage.setItem("saleHistory", JSON.stringify(history));
-        filterHistoryBills();
-        window.updateSaleSummary();
-        showAppAlert("Deleted", `Invoice #${invoiceNo} has been deleted.`);
-    });
+let win = window.open('','','width=400,height=600');
+win.document.write(`
+<html>
+<head>
+<style>
+body{font-family:Arial;padding:10px;text-align:center;}
+table{width:100%;border-collapse:collapse;margin-top:10px;}
+td,th{border:1px solid #000;padding:6px;text-align:center;}
+</style>
+</head>
+<body>
+<h2>${shopName}</h2>
+<p>${shopAddress}<br>${shopPhone}</p>
+<h3>Udhaar Receipt</h3>
+<b>Customer: ${c.name}</b><br><b>Date: ${new Date().toLocaleString()}</b><br>
+<table>
+<tr><th>Date & Time</th><th>Type</th><th>Amount</th></tr>
+`);
+c.history.forEach(t=>{
+win.document.write(`<tr><td>${t.date}</td><td>${t.type}</td><td>₹${t.amount}</td></tr>`);
+});
+win.document.write(`
+<tr><td colspan="2"><b>Total</b></td><td>₹${total}</td></tr>
+<tr><td colspan="2">Paid</td><td>₹${paid}</td></tr>
+<tr><td colspan="2"><b>Balance</b></td><td>₹${balance}</td></tr>
+</table>
+<br>Signature: ______
+</body></html>
+`);
+win.document.close();
+win.print();
 }
 
-function renderCartTable() {
-    const tableBody = document.getElementById("tableBody");
-    tableBody.innerHTML = "";
-    items.forEach((item, index) => {
-        let row = tableBody.insertRow();
-        row.insertCell(0).innerText = index + 1;
-        row.insertCell(1).innerHTML = `<span class="bill-pname">${item.p}</span>`;
-        row.insertCell(2).innerText = item.q;
-        row.insertCell(3).innerText = "₹" + item.pr;
-        row.insertCell(4).innerText = "₹" + item.t;
-        row.insertCell(5).style.textAlign = "center";
-        row.insertCell(5).innerHTML = `
-            <button class="btn-action btn-edit" onclick="editItem(${index})"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn-action btn-del" onclick="deleteItem(${index})"><i class="fa-solid fa-trash"></i></button>
-        `;
-    });
-    calculateGrandTotal();
+/* DELETE */
+function deleteCustomer(){
+if(confirm("Delete?")){
+data.splice(current,1);
+save();
+profile.innerHTML="";
+showCustomers();
+}
 }
 
-function deleteItem(index) {
-    let stock = JSON.parse(localStorage.getItem("stock")) || {};
-    let item = items[index];
-    stock[item.p] = (stock[item.p] || 0) + item.q;
-    localStorage.setItem("stock", JSON.stringify(stock));
-    
-    items.splice(index, 1);
-    renderCartTable();
-    window.renderStock();
+/* EXCEL */
+function downloadExcel(){
+let csv="Shop,Address,Phone,Customer,Type,Amount,Date\n";
+let shopName=localStorage.getItem("shop")||"My Shop";
+let shopAddress=localStorage.getItem("address")||"";
+let shopPhone=localStorage.getItem("phone")||"";
+
+data.forEach(c=>{
+c.history.forEach(h=>{
+csv+=`${shopName},${shopAddress},${shopPhone},${c.name},${h.type},${h.amount},${h.date}\n`;
+});
+});
+let blob=new Blob([csv]);
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="udhaar_data.csv";
+a.click();
 }
 
-function editItem(index) {
-    let item = items[index];
-    document.getElementById("productDropdown").value = item.p;
-    document.getElementById("qty").value = item.q;
-    document.getElementById("price").value = item.pr;
-    editingIndex = index;
-    
-    let btn = document.getElementById("addItemBtn");
-    btn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Update Cart Item';
-    btn.style.background = "var(--warning)";
-}
-
-function openStockModal(productName) {
-    let stock = JSON.parse(localStorage.getItem("stock")) || {};
-    let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
-    
-    currentEditingStockProduct = productName;
-    document.getElementById("modalProductName").value = productName;
-    document.getElementById("modalStockQty").value = stock[productName] || 0;
-    document.getElementById("modalStockPrice").value = stockPrices[productName] || 0;
-    
-    document.getElementById("stockModal").style.display = "flex";
-}
-
-function closeStockModal() {
-    document.getElementById("stockModal").style.display = "none";
-    currentEditingStockProduct = null;
-}
-
-function saveStockModal() {
-    if(!currentEditingStockProduct) return;
-    let stock = JSON.parse(localStorage.getItem("stock")) || {};
-    let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
-    let stockHistory = JSON.parse(localStorage.getItem("stockHistory")) || [];
-    
-    let newProductName = document.getElementById("modalProductName").value.trim();
-    let newQty = parseInt(document.getElementById("modalStockQty").value);
-    let newPrice = parseFloat(document.getElementById("modalStockPrice").value);
-    
-    if(!newProductName || isNaN(newQty) || isNaN(newPrice)) {
-        showAppAlert("Invalid Input", "Please fill valid stock values.");
-        return;
-    }
-    
-    if (newProductName !== currentEditingStockProduct) {
-        stock[newProductName] = newQty;
-        stockPrices[newProductName] = newPrice;
-        delete stock[currentEditingStockProduct];
-        delete stockPrices[currentEditingStockProduct];
-
-        stockHistory.forEach(h => {
-            if(h.product === currentEditingStockProduct) h.product = newProductName;
-        });
-    } else {
-        stock[currentEditingStockProduct] = newQty;
-        stockPrices[currentEditingStockProduct] = newPrice;
-    }
-    
-    localStorage.setItem("stock", JSON.stringify(stock));
-    localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
-    localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
-    
-    window.renderStock();
-    if(window.renderProductDropdown) window.renderProductDropdown();
-    closeStockModal();
-    showAppAlert("Updated", `Stock details saved.`);
-}
-
-function deleteStockItem(productName) {
-    showAppConfirm("Delete Item", `Delete "${productName}" from inventory?`, function(){
-        let stock = JSON.parse(localStorage.getItem("stock")) || {};
-        let stockPrices = JSON.parse(localStorage.getItem("stockPrices")) || {};
-        delete stock[productName];
-        delete stockPrices[productName];
-        localStorage.setItem("stock", JSON.stringify(stock));
-        localStorage.setItem("stockPrices", JSON.stringify(stockPrices));
-        window.renderStock();
-        if(window.renderProductDropdown) window.renderProductDropdown();
-        showAppAlert("Deleted", "Product deleted.");
-    });
-}
-
-function calculateGrandTotal() {
-    let subtotal = 0;
-    items.forEach(i => subtotal += i.t);
-    
-    let flatDisc = parseFloat(document.getElementById("discFlat").value) || 0;
-    let percentDisc = parseFloat(document.getElementById("discPercent").value) || 0;
-    let totalDiscount = flatDisc + (subtotal * (percentDisc / 100));
-    
-    let taxableAmount = subtotal - totalDiscount;
-    if(taxableAmount < 0) taxableAmount = 0;
-
-    let gstRate = parseFloat(document.getElementById("gstRate").value) || 0;
-    let totalGst = taxableAmount * (gstRate / 100);
-    let grandTotal = taxableAmount + totalGst;
-
-    document.getElementById("liveSubTotal").innerText = subtotal.toFixed(2);
-    document.getElementById("liveGstTotal").innerText = totalGst.toFixed(2);
-    document.getElementById("liveCurrentTotal").innerText = grandTotal.toFixed(2);
-    return grandTotal;
-}
-
-/* SETTING: SALES HISTORY BACKUP & RESTORE */
-function exportSalesHistoryOnly() {
-    let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
-    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(saleHistory, null, 2));
-    let downloadAnchor = document.createElement('a');
-    downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `Sales_History_Backup_${new Date().toISOString().slice(0,10)}.json`);
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    downloadAnchor.remove();
-}
-
-function importSalesHistoryOnly(event) {
-    const file = event.target.files[0];
-    if(!file) return;
-    const fileReader = new FileReader();
-    fileReader.onload = function(e) {
-        try {
-            const data = JSON.parse(e.target.result);
-            if(Array.isArray(data)) {
-                showAppConfirm("Restore Sales", "Overwrite current sales history with imported data?", function(){
-                    localStorage.setItem("saleHistory", JSON.stringify(data));
-                    filterHistoryBills();
-                    updateSaleSummary();
-                    showAppAlert("Restored", "Sales history imported successfully!");
-                });
-            } else {
-                showAppAlert("Error", "Invalid Sales History format.");
-            }
-        } catch(err) {
-            showAppAlert("Import Error", "Invalid JSON file!");
-        }
-    };
-    fileReader.readAsText(file);
-}
-
-/* SETTING: STOCK BACKUP & RESTORE */
-function exportStockOnly() {
-    let stockData = {
-        stock: JSON.parse(localStorage.getItem("stock")) || {},
-        stockPrices: JSON.parse(localStorage.getItem("stockPrices")) || {},
-        stockHistory: JSON.parse(localStorage.getItem("stockHistory")) || []
-    };
-    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(stockData, null, 2));
-    let downloadAnchor = document.createElement('a');
-    downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `Stock_Inventory_Backup_${new Date().toISOString().slice(0,10)}.json`);
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    downloadAnchor.remove();
-}
-
-function importStockOnly(event) {
-    const file = event.target.files[0];
-    if(!file) return;
-    const fileReader = new FileReader();
-    fileReader.onload = function(e) {
-        try {
-            const data = JSON.parse(e.target.result);
-            if(data.stock) {
-                showAppConfirm("Restore Stock", "Overwrite current inventory stock with imported data?", function(){
-                    localStorage.setItem("stock", JSON.stringify(data.stock));
-                    if(data.stockPrices) localStorage.setItem("stockPrices", JSON.stringify(data.stockPrices));
-                    if(data.stockHistory) localStorage.setItem("stockHistory", JSON.stringify(data.stockHistory));
-                    renderStock();
-                    if(window.renderProductDropdown) window.renderProductDropdown();
-                    showAppAlert("Restored", "Stock inventory imported successfully!");
-                });
-            } else {
-                showAppAlert("Error", "Invalid Stock JSON format.");
-            }
-        } catch(err) {
-            showAppAlert("Import Error", "Invalid JSON file!");
-        }
-    };
-    fileReader.readAsText(file);
-}
+/* INIT */
+showCustomers();
+updateDashboard();
 </script>
+<section class="seo-content" style="max-width:900px;margin:auto;padding:20px;line-height:1.7;font-family:Arial,Helvetica,sans-serif;">
+
+<h1>Udhaar Manager PRO – Ultimate Customer Credit & Payment Tracker for Small Businesses</h1>
+
+<p>
+<strong>Udhaar Manager PRO</strong> is a powerful online tool designed for small business owners, shopkeepers, and freelancers to efficiently manage customer credits, payments, and balances. 
+Track customer udhaar, mark payments, generate receipts instantly, and maintain accurate records with ease. This browser-based, mobile-friendly tool requires no installation and works seamlessly on any device.
+</p>
+
+<h2>Why Small Business Owners Need Udhaar Manager PRO</h2>
+<p>
+Managing customer credits manually can be error-prone, time-consuming, and stressful. Udhaar Manager PRO solves these problems by providing:
+</p>
+<ul>
+<li>Easy tracking of customer udhaar and payments</li>
+<li>Instant generation of receipts with shop name, customer name, date, and time</li>
+<li>Grand total dashboard for total udhaar, paid amount, and balance</li>
+<li>WhatsApp integration to remind customers about pending payments</li>
+<li>Search and filter options for quick access to customer records</li>
+<li>Download all customer history as Excel for bookkeeping and analysis</li>
+<li>Fully responsive, mobile and desktop compatible interface</li>
+</ul>
+
+<h2>Getting Started with Udhaar Manager PRO</h2>
+<p>Follow these simple steps to start managing your customer credit efficiently:</p>
+<ol>
+<li>Enter your shop name, address, and phone number and click <strong>Save Shop</strong>.</li>
+<li>Enter a customer’s name and mobile number and click <strong>Add Customer</strong>.</li>
+<li>Select a customer to view their profile, total udhaar, paid amount, and outstanding balance.</li>
+<li>Enter the transaction amount and choose <strong>Add Udhaar</strong> or <strong>Add Payment</strong> to update records.</li>
+<li>Click <strong>Print</strong> to generate a professional receipt for the transaction.</li>
+<li>Use <strong>WhatsApp</strong> button to send payment reminders instantly.</li>
+<li>Filter customer history by today, last week, or last month for detailed tracking.</li>
+<li>Click <strong>Download All Data</strong> to export records as an Excel file for bookkeeping.</li>
+</ol>
+
+<h2>Main Features of Udhaar Manager PRO</h2>
+
+<h3>Customer Credit Tracking</h3>
+<p>
+Track every customer’s credit (udhaar) and payments with automatic calculation of totals and balance. No more manual ledger books!
+</p>
+
+<h3>Instant Receipt Generation</h3>
+<p>
+Generate receipts with shop name, customer name, date, and time. Printable in A4 or receipt format for convenience.
+</p>
+
+<h3>WhatsApp Reminders</h3>
+<p>
+Send quick reminders to customers about pending payments using WhatsApp integration. Reduce delays and maintain better cash flow.
+</p>
+
+<h3>Search and Filter</h3>
+<p>
+Quickly search customers by name and filter transactions by day, week, or month to see specific histories.
+</p>
+
+<h3>Excel Export</h3>
+<p>
+Download the complete customer history, including shop details, customer name, type of transaction, amount, and date, for accurate record keeping.
+</p>
+
+<h3>Dashboard Overview</h3>
+<p>
+See total customers, total udhaar, total paid, and overall balance at a glance. Helps you manage business finances effectively.
+</p>
+
+<h3>Mobile-Friendly Interface</h3>
+<p>
+The app works seamlessly on all devices – smartphones, tablets, and desktops. No installation required, fully browser-based.
+</p>
+
+<h2>Benefits of Using Udhaar Manager PRO</h2>
+<ul>
+<li>Saves time with automatic calculation of totals and balances</li>
+<li>Reduces human error in tracking payments</li>
+<li>Provides digital receipts for customers</li>
+<li>Supports multiple formats for printing</li>
+<li>Enables easy WhatsApp reminders</li>
+<li>Helps maintain accurate financial records for bookkeeping</li>
+<li>Free and ready to use in any modern browser</li>
+</ul>
+
+<h2>Step-by-Step Example</h2>
+<p>Example of using Udhaar Manager PRO:</p>
+<ol>
+<li>Shop Details: “Shayan Store”, Address: “456 Market Street”, Phone: “9876543210”</li>
+<li>Customer Name: “Ravi Kumar”</li>
+<li>Transactions Added:
+<ul>
+<li>Udhaar – ₹500</li>
+<li>Payment – ₹200</li>
+<li>Udhaar – ₹300</li>
+</ul>
+</li>
+<li>Balance calculated automatically: ₹600</li>
+<li>Print receipt → Contains shop name, customer name, date, time, and amounts</li>
+<li>Send WhatsApp reminder → Customer receives notification of pending payment</li>
+<li>Download Excel → Complete record available for bookkeeping</li>
+</ol>
+
+<h2>Related Tools</h2>
+<ul>
+<li><a href="bill-generator.html">Shop Bill Generator</a></li>
+<li><a href="percentage.html">Percentage Calculator</a></li>
+<li><a href="bmi.html">BMI Calculator</a></li>
+<li><a href="emi.html">EMI Calculator</a></li>
+<li><a href="index.html">Home</a></li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>Can I print receipts on any printer?</h3>
+<p>Yes, receipts are printable on standard printers or POS receipt printers in suitable formats.</p>
+
+<h3>Is WhatsApp reminder secure?</h3>
+<p>Yes, reminders are sent via WhatsApp link and do not expose sensitive data publicly.</p>
+
+<h3>Can I track daily, weekly, or monthly transactions?</h3>
+<p>Absolutely. Use the filter options in customer profile to see transactions for today, last week, or current month.</p>
+
+<h3>Do I need to install any software?</h3>
+<p>No installation is needed. Udhaar Manager PRO runs entirely in your browser.</p>
+
+<h2>Tips for Small Business Owners</h2>
+<ul>
+<li>Save shop details to avoid repeated input</li>
+<li>Check customer entries and payment amounts before saving</li>
+<li>Use WhatsApp reminders for prompt payments</li>
+<li>Print receipts for customer records and office archives</li>
+<li>Regularly download Excel history for bookkeeping and audits</li>
+</ul>
+
+<h2>Conclusion</h2>
+<p>
+<strong>Udhaar Manager PRO</strong> is the ultimate solution for small business owners and shopkeepers to efficiently manage customer credits, payments, and balances. 
+With features like instant receipt generation, WhatsApp reminders, Excel export, search & filter, and a dashboard overview, it is a complete customer credit management tool that requires no installation. 
+Start using Udhaar Manager PRO today to streamline your business operations and improve financial tracking.
+</p>
+
+<h2>Copyright & Legal Notice</h2>
+<p>© 2026 Shayan Smart Tools – Udhaar Manager PRO. All Rights Reserved. Unauthorized copying, commercial use, or distribution of this tool is strictly prohibited.</p>
+
+</section>
 </body>
 </html>
