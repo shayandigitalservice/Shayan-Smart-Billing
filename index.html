@@ -586,6 +586,7 @@ tr:hover td { background-color: var(--primary-light); }
     padding: 4px;
     background: #fff;
     box-shadow: var(--shadow-sm);
+    display: inline-block;
 }
 
 .bill-footer-msg {
@@ -658,7 +659,6 @@ tr:hover td { background-color: var(--primary-light); }
 
 /* ==========================================
    UDHAAR MANAGER PRO EXACT ORIGINAL STYLES 
-   (CONTAINERLESS & MODERN APP COMPATIBLE)
    ========================================== */
 :root {
   --udhaar-primary: #2563eb;
@@ -985,7 +985,7 @@ tr:hover td { background-color: var(--primary-light); }
             <button class="close-drawer-btn" onclick="toggleSettingsDrawer(false)"><i class="fa-solid fa-xmark"></i></button>
         </div>
 
-        <!-- 1) Shop Details Setting (Collapsible / Minimize Option) -->
+        <!-- 1) Shop Details Setting -->
         <div class="collapsible-card">
             <div class="collapsible-header" onclick="toggleCollapsible(this)">
                 <span><i class="fa-solid fa-store" style="color:var(--primary); margin-right:6px;"></i> Shop, GSTIN & UPI Setup</span>
@@ -1014,7 +1014,7 @@ tr:hover td { background-color: var(--primary-light); }
             <button id="darkModeToggleBtn" class="btn-blue" style="width:auto; padding:10px 14px;" onclick="toggleDarkMode()"><i class="fa-solid fa-circle-half-stroke"></i> Toggle</button>
         </div>
 
-        <!-- 3) Sales History Backup & Restore (Collapsible) -->
+        <!-- 3) Sales History Backup & Restore -->
         <div class="collapsible-card">
             <div class="collapsible-header" onclick="toggleCollapsible(this)">
                 <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--primary); margin-right:6px;"></i> Sales Backup & Restore</span>
@@ -1030,7 +1030,7 @@ tr:hover td { background-color: var(--primary-light); }
             </div>
         </div>
 
-        <!-- 4) Stock Backup & Restore (Collapsible) -->
+        <!-- 4) Stock Backup & Restore -->
         <div class="collapsible-card">
             <div class="collapsible-header" onclick="toggleCollapsible(this)">
                 <span><i class="fa-solid fa-boxes-stacked" style="color:var(--primary); margin-right:6px;"></i> Stock Backup & Restore</span>
@@ -1471,12 +1471,13 @@ function initBillingSystem() {
     upiInput.value = localStorage.getItem("upiId") || "";
 
     saveShopBtn.addEventListener("click", function(){
-        localStorage.setItem("shop", shopInput.value);
-        localStorage.setItem("address", addressInput.value);
-        localStorage.setItem("phone", phoneInput.value);
-        localStorage.setItem("gstin", gstinInput.value);
-        localStorage.setItem("upiId", upiInput.value);
+        localStorage.setItem("shop", shopInput.value.trim());
+        localStorage.setItem("address", addressInput.value.trim());
+        localStorage.setItem("phone", phoneInput.value.trim());
+        localStorage.setItem("gstin", gstinInput.value.trim());
+        localStorage.setItem("upiId", upiInput.value.trim());
         showAppAlert("Success", "Shop details updated successfully!");
+        toggleSettingsDrawer(false);
     });
 
     const stockProductInput = document.getElementById("stockProduct");
@@ -1658,11 +1659,11 @@ function initBillingSystem() {
 
         let invoiceData = {
             invoiceNo,
-            shopName: shopInput.value,
-            address: addressInput.value,
-            phone: phoneInput.value,
-            gstin: gstinInput.value.trim(),
-            upiId: upiInput.value.trim(),
+            shopName: localStorage.getItem("shop") || "",
+            address: localStorage.getItem("address") || "",
+            phone: localStorage.getItem("phone") || "",
+            gstin: localStorage.getItem("gstin") || "",
+            upiId: localStorage.getItem("upiId") || "",
             customer: document.getElementById("customer").value || 'Walk-in Customer',
             paymentMode,
             date: dateISO,
@@ -1897,11 +1898,13 @@ function renderInvoiceBillHTML(data) {
         </tr>
     </table>`;
     
-    if(data.upiId && data.paid > 0){
-        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent('upi://pay?pa='+data.upiId+'&pn='+(data.shopName||'')+'&am='+data.paid+'&cu=INR')}`;
+    let activeUpi = data.upiId || localStorage.getItem("upiId") || "";
+    if(activeUpi && data.paid > 0){
+        let upiPayStr = `upi://pay?pa=${activeUpi}&pn=${encodeURIComponent(data.shopName || localStorage.getItem("shop") || 'Shop')}&am=${Number(data.paid).toFixed(2)}&cu=INR`;
+        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(upiPayStr)}`;
         html += `
         <div class="qr-container">
-            <p><i class="fa-solid fa-qrcode"></i> Scan to Pay ₹${Number(data.paid).toFixed(2)} via UPI</p>
+            <p><i class="fa-solid fa-qrcode"></i> Scan to Pay ₹${Number(data.paid).toFixed(2)} via UPI (${activeUpi})</p>
             <img src="${qrUrl}" alt="UPI QR Code">
         </div>`;
     }
@@ -2213,7 +2216,7 @@ function importStockOnly(event) {
     fileReader.readAsText(file);
 }
 
-/* --- UDHAAR MANAGER LOGIC (EXACT ORIGINAL) --- */
+/* --- UDHAAR MANAGER LOGIC --- */
 let data = JSON.parse(localStorage.getItem("udhaarData")) || [];
 let current = null;
 let currentCategory = 'all';
@@ -2586,4 +2589,4 @@ function restoreJSON(event){
 }
 </script>
 </body>
-  </html>
+</html>
